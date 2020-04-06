@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="netbus">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="apps">
+      <UniqueIdentifier>{56eda71f-c063-49c5-8ded-753abaf026e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{d710f334-2a94-4254-a021-af6e00ac148a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="apps\test">
+      <UniqueIdentifier>{4ef56ff2-a8f2-4362-b627-cfe14721352e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd">
+      <UniqueIdentifier>{7688fbfc-b491-4d1e-a37a-865cd512f7d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libuv">
+      <UniqueIdentifier>{74d31368-18c4-42bd-b66e-25e1877616c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libuv\include">
+      <UniqueIdentifier>{c0222d72-f07e-4433-a025-ae6b8392cedd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libuv\src">
+      <UniqueIdentifier>{c9a19623-b61d-4cd6-88b1-ed6d1d0eb379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\libuv\src\win">
+      <UniqueIdentifier>{80033cdc-18ee-43a0-b785-b74ca6b75319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\crypto">
+      <UniqueIdentifier>{855c0bce-57ca-4853-83fb-9e92280dab84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\http_parser">
+      <UniqueIdentifier>{1fadfa0d-20bb-447b-b1fa-4fe5d41f8802}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\apps\test\main.cc">
+      <Filter>apps\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\fs-poll.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\inet.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\threadpool.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\uv-common.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\version.c">
+      <Filter>3rd\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\async.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\core.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\dl.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\error.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\fs.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\fs-event.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\getaddrinfo.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\getnameinfo.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\handle.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\loop-watcher.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\pipe.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\poll.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\process.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\process-stdio.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\req.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\signal.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\snprintf.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\stream.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\tcp.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\thread.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\timer.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\tty.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\udp.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\util.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\winapi.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\libuv\src\win\winsock.c">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\netbus\netbus.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\netbus\session_uv.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\utils\cache_alloc.c">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\netbus\ws_protocol.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\crypto\base64_decoder.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\crypto\base64_encoder.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\crypto\md5.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\crypto\sha1.c">
+      <Filter>3rd\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\http_parser\http_parser.c">
+      <Filter>3rd\http_parser</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\3rd\libuv\include\android-ifaddrs.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\pthread-barrier.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\stdint-msvc2008.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\tree.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-aix.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-bsd.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-darwin.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-errno.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-linux.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-sunos.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-threadpool.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-unix.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-version.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\include\uv-win.h">
+      <Filter>3rd\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\heap-inl.h">
+      <Filter>3rd\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\queue.h">
+      <Filter>3rd\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\uv-common.h">
+      <Filter>3rd\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\win\atomicops-inl.h">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\win\handle-inl.h">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\win\internal.h">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\win\req-inl.h">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\win\stream-inl.h">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\win\winapi.h">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\libuv\src\win\winsock.h">
+      <Filter>3rd\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\netbus.h">
+      <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\session.h">
+      <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\session_uv.h">
+      <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\cache_alloc.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\ws_protocol.h">
+      <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\crypto\base64_decoder.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\crypto\base64_encoder.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\crypto\md5.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\crypto\sha1.h">
+      <Filter>3rd\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\http_parser\http_parser.h">
+      <Filter>3rd\http_parser</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
