@@ -11,11 +11,14 @@ extern "C"
 #include "../3rd/http_parser/http_parser.h"
 #include "../3rd/crypto/base64_encoder.h"
 #include "../3rd/crypto/sha1.h"
+#include "../utils/cache_alloc.h"
 }
 //
 #include "session.h"
 #include "ws_protocol.h"
 //#include "../3rd/crypto/base64_encoder.c"
+
+extern cache_allocer* wbuf_allocer;
 
 static const char* wb_migic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 //base64(sha1(key+migic))
@@ -171,7 +174,8 @@ unsigned char* ws_protocol::package_ws_send_data(const unsigned char* raw_data, 
 		return NULL;
 	}
 	//可以使用内存池
-	unsigned char* data_buf = (unsigned char*)malloc(head_size + len);
+	//unsigned char* data_buf = (unsigned char*)malloc(head_size + len);
+	unsigned char* data_buf = (unsigned char*)cache_alloc(wbuf_allocer, head_size + len);
 	data_buf[0] = 0x81;
 	if (len <= 125)
 	{
@@ -180,7 +184,7 @@ unsigned char* ws_protocol::package_ws_send_data(const unsigned char* raw_data, 
 	else if (len > 125 && len < 65536)
 	{
 		data_buf[1] = 126;
-		data_buf[2] = (len & 0xff00) >> 8;
+		data_buf[2] = ((len & 0xff00) >> 8);
 		data_buf[3] = (len & 0xff);
 	}
 	memcpy(data_buf + head_size, raw_data, len);
@@ -190,5 +194,6 @@ unsigned char* ws_protocol::package_ws_send_data(const unsigned char* raw_data, 
 
 void ws_protocol::free_ws_send_pkg(unsigned char* ws_pkg)
 {
-	free(ws_pkg);
+	//free(ws_pkg);
+	cache_free(wbuf_allocer, ws_pkg);
 }

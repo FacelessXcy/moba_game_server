@@ -56,7 +56,7 @@ void* cache_alloc(struct cache_allocer* allocer, int elem_size)
 {
 	if (allocer->elem_size < elem_size)
 	{
-		return NULL;
+		return malloc(elem_size);
 	}
 
 	if (allocer->free_list != NULL)

@@ -160,6 +160,9 @@
     <ClCompile Include="..\..\3rd\http_parser\http_parser.c">
       <Filter>3rd\http_parser</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\netbus\tp_protocol.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\3rd\libuv\include\android-ifaddrs.h">
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="..\..\3rd\http_parser\http_parser.h">
       <Filter>3rd\http_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\tp_protocol.h">
+      <Filter>netbus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

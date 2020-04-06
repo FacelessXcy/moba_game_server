@@ -12,6 +12,7 @@ using namespace std;
 
 #include "netbus.h"
 #include "ws_protocol.h"
+#include "tp_protocol.h"
 
 
 extern "C"
@@ -20,8 +21,48 @@ extern "C"
 	{
 		printf("client command!!\n"); 
 		//test
+		printf("%s\n", body);
 		s->send_data(body, len);
 	}
+
+	static void on_recv_tcp_data(uv_session* s)
+	{
+		//判断使用长包还是短包
+		unsigned char* pkg_data = (unsigned char*)((s->long_pkg != NULL) ? s->long_pkg : s->recv_buf);
+		while (s->recved > 0)
+		{
+			int pkg_size = 0;
+			int head_size = 0;
+
+			//pkg_size-head_size=body_size;
+			if (!tp_protocol::read_header(pkg_data, s->recved, &pkg_size, &head_size))
+			{
+				break;
+			}
+			if (s->recved < pkg_size)//数据包还未收完
+			{
+				break;
+			}
+			//收完数据包
+			//pkg_data的地址+head_size的偏移=数据的位置
+			unsigned char* raw_data = pkg_data + head_size;
+			//收到一个完整的命令包
+			on_recv_client_cmd(s, raw_data, pkg_size - head_size);
+			if (s->recved > pkg_size)
+			{//删除掉已处理完的数据，把未处理的向前移
+				memmove(pkg_data, pkg_data + pkg_size, s->recved - pkg_size);
+			}
+			s->recved -= pkg_size;
+			if (s->recved == 0 && s->long_pkg != NULL)
+			{
+				//处理完长包后要释放
+				free(s->long_pkg);
+				s->long_pkg = NULL;
+				s->long_pkg_size = 0;
+			}
+		}
+	}
+
 
 	static void on_recv_ws_data(uv_session* s)
 	{
@@ -162,7 +203,7 @@ extern "C"
 		}
 		else//tcp_socket
 		{
-
+			on_recv_tcp_data(s);
 		}
 
 		//buf->base[nread] = '\0';
