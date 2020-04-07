@@ -179,6 +179,9 @@
     <ClCompile Include="..\..\netbus\tp_protocol.cc" />
     <ClCompile Include="..\..\netbus\ws_protocol.cc" />
     <ClCompile Include="..\..\utils\cache_alloc.c" />
+    <ClCompile Include="..\..\utils\logger.cc" />
+    <ClCompile Include="..\..\utils\timer_list.c" />
+    <ClCompile Include="..\..\utils\timestamp.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\3rd\crypto\base64_decoder.h" />
@@ -223,6 +226,9 @@
     <ClInclude Include="..\..\netbus\tp_protocol.h" />
     <ClInclude Include="..\..\netbus\ws_protocol.h" />
     <ClInclude Include="..\..\utils\cache_alloc.h" />
+    <ClInclude Include="..\..\utils\logger.h" />
+    <ClInclude Include="..\..\utils\timer_list.h" />
+    <ClInclude Include="..\..\utils\timestamp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
