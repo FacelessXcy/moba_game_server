@@ -35,6 +35,12 @@
     <Filter Include="3rd\http_parser">
       <UniqueIdentifier>{1fadfa0d-20bb-447b-b1fa-4fe5d41f8802}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd\mjson">
+      <UniqueIdentifier>{53cde6b5-cd15-45be-b35e-0a7980ad9a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="apps\test\proto">
+      <UniqueIdentifier>{4bea8416-224d-4ea4-b7ee-1136893dc0b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\test\main.cc">
@@ -163,6 +169,18 @@
     <ClCompile Include="..\..\netbus\tp_protocol.cc">
       <Filter>netbus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\3rd\mjson\json.c">
+      <Filter>3rd\mjson</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\test\proto\game.pb.cc">
+      <Filter>apps\test\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc">
+      <Filter>apps\test\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\netbus\proto_man.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\3rd\libuv\include\android-ifaddrs.h">
@@ -271,6 +289,18 @@
       <Filter>3rd\http_parser</Filter>
     </ClInclude>
     <ClInclude Include="..\..\netbus\tp_protocol.h">
+      <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\mjson\json.h">
+      <Filter>3rd\mjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\apps\test\proto\game.pb.h">
+      <Filter>apps\test\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h">
+      <Filter>apps\test\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\proto_man.h">
       <Filter>netbus</Filter>
     </ClInclude>
   </ItemGroup>

@@ -90,13 +90,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\UnityMobaServer\moba_game_server\moba_server\3rd\libuv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\UnityMobaServer\moba_game_server\moba_server\3rd\protobuf\src;D:\C++\UnityMobaServer\moba_game_server\moba_server\3rd\libuv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalOptions>ws2_32.lib Psapi.lib Iphlpapi.lib Userenv.lib %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib Psapi.lib Iphlpapi.lib Userenv.lib libprotobufd.lib libprotocd.lib %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>D:\C++\UnityMobaServer\moba_game_server\moba_server\build\proj.64\protobuf;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,8 +167,12 @@
     <ClCompile Include="..\..\3rd\libuv\src\win\util.c" />
     <ClCompile Include="..\..\3rd\libuv\src\win\winapi.c" />
     <ClCompile Include="..\..\3rd\libuv\src\win\winsock.c" />
+    <ClCompile Include="..\..\3rd\mjson\json.c" />
     <ClCompile Include="..\..\apps\test\main.cc" />
+    <ClCompile Include="..\..\apps\test\proto\game.pb.cc" />
+    <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc" />
     <ClCompile Include="..\..\netbus\netbus.cc" />
+    <ClCompile Include="..\..\netbus\proto_man.cc" />
     <ClCompile Include="..\..\netbus\session_uv.cc" />
     <ClCompile Include="..\..\netbus\tp_protocol.cc" />
     <ClCompile Include="..\..\netbus\ws_protocol.cc" />
@@ -204,7 +209,11 @@
     <ClInclude Include="..\..\3rd\libuv\src\win\stream-inl.h" />
     <ClInclude Include="..\..\3rd\libuv\src\win\winapi.h" />
     <ClInclude Include="..\..\3rd\libuv\src\win\winsock.h" />
+    <ClInclude Include="..\..\3rd\mjson\json.h" />
+    <ClInclude Include="..\..\apps\test\proto\game.pb.h" />
+    <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h" />
     <ClInclude Include="..\..\netbus\netbus.h" />
+    <ClInclude Include="..\..\netbus\proto_man.h" />
     <ClInclude Include="..\..\netbus\session.h" />
     <ClInclude Include="..\..\netbus\session_uv.h" />
     <ClInclude Include="..\..\netbus\tp_protocol.h" />

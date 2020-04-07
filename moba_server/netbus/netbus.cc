@@ -13,16 +13,25 @@ using namespace std;
 #include "netbus.h"
 #include "ws_protocol.h"
 #include "tp_protocol.h"
-
+#include "proto_man.h"
 
 extern "C"
 {
-	static void	 on_recv_client_cmd(uv_session* s,unsigned char* body,int len)
+	static void	 on_recv_client_cmd(uv_session* s, unsigned char* body, int len)
 	{
-		printf("client command!!\n"); 
-		//test
-		printf("%s\n", body);
-		s->send_data(body, len);
+		printf("get client command!\n");
+			//测试
+		struct cmd_msg* msg = NULL;
+		if (proto_man::decode_cmd_msg(body, len, &msg)) {
+			unsigned char* encode_pkg = NULL;
+			int encode_len = 0;
+			encode_pkg = proto_man::encode_msg_to_raw(msg, &encode_len);
+			if (encode_pkg) {
+				s->send_data(encode_pkg, encode_len);
+				proto_man::msg_raw_free(encode_pkg);
+			}
+			proto_man::cmd_msg_free(msg);
+		}
 	}
 
 	static void on_recv_tcp_data(uv_session* s)
@@ -67,8 +76,8 @@ extern "C"
 	static void on_recv_ws_data(uv_session* s)
 	{
 		//判断使用长包还是短包
-		unsigned char* pkg_data = (unsigned char *)((s->long_pkg != NULL)? s->long_pkg : s->recv_buf);
-		while (s->recved>0)
+		unsigned char* pkg_data = (unsigned char*)((s->long_pkg != NULL) ? s->long_pkg : s->recv_buf);
+		while (s->recved > 0)
 		{
 			int pkg_size = 0;
 			int head_size = 0;
@@ -92,7 +101,7 @@ extern "C"
 			unsigned char* mask = raw_data - 4;
 			ws_protocol::parser_ws_recv_data(raw_data, mask, pkg_size - head_size);
 			//收到一个完整的命令包
-			on_recv_client_cmd(s,raw_data,pkg_size-head_size);
+			on_recv_client_cmd(s, raw_data, pkg_size - head_size);
 			if (s->recved > pkg_size)
 			{//删除掉已处理完的数据，把未处理的向前移
 				memmove(pkg_data, pkg_data + pkg_size, s->recved - pkg_size);
@@ -115,7 +124,7 @@ extern "C"
 
 		if (s->recved < RECV_LEN)
 		{
-			*buf = uv_buf_init(s->recv_buf+s->recved,RECV_LEN-s->recved);
+			*buf = uv_buf_init(s->recv_buf + s->recved, RECV_LEN - s->recved);
 		}
 		else
 		{
@@ -123,7 +132,7 @@ extern "C"
 			if (s->long_pkg == NULL)
 			{
 				//websocket>RECV_LEN的package
-				if (s->socket_type == WS_SOCKET&&s->is_ws_shake)
+				if (s->socket_type == WS_SOCKET && s->is_ws_shake)
 				{
 					int pkg_size;
 					int head_size;
@@ -167,10 +176,10 @@ extern "C"
 		free(req);
 	}
 
-//完成读任务后，会调用该函数
-//stream: 发生事件的句柄-->uv_tcp_t
-//nread：读到的数据的字节大小
-//buf:所有的数据都读到了buf中
+	//完成读任务后，会调用该函数
+	//stream: 发生事件的句柄-->uv_tcp_t
+	//nread：读到的数据的字节大小
+	//buf:所有的数据都读到了buf中
 	static void after_read(uv_stream_t* stream, ssize_t nread, const uv_buf_t* buf)
 	{
 		uv_session* s = (uv_session*)stream->data;
@@ -227,12 +236,12 @@ extern "C"
 		uv_accept(server, (uv_stream_t*)client);
 		struct sockaddr_in addr;
 		int len = sizeof(addr);
-		uv_tcp_getpeername(client, (sockaddr*)&addr, &len);//获取client端的ip地址及端口信息
-		uv_ip4_name(&addr, (char*)s->c_address,64);
+		uv_tcp_getpeername(client, (sockaddr*)& addr, &len);//获取client端的ip地址及端口信息
+		uv_ip4_name(&addr, (char*)s->c_address, 64);
 		s->c_port = ntohs(addr.sin_port);
 		s->socket_type = (int)server->data;
 
-		printf("new client coming  %s : %d\n",s->c_address,s->c_port);
+		printf("new client coming  %s : %d\n", s->c_address, s->c_port);
 		uv_read_start((uv_stream_t*)client, uv_alloc_buf, after_read);
 	}
 
