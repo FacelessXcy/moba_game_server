@@ -9,6 +9,8 @@ using namespace std;
 #include "uv.h"
 #include "session.h"
 #include "session_uv.h"
+#include "proto_man.h"
+#include "service_man.h"
 
 #include "../utils/cache_alloc.h"
 #include "ws_protocol.h"
@@ -106,6 +108,9 @@ void uv_session::close()
 	{
 		return;
 	}
+	//通知所有service，断线
+	service_man::on_session_disconnect(this);
+
 	this->is_shutdown = true;
 	uv_shutdown_t* req = &this->shudown;
 	memset(req, 0, sizeof(uv_shutdown_t));
@@ -153,4 +158,16 @@ const char* uv_session::get_address(int* port)
 {
 	*port = this->c_port;
 	return (const char*)this->c_address;
+}
+
+void uv_session::send_msg(struct cmd_msg* msg)
+{
+	unsigned char* encode_pkg = NULL;
+	int encode_len = 0;
+	encode_pkg = proto_man::encode_msg_to_raw(msg, &encode_len);
+	if (encode_pkg)
+	{
+		this->send_data(encode_pkg, encode_len);
+		proto_man::msg_raw_free(encode_pkg);
+	}
 }

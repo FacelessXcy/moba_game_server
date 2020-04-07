@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -173,6 +173,8 @@
     <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc" />
     <ClCompile Include="..\..\netbus\netbus.cc" />
     <ClCompile Include="..\..\netbus\proto_man.cc" />
+    <ClCompile Include="..\..\netbus\service.cc" />
+    <ClCompile Include="..\..\netbus\service_man.cc" />
     <ClCompile Include="..\..\netbus\session_uv.cc" />
     <ClCompile Include="..\..\netbus\tp_protocol.cc" />
     <ClCompile Include="..\..\netbus\ws_protocol.cc" />
@@ -214,6 +216,8 @@
     <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h" />
     <ClInclude Include="..\..\netbus\netbus.h" />
     <ClInclude Include="..\..\netbus\proto_man.h" />
+    <ClInclude Include="..\..\netbus\service.h" />
+    <ClInclude Include="..\..\netbus\service_man.h" />
     <ClInclude Include="..\..\netbus\session.h" />
     <ClInclude Include="..\..\netbus\session_uv.h" />
     <ClInclude Include="..\..\netbus\tp_protocol.h" />
