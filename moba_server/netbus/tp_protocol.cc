@@ -9,7 +9,7 @@ extern "C"
 #include "../utils/cache_alloc.h"
 }
 extern cache_allocer* wbuf_allocer;
-//读取头部，获取包的长度
+//读取头部，获取包的长度(用来拆包)
 bool tp_protocol::read_header(unsigned char* data, int data_len, int* pkg_size, int* out_header_size)
 {
 	if (data_len < 2)

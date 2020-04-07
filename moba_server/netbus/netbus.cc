@@ -9,6 +9,7 @@ using namespace std;
 #include "uv.h"
 #include "session.h"
 #include "session_uv.h"
+#include "udp_session.h"
 
 #include "netbus.h"
 #include "ws_protocol.h"
@@ -18,10 +19,10 @@ using namespace std;
 
 extern "C"
 {
-	static void	 on_recv_client_cmd(uv_session* s, unsigned char* body, int len)
-	{
-		printf("get client command!\n");
-			//测试
+	static void	 on_recv_client_cmd(session* s, unsigned char* body, int len)
+	{ 
+		//printf("get client command!\n");
+		//测试
 		struct cmd_msg* msg = NULL;
 		if (proto_man::decode_cmd_msg(body, len, &msg)) 
 		{
@@ -55,7 +56,7 @@ extern "C"
 			//pkg_data的地址+head_size的偏移=数据的位置
 			unsigned char* raw_data = pkg_data + head_size;
 			//收到一个完整的命令包
-			on_recv_client_cmd(s, raw_data, pkg_size - head_size);
+			on_recv_client_cmd((session*)s, raw_data, pkg_size - head_size);
 			if (s->recved > pkg_size)
 			{//删除掉已处理完的数据，把未处理的向前移
 				memmove(pkg_data, pkg_data + pkg_size, s->recved - pkg_size);
@@ -100,7 +101,7 @@ extern "C"
 			unsigned char* mask = raw_data - 4;
 			ws_protocol::parser_ws_recv_data(raw_data, mask, pkg_size - head_size);
 			//收到一个完整的命令包
-			on_recv_client_cmd(s, raw_data, pkg_size - head_size);
+			on_recv_client_cmd((session*)s, raw_data, pkg_size - head_size);
 			if (s->recved > pkg_size)
 			{//删除掉已处理完的数据，把未处理的向前移
 				memmove(pkg_data, pkg_data + pkg_size, s->recved - pkg_size);
@@ -116,9 +117,40 @@ extern "C"
 		}
 	}
 
-
-	static void uv_alloc_buf(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf)
+	struct udp_recv_buf
 	{
+		char* recv_buf;
+		size_t max_recv_len;
+	};
+
+	//UDP收数据前回调函数
+	static void udp_uv_alloc_buf(uv_handle_t* handle, 
+												size_t suggested_size, 
+												uv_buf_t* buf)
+	{
+		//只需要分配一块足够大的空间即可，不考虑拆包
+		suggested_size = (suggested_size < 8192) ? 8192 : suggested_size;
+		struct udp_recv_buf* udp_buf = (struct udp_recv_buf*)handle->data;
+		if (udp_buf->max_recv_len < suggested_size)
+		{
+			if (udp_buf->recv_buf)
+			{
+				free(udp_buf->recv_buf);
+				udp_buf->recv_buf = NULL;
+			}
+			udp_buf->recv_buf = (char*)malloc(suggested_size);
+			udp_buf->max_recv_len = suggested_size;
+		}
+		buf->base = udp_buf->recv_buf;
+		buf->len = suggested_size;
+	}
+
+	//TCP收数据前回调函数
+	static void uv_alloc_buf(uv_handle_t* handle, 
+										size_t suggested_size, 
+										uv_buf_t* buf)
+	{
+		//要根据不同的session来进行接收
 		uv_session* s = (uv_session*)handle->data;
 
 		if (s->recved < RECV_LEN)
@@ -165,7 +197,7 @@ extern "C"
 	{
 		if (status == 0)
 		{
-			printf("write success!\n");
+			//printf("write success!\n");
 		}
 		uv_buf_t* w_buf = (uv_buf_t*)req->data;
 		if (w_buf != NULL)
@@ -173,6 +205,22 @@ extern "C"
 			free(w_buf);
 		}
 		free(req);
+	}
+
+	//读数据完成后，调用该函数
+	static  void after_uv_udp_recv(uv_udp_t* handle,
+													ssize_t nread,
+													const uv_buf_t* buf,
+													const struct sockaddr* addr,//客户端的IP地址端口信息
+													unsigned flags)
+	{
+		udp_session udp_s;
+		udp_s.udp_handler = handle;
+		udp_s.addr = addr;
+		uv_ip4_name((struct sockaddr_in*)addr, udp_s.c_address, 32);
+		udp_s.c_port = ntohs(((struct sockaddr_in*)addr)->sin_port);
+
+		on_recv_client_cmd((session*)&udp_s,(unsigned char*)buf->base, nread);
 	}
 
 	//完成读任务后，会调用该函数
@@ -240,7 +288,7 @@ extern "C"
 		s->c_port = ntohs(addr.sin_port);
 		s->socket_type = (int)server->data;
 
-		printf("new client coming  %s : %d\n", s->c_address, s->c_port);
+		//printf("new client coming  %s : %d\n", s->c_address, s->c_port);
 		uv_read_start((uv_stream_t*)client, uv_alloc_buf, after_read);
 	}
 
@@ -265,13 +313,30 @@ void netbus::start_tcp_server(int port)
 	int ret = uv_tcp_bind(listen, (const sockaddr*)& addr, 0);
 	if (ret != 0)
 	{
-		printf("bind error\n");
+		//printf("bind error\n");
 		free(listen);
 		return;
 	}
 
 	uv_listen((uv_stream_t*)listen, SOMAXCONN, uv_connection);
 	listen->data = (void*)TCP_SOCKET;
+}
+
+
+void netbus::start_udp_server(int port)
+{
+	uv_udp_t* server = (uv_udp_t*)malloc(sizeof(uv_udp_t));
+	memset(server, 0, sizeof(uv_udp_t));
+	uv_udp_init(uv_default_loop(), server);
+	struct udp_recv_buf* udp_buf = (struct udp_recv_buf*)malloc(sizeof(struct udp_recv_buf));
+	memset(udp_buf, 0, sizeof(struct udp_recv_buf));
+	server->data = udp_buf;
+	
+	struct sockaddr_in addr;
+	uv_ip4_addr("0.0.0.0", port, &addr);
+	uv_udp_bind(server, (const struct sockaddr*)&addr, 0);
+	uv_udp_recv_start(server,udp_uv_alloc_buf,after_uv_udp_recv);
+
 }
 
 void netbus::start_ws_server(int port)
@@ -287,7 +352,7 @@ void netbus::start_ws_server(int port)
 	int ret = uv_tcp_bind(listen, (const sockaddr*)& addr, 0);
 	if (ret != 0)
 	{
-		printf("bind error\n");
+		//printf("bind error\n");
 		free(listen);
 		return;
 	}
@@ -296,6 +361,7 @@ void netbus::start_ws_server(int port)
 	listen->data = (void*)WS_SOCKET;
 
 }
+
 
 void netbus::run()
 {

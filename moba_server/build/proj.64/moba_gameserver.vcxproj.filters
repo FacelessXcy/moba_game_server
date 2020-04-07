@@ -196,6 +196,9 @@
     <ClCompile Include="..\..\utils\timestamp.c">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\netbus\udp_session.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\3rd\libuv\include\android-ifaddrs.h">
@@ -332,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="..\..\utils\timestamp.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\udp_session.h">
+      <Filter>netbus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

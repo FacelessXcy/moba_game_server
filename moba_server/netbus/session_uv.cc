@@ -48,14 +48,14 @@ extern "C"
 	{
 		if (status == 0)
 		{
-			printf("send success!\n");
+			//printf("send success!\n");
 		}
 		//free(req);
 		cache_free(wr_allocer, req);
 	}
 	static void on_close(uv_handle_t* handle)
 	{
-		printf("session close\n");
+		//printf("session close\n");
 		uv_session* s = (uv_session*)handle->data;
 		uv_session::destory(s);
 	}
@@ -98,7 +98,7 @@ void uv_session::init()//create时调用
 
 void uv_session::exit()//destory时调用
 {
-	printf("exit\n");
+	//printf("exit\n");
 }
 
 //关闭连接

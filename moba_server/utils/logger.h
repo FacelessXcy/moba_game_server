@@ -8,6 +8,8 @@ enum {
 };
 
 // ## __VA_ARGS__用来接收 不定参数"..."
+//msg可以是个格式，按照printf的使用方式来进行输出
+//（log_debug("%d", timestamp_today());）
 #define log_debug(msg, ...) logger::log(__FILE__, __LINE__, DEBUG, msg, ## __VA_ARGS__);
 #define log_warning(msg, ...) logger::log(__FILE__, __LINE__, WARNING, msg, ## __VA_ARGS__);
 #define log_error(msg, ...) logger::log(__FILE__, __LINE__, ERROR, msg, ## __VA_ARGS__);

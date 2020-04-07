@@ -9,6 +9,7 @@ public:
 public:
 	void init();
 	void start_tcp_server(int port);//提供启动tcp_server接口
+	void start_udp_server(int port);//提供启动udp server接口;
 	void start_ws_server(int port);//提供启动ws server接口;
 	void run();
 };

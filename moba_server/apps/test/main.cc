@@ -11,6 +11,7 @@ using namespace std;
 #include "proto/pf_cmd_map.h"
 #include "../../utils/logger.h"
 #include "../../utils/timer_list.h"
+#include "../../utils/timestamp.h"
 
 static void on_logger_timer(void* udata)
 {
@@ -23,12 +24,13 @@ int main()
 	init_pf_cmd_map();
 	logger::init((char*)"logger/",(char*)"netbus_log",true);
 
-	schedule(on_logger_timer, NULL, 3000, -1);
-
+	//schedule(on_logger_timer, NULL, 3000, -1);
+	log_debug("%d", timestamp_today());
 	netbus::instance()->init();
 	netbus::instance()->start_tcp_server(6080);
 	netbus::instance()->start_ws_server(8001);
-	
+	netbus::instance()->start_udp_server(8002);
+
 	netbus::instance()->run();
 
 }
