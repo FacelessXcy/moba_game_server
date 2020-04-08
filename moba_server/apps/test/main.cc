@@ -14,6 +14,8 @@ using namespace std;
 #include "../../utils/timestamp.h"
 #include "../../database/mysql_wrapper.h"
 #include "../../database/redis_wrapper.h"
+#include "../../lua_wrapper/lua_wrapper.h"
+
 
 static void on_logger_timer(void* udata)
 {
@@ -86,8 +88,8 @@ static void test_redis()
 
 int main()
 {
-	test_db();
-	test_redis();
+	//test_db();
+	//test_redis();
 	proto_man::init(PROTO_BUF);
 	init_pf_cmd_map();
 	logger::init((char*)"logger/",(char*)"netbus_log",true);
@@ -99,6 +101,12 @@ int main()
 	netbus::instance()->start_ws_server(8001);
 	netbus::instance()->start_udp_server(8002);
 
-	netbus::instance()->run();
+	//³õÊ¼»¯luaĞéÄâ»ú
+	lua_wrapper::init();
+	lua_wrapper::exe_lua_file("./main.lua");
 
+
+	netbus::instance()->run();
+	lua_wrapper::exit();
+	return 0;
 }
