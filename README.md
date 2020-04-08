@@ -9,10 +9,12 @@
 
 2.内置lua解释器，导出C函数接口。可以支持纯Lua开发以及C++、lua混合开发
 
-3.自定义包协议，包体数据支持json和protobuf
+3.自定义包结构，包体数据支持json和protobuf
 
 4.支持Mysql及Redis数据库
 
 5.异步日志文件输出
+
+6.支持tcp及udp
 
 6.学习中...
