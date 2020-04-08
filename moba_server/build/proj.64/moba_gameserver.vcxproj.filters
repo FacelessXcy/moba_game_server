@@ -41,6 +41,21 @@
     <Filter Include="apps\test\proto">
       <UniqueIdentifier>{4bea8416-224d-4ea4-b7ee-1136893dc0b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="database">
+      <UniqueIdentifier>{6bc9d555-ce0d-4c25-8f06-2114ac5d45d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build">
+      <UniqueIdentifier>{f9911528-95ff-4693-8f25-eb2a2719304c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\mysqlclient">
+      <UniqueIdentifier>{18837b5d-e23a-475f-9b25-e8ceb0638c35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\mysqlclient\x64">
+      <UniqueIdentifier>{46f43ff9-ddcf-4235-a975-bb6a57859e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build\mysqlclient\x64\include">
+      <UniqueIdentifier>{c151753e-f4d5-4ca8-9043-c0ea7b441869}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\test\main.cc">
@@ -199,6 +214,9 @@
     <ClCompile Include="..\..\netbus\udp_session.cc">
       <Filter>netbus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\database\mysql_wrapper.cc">
+      <Filter>database</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\3rd\libuv\include\android-ifaddrs.h">
@@ -338,6 +356,12 @@
     </ClInclude>
     <ClInclude Include="..\..\netbus\udp_session.h">
       <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\database\mysql_wrapper.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="mysqlclient\x64\include\mysql.h">
+      <Filter>build\mysqlclient\x64\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

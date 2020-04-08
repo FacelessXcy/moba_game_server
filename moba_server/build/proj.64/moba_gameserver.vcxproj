@@ -90,14 +90,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\UnityMobaServer\moba_game_server\moba_server\3rd\protobuf\src;D:\C++\UnityMobaServer\moba_game_server\moba_server\3rd\libuv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\UnityMobaServer\moba_game_server\moba_server\build\proj.64\mysqlclient\include;D:\C++\UnityMobaServer\moba_game_server\moba_server\3rd\protobuf\src;D:\C++\UnityMobaServer\moba_game_server\moba_server\3rd\libuv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalOptions>ws2_32.lib Psapi.lib Iphlpapi.lib Userenv.lib libprotobufd.lib libprotocd.lib %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalLibraryDirectories>D:\C++\UnityMobaServer\moba_game_server\moba_server\build\proj.64\protobuf;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\C++\UnityMobaServer\moba_game_server\moba_server\build\proj.64\mysqlclient\lib;D:\C++\UnityMobaServer\moba_game_server\moba_server\build\proj.64\protobuf;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -171,6 +171,7 @@
     <ClCompile Include="..\..\apps\test\main.cc" />
     <ClCompile Include="..\..\apps\test\proto\game.pb.cc" />
     <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc" />
+    <ClCompile Include="..\..\database\mysql_wrapper.cc" />
     <ClCompile Include="..\..\netbus\netbus.cc" />
     <ClCompile Include="..\..\netbus\proto_man.cc" />
     <ClCompile Include="..\..\netbus\service.cc" />
@@ -218,6 +219,7 @@
     <ClInclude Include="..\..\3rd\mjson\json.h" />
     <ClInclude Include="..\..\apps\test\proto\game.pb.h" />
     <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h" />
+    <ClInclude Include="..\..\database\mysql_wrapper.h" />
     <ClInclude Include="..\..\netbus\netbus.h" />
     <ClInclude Include="..\..\netbus\proto_man.h" />
     <ClInclude Include="..\..\netbus\service.h" />
@@ -231,6 +233,7 @@
     <ClInclude Include="..\..\utils\logger.h" />
     <ClInclude Include="..\..\utils\timer_list.h" />
     <ClInclude Include="..\..\utils\timestamp.h" />
+    <ClInclude Include="mysqlclient\x64\include\mysql.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
