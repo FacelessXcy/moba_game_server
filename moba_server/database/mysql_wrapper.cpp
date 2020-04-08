@@ -5,14 +5,13 @@
 #include "uv.h"
 
 #ifdef _WIN64
-#endif // WIN64
 #include <winsock.h>
 #pragma comment(lib,"ws2_32.lib")
 #pragma comment(lib,"libmysql.lib")
+#endif // WIN64
 
 
 #include "mysql.h"
-
 
 #include "mysql_wrapper.h"
 

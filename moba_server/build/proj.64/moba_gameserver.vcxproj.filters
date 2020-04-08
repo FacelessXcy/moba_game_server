@@ -187,12 +187,6 @@
     <ClCompile Include="..\..\3rd\mjson\json.c">
       <Filter>3rd\mjson</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\apps\test\proto\game.pb.cc">
-      <Filter>apps\test\proto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc">
-      <Filter>apps\test\proto</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\netbus\proto_man.cc">
       <Filter>netbus</Filter>
     </ClCompile>
@@ -214,7 +208,16 @@
     <ClCompile Include="..\..\netbus\udp_session.cc">
       <Filter>netbus</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\database\mysql_wrapper.cc">
+    <ClCompile Include="..\..\apps\test\proto\game.pb.cpp">
+      <Filter>apps\test\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cpp">
+      <Filter>apps\test\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\database\mysql_wrapper.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\database\redis_wrapper.cpp">
       <Filter>database</Filter>
     </ClCompile>
   </ItemGroup>
@@ -362,6 +365,12 @@
     </ClInclude>
     <ClInclude Include="mysqlclient\x64\include\mysql.h">
       <Filter>build\mysqlclient\x64\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\database\redis_wrapper.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\include\HiredisWrapper.h">
+      <Filter>3rd</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,6 +13,7 @@ using namespace std;
 #include "../../utils/timer_list.h"
 #include "../../utils/timestamp.h"
 #include "../../database/mysql_wrapper.h"
+#include "../../database/redis_wrapper.h"
 
 static void on_logger_timer(void* udata)
 {
@@ -53,9 +54,40 @@ static void test_db()
 		(char*)"root", (char*)"xcy19990419",on_open_cb);
 }
 
+static void on_redis_query(const char* err, redisReply* result)
+{
+	if (err)
+	{
+		printf("%s", err);
+		return;
+	}
+	printf("指令执行成功\n");
+}
+
+static void on_redis_open_cb(const char* err, void* context)
+{
+	if (err)
+	{
+		printf("%s", err);
+		return;
+	}
+	printf("redis数据库连接成功\n");
+
+	redis_wrapper::query(context, "select 1", on_redis_query);
+
+	redis_wrapper::close_redis(context);
+
+}
+
+static void test_redis()
+{
+	redis_wrapper::connect("127.0.0.1",6379, on_redis_open_cb);
+}
+
 int main()
 {
 	test_db();
+	test_redis();
 	proto_man::init(PROTO_BUF);
 	init_pf_cmd_map();
 	logger::init((char*)"logger/",(char*)"netbus_log",true);
