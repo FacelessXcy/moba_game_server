@@ -1,20 +1,7 @@
-//#include <stdio.h>
-//#include <string.h>
-//#include <stdlib.h>
-//
-//#include <hiredis.h>
-//
-//#ifdef _WIN64
-//#define NO_QFORKIMPL //这一行必须加才能正常使用
-//#include <Win32_Interop/win32fixes.h>
-//#pragma comment(lib,"hiredis.lib")
-//#pragma comment(lib,"Win32_Interop.lib")
-//#endif // _WIN64
-
 #include <HiredisWrapper.h>
-#pragma comment(lib,"HiredisWrapper.lib")
-#include "uv.h"
+#include <uv.h>
 #include "redis_wrapper.h"
+//#pragma comment(lib,"HiredisWrapper.lib")
 
 
 #define my_malloc malloc
@@ -25,10 +12,11 @@ struct connect_req
 	char* ip;
 	int port;
 
-	void(*open_cb)(const char* err, void* context);
+	void(*open_cb)(const char* err, void* context, void* udata);
 
 	char* error;
 	void* context;//redis_context
+	void* udata;
 };
 struct redis_context
 {
@@ -71,7 +59,7 @@ static void connect_work(uv_work_t* req)
 static void on_connect_complete(uv_work_t* req, int status)
 {
 	connect_req* r = (connect_req*)req->data;
-	r->open_cb(r->error, r->context);
+	r->open_cb(r->error, r->context,r->udata);
 	//释放资源
 	if (r->ip)
 		free(r->ip);
@@ -84,7 +72,8 @@ static void on_connect_complete(uv_work_t* req, int status)
 }
 
 void redis_wrapper::connect(char* ip, int port,
-							void(*open_cb)(const char* err, void* context))
+							void(*open_cb)(const char* err, void* context, void* udata),
+								void* udata)
 {
 	uv_work_t* w = (uv_work_t*)my_malloc(sizeof(uv_work_t));
 	memset(w, 0, sizeof(uv_work_t));
@@ -95,7 +84,7 @@ void redis_wrapper::connect(char* ip, int port,
 	r->port = port;
 
 	r->open_cb = open_cb;
-
+	r->udata = udata;
 	w->data = (void*)r;
 	uv_queue_work(uv_default_loop(), w, connect_work, on_connect_complete);
 }
@@ -114,7 +103,7 @@ static void close_work(uv_work_t* req)
 static void on_close_complete(uv_work_t* req, int status)
 {
 	redis_context* r = (redis_context*)req->data;
-	printf("数据库连接已关闭！\n");
+	printf("redis数据库连接已关闭！\n");
 	my_free(r);
 	my_free(req);
 }
@@ -140,10 +129,11 @@ struct query_req
 {
 	void* context;//redis连接
 	char* cmd;//redis命令
-	void(*query_cb)(const char* err, redisReply* result);
+	void(*query_cb)(const char* err, redisReply* result, void* udata);
 
 	char* error;//错误提示
 	redisReply* result;//查询结果
+	void* udata;
 };
 
 static void query_work(uv_work_t* req)
@@ -153,20 +143,25 @@ static void query_work(uv_work_t* req)
 	redisContext* rc = (redisContext*)my_conn->pConn;
 	//线程锁
 	uv_mutex_lock(&my_conn->lock);
-	r->error = NULL;
 	redisReply* reply = (redisReply*)RedisCommand(rc, r->cmd, 15);
-	if (reply != NULL)
+	if (reply->type == REDIS_REPLY_ERROR)
+	{
+		r->error = strdup(reply->str);
+		r->result = NULL;
+		FreeReplyObject(reply);
+	}
+	else
 	{
 		r->result = reply;
+		r->error = NULL;
 	}
-
 	uv_mutex_unlock(&my_conn->lock);
 }
 
 static void on_query_complete(uv_work_t* req, int status)
 {
 	query_req* r = (query_req*)req->data;
-	r->query_cb(r->error, r->result);
+	r->query_cb(r->error, r->result,r->udata);
 
 	if (r->cmd)
 		free(r->cmd);
@@ -182,7 +177,8 @@ static void on_query_complete(uv_work_t* req, int status)
 
 void redis_wrapper::query(void* context,
 										char* cmd, 
-										void(*query_cb)(const char* err, redisReply* result))
+										void(*query_cb)(const char* err, redisReply* result, void* udata),
+										void* udata)
 {
 	struct redis_context* c = (struct redis_context*)context;
 	if (c->is_closed)//数据库连接已关闭
@@ -198,6 +194,7 @@ void redis_wrapper::query(void* context,
 	r->context = context;
 	r->cmd = strdup(cmd);
 	r->query_cb = query_cb;
+	r->udata = udata;
 	w->data = (void*)r;
 	uv_queue_work(uv_default_loop(), w, query_work, on_query_complete);
 }

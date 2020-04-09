@@ -23,7 +23,7 @@ static void on_logger_timer(void* udata)
 }
 
 static void on_query_cb
-(const char* err, std::vector<std::vector<std::string>>* result)
+(const char* err, MYSQL_RES* result,void* udata)
 {
 	if (err)
 	{
@@ -33,7 +33,7 @@ static void on_query_cb
 	printf("成功！\n");
 }
 
-static void on_open_cb(const char* err, void* context)
+static void on_open_cb(const char* err, void* context, void* udata)
 {
 	if (err!=NULL)
 	{
@@ -45,7 +45,7 @@ static void on_open_cb(const char* err, void* context)
 		(char*)"update class_test set name = \"xcy1\" where id = 3;",
 		on_query_cb);*/
 	mysql_wrapper::query(context,(char*)"select * from class_test;",
-		on_query_cb);
+		on_query_cb,udata);
 
 	mysql_wrapper::close(context);
 }
@@ -56,7 +56,7 @@ static void test_db()
 		(char*)"root", (char*)"xcy19990419",on_open_cb);
 }
 
-static void on_redis_query(const char* err, redisReply* result)
+static void on_redis_query(const char* err, redisReply* result, void* udata)
 {
 	if (err)
 	{
@@ -66,7 +66,7 @@ static void on_redis_query(const char* err, redisReply* result)
 	printf("指令执行成功\n");
 }
 
-static void on_redis_open_cb(const char* err, void* context)
+static void on_redis_open_cb(const char* err, void* context, void* udata)
 {
 	if (err)
 	{

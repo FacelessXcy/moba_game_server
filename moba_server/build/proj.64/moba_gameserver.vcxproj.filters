@@ -62,6 +62,9 @@
     <Filter Include="lua_wrapper">
       <UniqueIdentifier>{96ab16ca-39c4-4984-aadb-fadb7c201d57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd\tolua">
+      <UniqueIdentifier>{666325f6-2c2d-4725-a4bd-c69d85c1d09a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\test\main.cc">
@@ -328,6 +331,30 @@
     <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cpp">
       <Filter>lua_wrapper</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\3rd\tolua\tolua_event.c">
+      <Filter>3rd\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\tolua\tolua_fix.cc">
+      <Filter>3rd\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\tolua\tolua_is.c">
+      <Filter>3rd\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\tolua\tolua_map.c">
+      <Filter>3rd\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\tolua\tolua_push.c">
+      <Filter>3rd\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\3rd\tolua\tolua_to.c">
+      <Filter>3rd\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua_wrapper\mysql_export_to_lua.cpp">
+      <Filter>lua_wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua_wrapper\redis_export_to_lua.cpp">
+      <Filter>lua_wrapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\3rd\libuv\include\android-ifaddrs.h">
@@ -559,6 +586,21 @@
       <Filter>3rd\lua</Filter>
     </ClInclude>
     <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h">
+      <Filter>lua_wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\tolua\tolua_event.h">
+      <Filter>3rd\tolua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\tolua\tolua_fix.h">
+      <Filter>3rd\tolua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\3rd\tolua\tolua++.h">
+      <Filter>3rd\tolua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua_wrapper\mysql_export_to_lua.h">
+      <Filter>lua_wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua_wrapper\redis_export_to_lua.h">
       <Filter>lua_wrapper</Filter>
     </ClInclude>
   </ItemGroup>

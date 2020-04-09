@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -26,10 +25,12 @@ struct connect_req
 	char* db_name;
 	char* uname;
 	char* upwd;
-	void(*open_cb)(const char* err, void* context);
+	void(*open_cb)(const char* err, void* context, void* udata);
 
 	char* error;
 	void* context;//mysql_context
+
+	void* udata;
 };
 struct mysql_context
 {
@@ -73,7 +74,7 @@ static void connect_work(uv_work_t* req)
 static void on_connect_complete(uv_work_t* req, int status)
 {
 	struct connect_req* r = (struct connect_req*)req->data;
-	r->open_cb(r->error, r->context);
+	r->open_cb(r->error, r->context,r->udata);
 	//释放资源
 	if (r->ip)
 		free(r->ip);
@@ -92,7 +93,8 @@ static void on_connect_complete(uv_work_t* req, int status)
 
 void mysql_wrapper::connect(char* ip, int port, 
 	char* db_name, char* uname, char* pwd,
-	void(*open_cb)(const char* err, void* context))
+	void(*open_cb)(const char* err, void* context, void* udata),
+	void* udata)
 {
 	uv_work_t* w = (uv_work_t*)my_malloc(sizeof(uv_work_t));
 	memset(w, 0, sizeof(uv_work_t));
@@ -105,7 +107,7 @@ void mysql_wrapper::connect(char* ip, int port,
 	r->uname = strdup(uname);
 	r->upwd = strdup(pwd);
 	r->open_cb = open_cb;
-
+	r->udata = udata;
 	w->data = (void*)r;
 	uv_queue_work(uv_default_loop(), w, connect_work, on_connect_complete);
 }
@@ -122,7 +124,7 @@ static void close_work(uv_work_t* req)
 static void on_close_complete(uv_work_t* req, int status)
 {
 	struct mysql_context* r = (struct mysql_context*)req->data;
-	printf("数据库连接已关闭！\n");
+	printf("Mysql数据库连接已关闭！\n");
 	my_free(r);
 	my_free(req);
 }
@@ -148,10 +150,12 @@ struct query_req
 {
 	void* context;//sql连接
 	char* sql;//sql语句
-	void(*query_cb)(const char* err, std::vector<std::vector<std::string>>* result);
+	void(*query_cb)(const char* err, MYSQL_RES* result, void* udata);
 
 	char* error;//错误提示
-	std::vector<std::vector<std::string>>* result;//查询结果
+	MYSQL_RES* result;//查询结果
+
+	void* udata;
 };
 
 static void query_work(uv_work_t* req)
@@ -176,39 +180,36 @@ static void query_work(uv_work_t* req)
 	}
 	r->error = NULL;
 	MYSQL_RES* result = mysql_store_result(pConn);
-	if (!result)
-	{
-		r->result = NULL;
-		return;
-	}
-	MYSQL_ROW row;
-
-	r->result = new std::vector<std::vector<std::string>>;
-	int num = mysql_num_fields(result);//属性个数
-	std::vector<std::string> empty;
-
-	std::vector<std::vector<std::string>>::iterator end_elem;
-	while (row = mysql_fetch_row(result))
-	{
-		r->result->push_back(empty);//插入一行空数据
-		end_elem = r->result->end()-1;
-		for (int i = 0; i < num; i++)
-		{
-			end_elem->push_back(row[i]);//填充一行数据
-		}
-	}
-	mysql_free_result(result);
+	r->result = result;
+	//MYSQL_ROW row;
+	//r->result = new std::vector<std::vector<std::string>>;
+	//int num = mysql_num_fields(result);//属性个数
+	//std::vector<std::string> empty;
+	//std::vector<std::vector<std::string>>::iterator end_elem;
+	//while (row = mysql_fetch_row(result))
+	//{
+	//	r->result->push_back(empty);//插入一行空数据
+	//	end_elem = r->result->end()-1;
+	//	for (int i = 0; i < num; i++)
+	//	{
+	//		end_elem->push_back(row[i]);//填充一行数据
+	//	}
+	//}
+	//mysql_free_result(result);
 	uv_mutex_unlock(&my_conn->lock);
 }
 
 static void on_query_complete(uv_work_t* req, int status)
 {
 	query_req* r = (query_req*)req->data;
-	r->query_cb(r->error, r->result);
+	r->query_cb(r->error, r->result,r->udata);
 	if (r->sql)
 		free(r->sql);
 	if (r->result)
-		delete r->result;
+	{
+		mysql_free_result(r->result);
+		r->result = NULL;
+	}
 	if (r->error)
 		free(r->error);
 
@@ -218,8 +219,9 @@ static void on_query_complete(uv_work_t* req, int status)
 
 void mysql_wrapper::query(void* context, 
 										char* sql, 
-										void(*query_cb)
-	(const char* err, std::vector<std::vector<std::string>>* result))
+										void(*query_cb) 
+	(const char* err, MYSQL_RES* result, void* udata),
+										void* udata)
 {
 	struct mysql_context* c = (struct mysql_context*)context;
 	if (c->is_closed)//数据库连接已关闭
@@ -235,6 +237,7 @@ void mysql_wrapper::query(void* context,
 	r->context = context;
 	r->sql = strdup(sql);
 	r->query_cb = query_cb;
+	r->udata = udata;
 	w->data = (void*)r;
 	uv_queue_work(uv_default_loop(), w, query_work, on_query_complete);
 }
