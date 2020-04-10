@@ -7,6 +7,7 @@
 #include "mysql_export_to_lua.h"
 #include "redis_export_to_lua.h"
 #include "service_export_to_lua.h"
+#include "session_export_to_lua.h"
 //lua虚拟机对象
 lua_State* g_lua_State = NULL;
 //lua只能调用int (*lua_CFunction) (lua_State *L)格式的C函数
@@ -102,9 +103,12 @@ void lua_wrapper::init()
 	luaL_openlibs(g_lua_State);//开启lua所有基础库
 	toluafix_open(g_lua_State);
 
+	//注册模块
 	register_mysql_export(g_lua_State);
 	register_redis_export(g_lua_State);
 	register_service_export(g_lua_State);
+	register_session_export(g_lua_State);
+
 	//导出三个log函数
 	lua_wrapper::reg_func2lua("log_error", lua_log_error);
 	lua_wrapper::reg_func2lua("log_debug", lua_log_debug);

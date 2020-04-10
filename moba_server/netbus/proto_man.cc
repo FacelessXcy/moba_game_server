@@ -1,16 +1,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+#include <string>
+#include <map>
 #include "google/protobuf/message.h"
 #include "proto_man.h"
 
-#define MAX_PF_MAP_SIZE 1024
 #define CMD_HEADER 8
-
-
 static int g_proto_type = PROTO_BUF;
-static char* g_pf_map[MAX_PF_MAP_SIZE];
-static int g_cmd_count = 0;
+
+static std::map<int, std::string> g_pb_cmd_map;
+
 void proto_man::init(int proto_type)
 {
 	g_proto_type = proto_type;
@@ -22,24 +23,24 @@ int proto_man::proto_type()
 }
 
 //注册命令类型映射
-void proto_man::register_pf_cmd_map(char** pf_map, int len)
+void proto_man::register_pb_cmd_map(std::map<int, std::string>& map)
 {
-	len = (MAX_PF_MAP_SIZE - g_cmd_count) < len ?
-		(MAX_PF_MAP_SIZE - g_cmd_count) : len;
-
-	for (int i = 0; i < len; i++)
+	std::map<int, std::string>::iterator it;
+	for ( it = map.begin(); it != map.end(); it++)
 	{
-		g_pf_map[g_cmd_count + i] = strdup(pf_map[i]);
+		g_pb_cmd_map[it->first] = it->second;
 	}
-
-	g_cmd_count += len;
 }
 
+const char* proto_man::protobuf_cmd_name(int ctype)
+{
+	return g_pb_cmd_map[ctype].c_str();
+}
 
 //用户传递一个message类型的字符串，工厂方法就够造出对应的类的实例
 //"Person" 字符串-->Person的实例-->返回的是一个基类Message类的指针
 //create_message-->delete来删除这个msg的对象实例
-static google::protobuf::Message* create_message(const char* type_name) {
+google::protobuf::Message* proto_man::create_message(const char* type_name) {
 	google::protobuf::Message* message = NULL;
 	//根据名字找到message的描述对象
 	const google::protobuf::Descriptor* descriptor =
@@ -57,7 +58,7 @@ static google::protobuf::Message* create_message(const char* type_name) {
 	return message;
 }
 
-static void release_message(google::protobuf::Message* m)
+void proto_man::release_message(google::protobuf::Message* m)
 {
 	delete m;
 }
@@ -95,22 +96,13 @@ bool proto_man::decode_cmd_msg(unsigned char* cmd, int cmd_len, cmd_msg** out_ms
 	}
 	else//protobuf协议
 	{
-		if (msg->ctype < 0 ||//ctype不在映射表中
-			msg->ctype >= g_cmd_count ||
-			g_pf_map[msg->ctype] == NULL)
-		{
-			free(msg);
-			*out_msg = NULL;
-			return false;
-		}
-		google::protobuf::Message* p_m = create_message(g_pf_map[msg->ctype]);
+		google::protobuf::Message* p_m = create_message(g_pb_cmd_map[msg->ctype].c_str());
 		if (p_m == NULL)//未找到对应类型
 		{
 			free(msg);
 			*out_msg = NULL;
 			return false;
 		}
-
 		if (!p_m->ParseFromArray(cmd + CMD_HEADER, cmd_len - CMD_HEADER))//解析失败
 		{
 			free(msg);
