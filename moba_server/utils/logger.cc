@@ -77,7 +77,7 @@ static void format_time()
 }
 
 
-void logger::init(char* path, char* prefix, bool std_output) 
+void logger::init(const char* path, const char* prefix, bool std_output)
 {
 	g_log_path = path;
 	g_prefix = prefix;

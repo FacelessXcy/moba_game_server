@@ -361,6 +361,9 @@
     <ClCompile Include="..\..\lua_wrapper\session_export_to_lua.cpp">
       <Filter>lua_wrapper</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\lua_wrapper\scheduler_export_to_lua.cpp">
+      <Filter>lua_wrapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\3rd\libuv\include\android-ifaddrs.h">
@@ -613,6 +616,9 @@
       <Filter>lua_wrapper</Filter>
     </ClInclude>
     <ClInclude Include="..\..\lua_wrapper\session_export_to_lua.h">
+      <Filter>lua_wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua_wrapper\scheduler_export_to_lua.h">
       <Filter>lua_wrapper</Filter>
     </ClInclude>
   </ItemGroup>

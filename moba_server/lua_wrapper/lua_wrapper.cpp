@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <string>
 #include "../utils/logger.h"
 #include "tolua_fix.h"
 #include "lua_wrapper.h"
@@ -8,6 +9,7 @@
 #include "redis_export_to_lua.h"
 #include "service_export_to_lua.h"
 #include "session_export_to_lua.h"
+#include "scheduler_export_to_lua.h"
 //lua虚拟机对象
 lua_State* g_lua_State = NULL;
 //lua只能调用int (*lua_CFunction) (lua_State *L)格式的C函数
@@ -56,32 +58,121 @@ do_log_message(void(*log)(const char* file_name, int line_num, const char* msg),
 
 
 
-static int lua_log_debug(lua_State* L)
+static int lua_log_debug(lua_State* toLua_S)
 {
-	//从栈顶拿参数
-	const char* msg = luaL_checkstring(L,-1);
-	if (msg)//不为空代表栈顶的参数为string
-	{//file_name  line_num	访问lua调用信息
-		do_log_message(print_debug, msg);
+	int nargs = lua_gettop(toLua_S);
+	std::string t;
+	for (int i = 1; i <= nargs; i++)
+	{
+		if (lua_istable(toLua_S, i))
+			t += "table";
+		else if (lua_isnone(toLua_S, i))
+			t += "none";
+		else if (lua_isnil(toLua_S, i))
+			t += "nil";
+		else if (lua_isboolean(toLua_S, i))
+		{
+			if (lua_toboolean(toLua_S, i) != 0)
+				t += "true";
+			else
+				t += "false";
+		}
+		else if (lua_isfunction(toLua_S, i))
+			t += "function";
+		else if (lua_islightuserdata(toLua_S, i))
+			t += "lightuserdata";
+		else if (lua_isthread(toLua_S, i))
+			t += "thread";
+		else
+		{
+			const char* str = lua_tostring(toLua_S, i);
+			if (str)
+				t += lua_tostring(toLua_S, i);
+			else
+				t += lua_typename(toLua_S, lua_type(toLua_S, i));
+		}
+		if (i != nargs)
+			t += "\t";
 	}
+	do_log_message(print_debug, t.c_str());
 	return 0;
 }
-static int lua_log_warning(lua_State* L)
+static int lua_log_warning(lua_State* toLua_S)
 {
-	const char* msg = luaL_checkstring(L, -1);
-	if (msg)
+	int nargs = lua_gettop(toLua_S);
+	std::string t;
+	for (int i = 1; i <= nargs; i++)
 	{
-		do_log_message(print_warning, msg);
+		if (lua_istable(toLua_S, i))
+			t += "table";
+		else if (lua_isnone(toLua_S, i))
+			t += "none";
+		else if (lua_isnil(toLua_S, i))
+			t += "nil";
+		else if (lua_isboolean(toLua_S, i))
+		{
+			if (lua_toboolean(toLua_S, i) != 0)
+				t += "true";
+			else
+				t += "false";
+		}
+		else if (lua_isfunction(toLua_S, i))
+			t += "function";
+		else if (lua_islightuserdata(toLua_S, i))
+			t += "lightuserdata";
+		else if (lua_isthread(toLua_S, i))
+			t += "thread";
+		else
+		{
+			const char* str = lua_tostring(toLua_S, i);
+			if (str)
+				t += lua_tostring(toLua_S, i);
+			else
+				t += lua_typename(toLua_S, lua_type(toLua_S, i));
+		}
+		if (i != nargs)
+			t += "\t";
 	}
+	do_log_message(print_warning, t.c_str());
 	return 0;
 }
-static int lua_log_error(lua_State* L)
+static int lua_log_error(lua_State* toLua_S)
 {
-	const char* msg = luaL_checkstring(L, -1);
-	if (msg)
+	int nargs = lua_gettop(toLua_S);
+	std::string t;
+	for (int i = 1; i <= nargs; i++)
 	{
-		do_log_message(print_error, msg);
+		if (lua_istable(toLua_S, i))
+			t += "table";
+		else if (lua_isnone(toLua_S, i))
+			t += "none";
+		else if (lua_isnil(toLua_S, i))
+			t += "nil";
+		else if (lua_isboolean(toLua_S, i))
+		{
+			if (lua_toboolean(toLua_S, i) != 0)
+				t += "true";
+			else
+				t += "false";
+		}
+		else if (lua_isfunction(toLua_S, i))
+			t += "function";
+		else if (lua_islightuserdata(toLua_S, i))
+			t += "lightuserdata";
+		else if (lua_isthread(toLua_S, i))
+			t += "thread";
+		else
+		{
+			const char* str = lua_tostring(toLua_S, i);
+			if (str)
+				t += lua_tostring(toLua_S, i);
+			else
+				t += lua_typename(toLua_S, lua_type(toLua_S, i));
+		}
+		if (i != nargs)
+			t += "\t";
 	}
+	do_log_message(print_error, t.c_str());
 	return 0;
 }
 
@@ -96,6 +187,46 @@ static int lua_panic(lua_State* L)
 	return 0;
 }
 
+static int lua_logger_init(lua_State* toLua_S)
+{
+	const char* path = (const char*)lua_tostring(toLua_S, 1);
+	if (path==NULL)
+	{
+		goto lua_failed;
+	}
+
+	const char* prefix = (const char*)lua_tostring(toLua_S, 2);
+	if (prefix == NULL)
+	{
+		goto lua_failed;
+	}
+	bool std_out = lua_toboolean(toLua_S, 3);
+	logger::init(path, prefix, std_out);
+lua_failed:
+	return 0;
+}
+
+static int register_logger_export(lua_State* toLua_S)
+{
+	lua_wrapper::reg_func2lua("print", lua_log_debug);
+
+	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
+	if (lua_istable(toLua_S, -1)) {
+		tolua_open(toLua_S);
+		tolua_module(toLua_S, "logger", 0);
+		tolua_beginmodule(toLua_S, "logger");
+
+		tolua_function(toLua_S, "debug", lua_log_debug);
+		tolua_function(toLua_S, "warning", lua_log_warning);
+		tolua_function(toLua_S, "error", lua_log_error);
+		tolua_function(toLua_S, "init", lua_logger_init);
+
+		tolua_endmodule(toLua_S);
+	}
+	lua_pop(toLua_S, 1);//从栈中弹出1个元素
+	return 0;
+}
+
 void lua_wrapper::init()
 {
 	g_lua_State = luaL_newstate();//创建lua虚拟机
@@ -104,15 +235,12 @@ void lua_wrapper::init()
 	toluafix_open(g_lua_State);
 
 	//注册模块
+	register_logger_export(g_lua_State);
 	register_mysql_export(g_lua_State);
 	register_redis_export(g_lua_State);
 	register_service_export(g_lua_State);
 	register_session_export(g_lua_State);
-
-	//导出三个log函数
-	lua_wrapper::reg_func2lua("log_error", lua_log_error);
-	lua_wrapper::reg_func2lua("log_debug", lua_log_debug);
-	lua_wrapper::reg_func2lua("log_warning", lua_log_warning);
+	register_scheduler_export(g_lua_State);
 
 }
 

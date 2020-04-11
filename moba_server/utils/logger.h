@@ -19,7 +19,7 @@ public:
 	//path  文件夹路径
 	//prefix 前缀
 	//std_output 是否输出到控制台
-	static void init(char* path, char* prefix, bool std_output = false);
+	static void init(const char* path, const char* prefix, bool std_output = false);
 
 	//file_name 文件名(表明该条日志是哪个文件输出的)
 	//line_num 行号(表明该条日志是哪一行输出的)

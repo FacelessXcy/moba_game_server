@@ -54,15 +54,16 @@ static void on_uv_timer(uv_timer_t* handle)
 	}
 }
 
-struct timer* schedule(void(*on_timer)(void* udata),//开启一个计时器timer
+struct timer* schedule_repeat(void(*on_timer)(void* udata),//开启一个计时器timer
 	void* udata,
 	int after_sec,
-	int repeat_count)
+	int repeat_count,
+	int repeat_msec)
 {
 	struct timer* t = alloc_timer(on_timer, udata, repeat_count);
 	//启动libuv timer
 	t->uv_timer.data = t;
-	uv_timer_start(&t->uv_timer, on_uv_timer, after_sec, after_sec);
+	uv_timer_start(&t->uv_timer, on_uv_timer, after_sec, repeat_msec);
 	return t;
 }
 
@@ -70,7 +71,7 @@ struct timer* schedule_once(void(*on_timer)(void* udata),
 	void* udata,
 	int after_sec)
 {
-	return	schedule(on_timer, udata, after_sec, 1);
+	return	schedule_repeat(on_timer, udata, after_sec, 1,after_sec);
 }
 
 void cancel_timer(struct timer* t)
@@ -83,4 +84,7 @@ void cancel_timer(struct timer* t)
 	free_timer(t);
 }
 
-
+void* get_timer_udata(struct timer* t)
+{
+	return t->udata;
+}
