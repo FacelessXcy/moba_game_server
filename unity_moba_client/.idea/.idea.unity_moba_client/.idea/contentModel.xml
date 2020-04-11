@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="D:\C++\UnityMobaServer\moba_game_server\unity_moba_client" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Scripts" t="Include">
+          <e p="network" t="Include">
+            <e p="network.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="unity_moba_client.sln" t="IncludeFlat" />
+    </e>
+    <e p="D:\JetBrainInstall\rider\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="D:\JetBrainInstall\rider\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_unity_moba_client.1890816462.00" t="ExcludeRecursive" />
+  </component>
+</project>
