@@ -300,7 +300,7 @@ netbus* netbus::instance()
 	return &g_netbus;
 }
 
-void netbus::start_tcp_server(int port)
+void netbus::tcp_listen(int port)
 {
 	uv_tcp_t* listen = (uv_tcp_t*)malloc(sizeof(uv_tcp_t));
 	memset(listen, 0, sizeof(uv_tcp_t));
@@ -323,7 +323,7 @@ void netbus::start_tcp_server(int port)
 }
 
 
-void netbus::start_udp_server(int port)
+void netbus::udp_listen(int port)
 {
 	uv_udp_t* server = (uv_udp_t*)malloc(sizeof(uv_udp_t));
 	memset(server, 0, sizeof(uv_udp_t));
@@ -339,7 +339,7 @@ void netbus::start_udp_server(int port)
 
 }
 
-void netbus::start_ws_server(int port)
+void netbus::ws_listen(int port)
 {
 	uv_tcp_t* listen = (uv_tcp_t*)malloc(sizeof(uv_tcp_t));
 	memset(listen, 0, sizeof(uv_tcp_t));

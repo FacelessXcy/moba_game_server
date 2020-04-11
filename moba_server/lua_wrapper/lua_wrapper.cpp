@@ -10,6 +10,8 @@
 #include "service_export_to_lua.h"
 #include "session_export_to_lua.h"
 #include "scheduler_export_to_lua.h"
+#include "netbus_export_to_lua.h"
+#include "proto_man_export_to_lua.h"
 //lua虚拟机对象
 lua_State* g_lua_State = NULL;
 //lua只能调用int (*lua_CFunction) (lua_State *L)格式的C函数
@@ -227,12 +229,25 @@ static int register_logger_export(lua_State* toLua_S)
 	return 0;
 }
 
+static int lua_add_search_path(lua_State* toLua_S)
+{
+	const char* path = luaL_checkstring(toLua_S, 1);
+	if (path!=NULL)
+	{
+		std::string str_path = path;
+		lua_wrapper::add_search_path(str_path);
+	}
+	return 0;
+}
+
 void lua_wrapper::init()
 {
 	g_lua_State = luaL_newstate();//创建lua虚拟机
 	lua_atpanic(g_lua_State, lua_panic);//加入自定义的panic函数，避免调用abort（直接终止）
 	luaL_openlibs(g_lua_State);//开启lua所有基础库
 	toluafix_open(g_lua_State);
+
+	lua_wrapper::reg_func2lua("add_search_path", lua_add_search_path);
 
 	//注册模块
 	register_logger_export(g_lua_State);
@@ -241,6 +256,8 @@ void lua_wrapper::init()
 	register_service_export(g_lua_State);
 	register_session_export(g_lua_State);
 	register_scheduler_export(g_lua_State);
+	register_netbus_export(g_lua_State);
+	register_proto_man_export(g_lua_State);
 
 }
 
@@ -253,9 +270,9 @@ void lua_wrapper::exit()
 	}
 }
 
-bool lua_wrapper::exe_lua_file(const char* lua_file)
+bool lua_wrapper::do_file(std::string &lua_file)
 {
-	if (luaL_dofile(g_lua_State, lua_file))//执行失败
+	if (luaL_dofile(g_lua_State, lua_file.c_str()))//执行失败
 	{
 		lua_log_error(g_lua_State);
 		return false;
@@ -277,6 +294,7 @@ void lua_wrapper::reg_func2lua(const char* name,
 	lua_setglobal(g_lua_State, name);
 
 }
+
 static bool pushFunctionByHandler(int nHandler)
 {
 	//将函数从全局表push到栈中
@@ -369,4 +387,11 @@ int lua_wrapper::execute_script_handler(int nHandler, int numArgs)
 void lua_wrapper::remove_script_handler(int nHandler)
 {
 	toluafix_remove_function_by_refid(g_lua_State, nHandler);
+}
+
+void lua_wrapper::add_search_path(std::string &path)
+{
+	char strPath[1024] = { 0 };
+	sprintf(strPath, "local path = string.match([[%s]],[[(.*)/[^/]*$]])\n package.path = package.path .. [[;]] .. path .. [[/?.lua;]] .. path .. [[/?/init.lua]]\n", path.c_str());
+	luaL_dostring(g_lua_State, strPath);
 }

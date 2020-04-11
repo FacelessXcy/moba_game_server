@@ -23,7 +23,7 @@ int proto_man::proto_type()
 }
 
 //×¢²áÃüÁîÀàĞÍÓ³Éä
-void proto_man::register_pb_cmd_map(std::map<int, std::string>& map)
+void proto_man::register_protobuf_cmd_map(std::map<int, std::string>& map)
 {
 	std::map<int, std::string>::iterator it;
 	for ( it = map.begin(); it != map.end(); it++)
