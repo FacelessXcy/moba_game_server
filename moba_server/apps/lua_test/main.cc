@@ -20,6 +20,11 @@ int main(int argc,char**  argv)
 	netbus::instance()->init();
 	//初始化lua虚拟机
 	lua_wrapper::init();
+
+	netbus::instance()->tcp_connect("127.0.0.1", 7788, NULL, NULL);
+
+
+
 	if (argc!=3)//调试状态
 	{
 		//启动第一个lua脚本

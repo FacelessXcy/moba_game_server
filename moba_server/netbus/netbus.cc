@@ -20,11 +20,11 @@ using namespace std;
 extern "C"
 {
 	static void	 on_recv_client_cmd(session* s, unsigned char* body, int len)
-	{ 
+	{
 		//printf("get client command!\n");
 		//测试
 		struct cmd_msg* msg = NULL;
-		if (proto_man::decode_cmd_msg(body, len, &msg)) 
+		if (proto_man::decode_cmd_msg(body, len, &msg))
 		{
 			if (!service_man::on_recv_cmd_msg((session*)s, msg))
 			{
@@ -124,9 +124,9 @@ extern "C"
 	};
 
 	//UDP收数据前回调函数
-	static void udp_uv_alloc_buf(uv_handle_t* handle, 
-												size_t suggested_size, 
-												uv_buf_t* buf)
+	static void udp_uv_alloc_buf(uv_handle_t* handle,
+		size_t suggested_size,
+		uv_buf_t* buf)
 	{
 		//只需要分配一块足够大的空间即可，不考虑拆包
 		suggested_size = (suggested_size < 8192) ? 8192 : suggested_size;
@@ -146,9 +146,9 @@ extern "C"
 	}
 
 	//TCP收数据前回调函数
-	static void uv_alloc_buf(uv_handle_t* handle, 
-										size_t suggested_size, 
-										uv_buf_t* buf)
+	static void uv_alloc_buf(uv_handle_t* handle,
+		size_t suggested_size,
+		uv_buf_t* buf)
 	{
 		//要根据不同的session来进行接收
 		uv_session* s = (uv_session*)handle->data;
@@ -214,10 +214,10 @@ extern "C"
 
 	//读数据完成后，调用该函数
 	static  void after_uv_udp_recv(uv_udp_t* handle,
-													ssize_t nread,
-													const uv_buf_t* buf,
-													const struct sockaddr* addr,//客户端的IP地址端口信息
-													unsigned flags)
+		ssize_t nread,
+		const uv_buf_t* buf,
+		const struct sockaddr* addr,//客户端的IP地址端口信息
+		unsigned flags)
 	{
 		udp_session udp_s;
 		udp_s.udp_handler = handle;
@@ -225,7 +225,7 @@ extern "C"
 		uv_ip4_name((struct sockaddr_in*)addr, udp_s.c_address, 32);
 		udp_s.c_port = ntohs(((struct sockaddr_in*)addr)->sin_port);
 
-		on_recv_client_cmd((session*)&udp_s,(unsigned char*)buf->base, nread);
+		on_recv_client_cmd((session*)& udp_s, (unsigned char*)buf->base, nread);
 	}
 
 	//完成读任务后，会调用该函数
@@ -336,11 +336,11 @@ void netbus::udp_listen(int port)
 	struct udp_recv_buf* udp_buf = (struct udp_recv_buf*)malloc(sizeof(struct udp_recv_buf));
 	memset(udp_buf, 0, sizeof(struct udp_recv_buf));
 	server->data = udp_buf;
-	
+
 	struct sockaddr_in addr;
 	uv_ip4_addr("0.0.0.0", port, &addr);
-	uv_udp_bind(server, (const struct sockaddr*)&addr, 0);
-	uv_udp_recv_start(server,udp_uv_alloc_buf,after_uv_udp_recv);
+	uv_udp_bind(server, (const struct sockaddr*) & addr, 0);
+	uv_udp_recv_start(server, udp_uv_alloc_buf, after_uv_udp_recv);
 
 }
 
@@ -373,8 +373,74 @@ void netbus::run()
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 }
 
+
 void netbus::init()
 {
 	service_man::init();
 	init_session_allocer();
+}
+
+struct connect_cb
+{
+	void(*on_connected)(int err, session* s, void* udata);
+	void* udata;
+};
+
+static void after_connect(uv_connect_t* handle, int status)
+{
+	uv_session* s = (uv_session*)handle->handle->data;
+	connect_cb* cb = (connect_cb*)handle->data;
+	if (status)
+	{
+		if (cb->on_connected != NULL)
+		{
+			cb->on_connected(1, NULL, cb->udata);
+		}
+		s->close();
+		free(cb);
+		free(handle);
+		return;
+	}
+	if (cb->on_connected != NULL)
+	{
+		cb->on_connected(0, (session*)s, cb->udata);
+	}
+	uv_read_start((uv_stream_t*)handle->handle, uv_alloc_buf, after_read);
+
+	free(cb);
+	free(handle);
+}
+
+
+void netbus::tcp_connect(char* server_ip, int port,
+	void(*on_connected)(int err, session* s, void* udata),
+	void* udata)
+{
+	struct sockaddr_in bind_addr;
+	int iret = uv_ip4_addr(server_ip, port, &bind_addr);
+	if (iret) {
+		return;
+	}
+
+	uv_session* s = uv_session::create();
+	uv_tcp_t* client = &s->tcp_handler;
+	memset(client, 0, sizeof(uv_tcp_t));
+	uv_tcp_init(uv_default_loop(), client);
+	client->data = (void*)s;
+	s->as_client = 1;
+	s->socket_type = TCP_SOCKET;
+	strcpy(s->c_address, server_ip);
+	s->c_port = port;
+
+
+	uv_connect_t* connect_req = (uv_connect_t*)malloc(sizeof(uv_connect_t));
+	connect_cb* cb = (connect_cb*)malloc(sizeof(connect_cb));
+	cb->on_connected = on_connected;
+	cb->udata = udata;
+	connect_req->data = (void*)cb;
+	iret = uv_tcp_connect(connect_req, client, (struct sockaddr*) & bind_addr, after_connect);
+	if (iret) {
+		// log_error("uv_tcp_connect error!!!");
+		return;
+	}
 }

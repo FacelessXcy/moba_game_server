@@ -4,6 +4,14 @@
 class session
 {
 public:
+	unsigned int as_client;
+	unsigned int utag;
+	session()
+	{
+		this->as_client = 0;
+		this->utag = 0;
+	}
+public:
 	virtual void close() = 0;
 	//发送数据,在方法内进行tcp的打包(头部加上包长)
 	virtual void send_data(unsigned char* body, int len) = 0;

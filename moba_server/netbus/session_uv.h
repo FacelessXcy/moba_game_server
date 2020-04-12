@@ -12,7 +12,7 @@ class uv_session :public session
 {
 public:
 	uv_tcp_t tcp_handler;//tcp连接对象
-	char* c_address[32];
+	char c_address[32];
 	int c_port;
 
 	uv_shutdown_t shudown;
