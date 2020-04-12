@@ -210,8 +210,8 @@
     <ClCompile Include="..\..\3rd\tolua\tolua_map.c" />
     <ClCompile Include="..\..\3rd\tolua\tolua_push.c" />
     <ClCompile Include="..\..\3rd\tolua\tolua_to.c" />
-    <ClCompile Include="..\..\apps\lua_test\main.cc" />
-    <ClCompile Include="..\..\apps\lua_test\proto\game.pb.cc" />
+    <ClCompile Include="..\..\apps\lua\main.cc" />
+    <ClCompile Include="..\..\apps\lua\proto\game.pb.cc" />
     <ClCompile Include="..\..\database\mysql_wrapper.cpp" />
     <ClCompile Include="..\..\database\redis_wrapper.cpp" />
     <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cpp" />
@@ -297,7 +297,7 @@
     <ClInclude Include="..\..\3rd\tolua\tolua++.h" />
     <ClInclude Include="..\..\3rd\tolua\tolua_event.h" />
     <ClInclude Include="..\..\3rd\tolua\tolua_fix.h" />
-    <ClInclude Include="..\..\apps\lua_test\proto\game.pb.h" />
+    <ClInclude Include="..\..\apps\lua\proto\game.pb.h" />
     <ClInclude Include="..\..\database\mysql_wrapper.h" />
     <ClInclude Include="..\..\database\redis_wrapper.h" />
     <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h" />

@@ -21,16 +21,12 @@ int main(int argc,char**  argv)
 	//初始化lua虚拟机
 	lua_wrapper::init();
 
-	netbus::instance()->tcp_connect("127.0.0.1", 7788, NULL, NULL);
-
-
-
 	if (argc!=3)//调试状态
 	{
 		//启动第一个lua脚本
-		std::string search_path = "../../apps/lua_test/scripts/";
+		std::string search_path = "../../apps/lua/scripts/";
 		lua_wrapper::add_search_path(search_path);
-		std::string lua_file = search_path + "main.lua";
+		std::string lua_file = search_path + "gateway/main.lua";
 		lua_wrapper::do_file(lua_file);
 		//end
 	}

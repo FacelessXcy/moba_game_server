@@ -412,7 +412,7 @@ static void after_connect(uv_connect_t* handle, int status)
 }
 
 
-void netbus::tcp_connect(char* server_ip, int port,
+void netbus::tcp_connect(const char* server_ip, int port,
 	void(*on_connected)(int err, session* s, void* udata),
 	void* udata)
 {

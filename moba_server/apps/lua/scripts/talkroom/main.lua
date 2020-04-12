@@ -1,5 +1,5 @@
 --初始化日志模块
-Logger.init("logger/gateway/","gateway",true);
+Logger.init("logger/talkroom/","talkroom",true);
 --end
 
 --初始化协议模块
@@ -26,7 +26,7 @@ Netbus.udp_listen(8002);
 
 print("start service success!!!");
 
-local trm_server=require("trm_server");
+local trm_server=require("talkroom/trm_server");
 local ret= Service.register(trm_server.stype,trm_server.service);
 
 if ret then
