@@ -17,7 +17,15 @@
 
 6.支持tcp及udp
 
-6.学习中...
+7.分布式部署各功能模块服务器
+
+8.学习中...
 
 ## 总体架构
 ![image1](https://github.com/FacelessXcy/moba_game_server/blob/master/Image/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84.png)
+
+
+## 网关数据转发细节
+![image2](https://github.com/FacelessXcy/moba_game_server/blob/master/Image/网关数据转发.png)
+
+
