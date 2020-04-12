@@ -24,7 +24,7 @@ struct raw_cmd
 	int ctype;//命令号
 	unsigned int utag;//用户标识
 
-	unsigned char* raw_cmd;
+	unsigned char* raw_data;
 	int raw_len;
 };
 

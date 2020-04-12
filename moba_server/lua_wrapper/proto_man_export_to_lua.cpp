@@ -46,7 +46,6 @@ lua_failed:
 static int lua_proto_type(lua_State* toLua_S)
 {
 	lua_pushinteger(toLua_S, proto_man::proto_type());
-lua_failed:
 	return 1;
 }
 static int lua_proto_man_init(lua_State* toLua_S)
@@ -122,7 +121,7 @@ static int lua_raw_set_utag(lua_State* toLua_S)
 	unsigned int utag = (unsigned int)luaL_checkinteger(toLua_S, 2);
 	raw->utag = utag;
 	//修改body内存；
-	unsigned char* utag_ptr = raw->raw_cmd + 4;//偏移4个字节
+	unsigned char* utag_ptr = raw->raw_data + 4;//偏移4个字节
 	utag_ptr[0] = (utag & 0xff);
 	utag_ptr[1] = ((utag & 0xff00) >> 8);
 	utag_ptr[2] = ((utag & 0xff0000) >> 16);

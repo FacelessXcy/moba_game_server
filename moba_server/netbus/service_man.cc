@@ -47,7 +47,7 @@ bool service_man::on_recv_raw_cmd(session* s, raw_cmd* raw)
 
 	//非网关服务
 	struct cmd_msg* msg = NULL;
-	if (proto_man::decode_cmd_msg(raw->raw_cmd, raw->raw_len, &msg))
+	if (proto_man::decode_cmd_msg(raw->raw_data, raw->raw_len, &msg))
 	{
 		ret= g_service_set[raw->stype]->on_session_recv_cmd(s, msg);
 		proto_man::cmd_msg_free(msg);

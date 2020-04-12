@@ -80,7 +80,7 @@ bool proto_man::decode_raw_cmd(unsigned char* cmd, int cmd_len, raw_cmd* raw)
 	raw->stype = cmd[0] | (cmd[1] << 8);
 	raw->ctype = cmd[2] | (cmd[3] << 8);
 	raw->utag = cmd[4] | (cmd[5] << 8) | (cmd[6] << 16) | (cmd[7] << 24);
-	raw->raw_cmd = cmd;
+	raw->raw_data = cmd;
 	raw->raw_len = cmd_len;
 	return true;
 }

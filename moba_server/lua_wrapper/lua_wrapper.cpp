@@ -258,6 +258,8 @@ void lua_wrapper::init()
 	register_scheduler_export(g_lua_State);
 	register_netbus_export(g_lua_State);
 	register_proto_man_export(g_lua_State);
+	register_raw_cmd_export(g_lua_State);
+
 
 }
 
