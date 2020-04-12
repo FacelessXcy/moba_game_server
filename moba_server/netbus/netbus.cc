@@ -19,11 +19,19 @@ using namespace std;
 
 extern "C"
 {
+	//传进来的body是已经去掉两字节包长信息的body
 	static void	 on_recv_client_cmd(session* s, unsigned char* body, int len)
 	{
 		//printf("get client command!\n");
-		//测试
-		struct cmd_msg* msg = NULL;
+		raw_cmd raw;
+		if (proto_man::decode_raw_cmd(body,len,&raw))
+		{
+			if (!service_man::on_recv_raw_cmd((session*)s, &raw))
+			{
+				s->close();
+			}
+		}
+		/*struct cmd_msg* msg = NULL;
 		if (proto_man::decode_cmd_msg(body, len, &msg))
 		{
 			if (!service_man::on_recv_cmd_msg((session*)s, msg))
@@ -31,7 +39,7 @@ extern "C"
 				s->close();
 			}
 			proto_man::cmd_msg_free(msg);
-		}
+		}*/
 	}
 
 	static void on_recv_tcp_data(uv_session* s)

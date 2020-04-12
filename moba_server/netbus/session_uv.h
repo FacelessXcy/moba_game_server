@@ -39,6 +39,7 @@ public:
 	virtual void send_data(unsigned char* body, int len);
 	virtual const char* get_address(int* client_port);
 	virtual void send_msg(struct cmd_msg* msg);
+	virtual void send_raw_msg(raw_cmd* raw);
 };
 
 void init_session_allocer();

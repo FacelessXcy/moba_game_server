@@ -117,7 +117,7 @@ void uv_session::close()
 	uv_shutdown(req, (uv_stream_t*)&this->tcp_handler, on_shutdown);
 }
 
-//发送数据
+//发送字节流数据
 void uv_session::send_data(unsigned char* body, int len)
 {
 	//uv_write_t* w_req = (uv_write_t*)malloc(sizeof(uv_write_t));
@@ -160,6 +160,7 @@ const char* uv_session::get_address(int* port)
 	return (const char*)this->c_address;
 }
 
+//发送自定义协议包数据
 void uv_session::send_msg(struct cmd_msg* msg)
 {
 	unsigned char* encode_pkg = NULL;
@@ -170,4 +171,8 @@ void uv_session::send_msg(struct cmd_msg* msg)
 		this->send_data(encode_pkg, encode_len);
 		proto_man::msg_raw_free(encode_pkg);
 	}
+}
+void uv_session::send_raw_msg(struct raw_cmd* raw)
+{
+	this->send_data(raw->raw_cmd, raw->raw_len);
 }

@@ -20,6 +20,8 @@ public:
 	//(stype,ctype,utag,body)
 	//之后交给send_data处理
 	virtual void send_msg(struct cmd_msg* msg)=0;
+
+	virtual void send_raw_msg(struct raw_cmd* raw) = 0;
 };
 
 

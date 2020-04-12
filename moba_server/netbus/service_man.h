@@ -4,12 +4,13 @@
 class session;
 class service;
 struct cmd_msg;
+struct raw_cmd;
 
 class service_man {
 public:
 	static void init();
 	static bool register_service(int stype, service* s);
-	static bool on_recv_cmd_msg(session* s, struct cmd_msg* msg);
+	static bool on_recv_raw_cmd(session* s, struct raw_cmd* raw);
 	static void on_session_disconnect(session* s);
 };
 

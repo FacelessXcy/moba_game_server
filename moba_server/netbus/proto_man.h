@@ -17,6 +17,17 @@ struct cmd_msg {
 	void* body; // JSON str 或者是message;
 };
 
+//未解码的数据包
+struct raw_cmd
+{
+	int stype;//服务号
+	int ctype;//命令号
+	unsigned int utag;//用户标识
+
+	unsigned char* raw_cmd;
+	int raw_len;
+};
+
 //自定义协议管理
 //对发送与接收的数据进行
 //打包与解包
@@ -28,6 +39,8 @@ public:
 	static void register_protobuf_cmd_map(std::map<int,std::string> &map);
 	static const char* protobuf_cmd_name(int ctype);
 
+
+	static bool decode_raw_cmd(unsigned char* cmd, int cmd_len, struct raw_cmd* raw);
 	static bool decode_cmd_msg(unsigned char* cmd, int cmd_len, struct cmd_msg** out_msg);
 	static void cmd_msg_free(struct cmd_msg* msg);
 

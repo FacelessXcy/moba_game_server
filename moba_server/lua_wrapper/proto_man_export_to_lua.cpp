@@ -84,3 +84,68 @@ int register_proto_man_export(lua_State* toLua_S)
 
 	return 0;
 }
+//RawCmd.read_header(raw_cmd)
+static int lua_raw_read_header(lua_State* toLua_S)
+{
+	int argc = lua_gettop(toLua_S);
+	if (argc != 1)
+	{
+		goto lua_failed;
+	}
+	
+	raw_cmd* raw = (raw_cmd*)tolua_touserdata(toLua_S, 1,NULL);
+	if (raw == NULL)
+	{
+		goto lua_failed;
+	}
+	lua_pushinteger(toLua_S, raw->stype);
+	lua_pushinteger(toLua_S, raw->ctype);
+	lua_pushinteger(toLua_S, raw->utag);
+	return 3;
+lua_failed:
+	return 0;
+}
+
+static int lua_raw_set_utag(lua_State* toLua_S)
+{
+	int argc = lua_gettop(toLua_S);
+	if (argc != 2)
+	{
+		goto lua_failed;
+	}
+
+	raw_cmd* raw = (raw_cmd*)tolua_touserdata(toLua_S, 1, NULL);
+	if (raw==NULL)
+	{
+		goto lua_failed;
+	}
+	unsigned int utag = (unsigned int)luaL_checkinteger(toLua_S, 2);
+	raw->utag = utag;
+	//修改body内存；
+	unsigned char* utag_ptr = raw->raw_cmd + 4;//偏移4个字节
+	utag_ptr[0] = (utag & 0xff);
+	utag_ptr[1] = ((utag & 0xff00) >> 8);
+	utag_ptr[2] = ((utag & 0xff0000) >> 16);
+	utag_ptr[3] = ((utag & 0xff000000) >> 24);
+	return 0;
+lua_failed:
+	return 0;
+}
+
+int register_raw_cmd_export(lua_State* toLua_S)
+{
+	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
+	if (lua_istable(toLua_S, -1)) {
+		tolua_open(toLua_S);
+		tolua_module(toLua_S, "RawCmd", 0);
+		tolua_beginmodule(toLua_S, "RawCmd");
+
+		tolua_function(toLua_S, "read_header", lua_raw_read_header);
+		tolua_function(toLua_S, "set_utag", lua_raw_set_utag);
+		
+		tolua_endmodule(toLua_S);
+	}
+	lua_pop(toLua_S, 1);//从栈中弹出1个元素
+
+	return 0;
+}
