@@ -21,7 +21,7 @@ bool tp_protocol::read_header(unsigned char* data, int data_len, int* pkg_size, 
 	return true;
 }
 
-//打包
+//打包，加上2字节的包长信息
 unsigned char* tp_protocol::package(const unsigned char* raw_data, int len, int* pkg_len)
 {
 	int head_size = 2;

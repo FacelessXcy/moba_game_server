@@ -16,7 +16,6 @@ if proto_man.proto_type() == proto_type.PROTO_BUF then
   end
 end
 
-
 --end
 
 --开启网络服务
@@ -27,4 +26,5 @@ netbus.udp_listen(8002);
 
 print("start service success!");
 
-
+local echo_server=require("echo_server");
+service.register(echo_server.stype,echo_server.service);

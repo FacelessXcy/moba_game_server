@@ -38,7 +38,6 @@ bool service_man::on_recv_cmd_msg(session* s, cmd_msg* msg)
 	{
 		return false;
 	}
-
 	return g_service_set[msg->stype]->on_session_recv_cmd(s, msg);
 }
 

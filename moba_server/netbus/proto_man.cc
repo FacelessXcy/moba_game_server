@@ -63,7 +63,7 @@ void proto_man::release_message(google::protobuf::Message* m)
 	delete m;
 }
 
-//解码
+//解码，解码后形式为
 //[服务号 2字节 | 命令号 2字节 | 用户标识 4字节  | ] body
 bool proto_man::decode_cmd_msg(unsigned char* cmd, int cmd_len, cmd_msg** out_msg)
 {
@@ -134,6 +134,7 @@ void proto_man::cmd_msg_free(cmd_msg* msg)
 	free(msg);
 }
 
+//转换为字节流
 unsigned char* proto_man::encode_msg_to_raw(const cmd_msg* msg, int* out_len)
 {
 	int raw_len = 0;

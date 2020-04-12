@@ -175,7 +175,12 @@ extern "C"
 				}
 				else
 				{//tcp>RECV_LENµÄpackage
-
+					int pkg_size;
+					int head_size;
+					tp_protocol::read_header((unsigned char*)s->recv_buf, s->recved, &pkg_size, &head_size);
+					s->long_pkg_size = pkg_size;
+					s->long_pkg = (char*)malloc(pkg_size);
+					memcpy(s->long_pkg, s->recv_buf, s->recved);
 				}
 			}
 			*buf = uv_buf_init(s->long_pkg + s->recved, s->long_pkg_size - s->recved);

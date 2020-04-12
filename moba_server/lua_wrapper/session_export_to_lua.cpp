@@ -274,23 +274,36 @@ static int lua_send_msg(lua_State* toLua_S)
 		goto lua_failed;
 	}
 
-	lua_getfield(toLua_S, 2, "1");//3  ½«×Ö¶ÎÖµÑ¹ÈëÕ»
-	lua_getfield(toLua_S, 2, "2");//4
-	lua_getfield(toLua_S, 2, "3");//5
-	lua_getfield(toLua_S, 2, "4");//6
 
 	cmd_msg msg;
-	msg.stype = lua_tointeger(toLua_S, 3);
-	msg.ctype = lua_tointeger(toLua_S, 4);
-	msg.utag = lua_tointeger(toLua_S, 5);
+	int n = luaL_len(toLua_S, 2);
+	if (n!=4)
+	{
+		goto lua_failed;
+	}
+	lua_pushnumber(toLua_S, 1);
+	lua_gettable(toLua_S,2);
+	msg.stype = luaL_checkinteger(toLua_S, -1);
+
+	lua_pushnumber(toLua_S, 2);
+	lua_gettable(toLua_S, 2);
+	msg.ctype = luaL_checkinteger(toLua_S, -1);
+
+	lua_pushnumber(toLua_S, 3);
+	lua_gettable(toLua_S, 2);
+	msg.utag = luaL_checkinteger(toLua_S, -1);
+
+	lua_pushnumber(toLua_S, 4);
+	lua_gettable(toLua_S, 2);
+
 	if (proto_man::proto_type() == PROTO_JSON)
 	{
-		msg.body = (char*)lua_tostring(toLua_S, 6);
+		msg.body = (char*)lua_tostring(toLua_S, -1);
 		s->send_msg(&msg);
 	}
 	else
 	{
-		if (!lua_istable(toLua_S,6))
+		if (!lua_istable(toLua_S,-1))
 		{
 			msg.body = NULL;
 			s->send_msg(NULL);
@@ -298,7 +311,7 @@ static int lua_send_msg(lua_State* toLua_S)
 		else
 		{//protobuf message table
 			const char* msg_name = proto_man::protobuf_cmd_name(msg.ctype);
-			msg.body = lua_table_to_protobuf(toLua_S,6,msg_name);
+			msg.body = lua_table_to_protobuf(toLua_S,lua_gettop(toLua_S),msg_name);
 			s->send_msg(&msg);
 			proto_man::release_message((google::protobuf::Message*)msg.body);
 		}
