@@ -17,8 +17,9 @@ extern "C"
 #include "tolua_fix.h"
 #include "scheduler_export_to_lua.h"
 
-#define my_malloc malloc
-#define my_free free
+#include "../utils/small_alloc.h"
+#define my_malloc small_alloc
+#define my_free small_free
 
 struct timer_repeat
 {
@@ -131,8 +132,8 @@ int register_scheduler_export(lua_State* toLua_S)
 	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
 	if (lua_istable(toLua_S, -1)) {
 		tolua_open(toLua_S);
-		tolua_module(toLua_S, "scheduler", 0);
-		tolua_beginmodule(toLua_S, "scheduler");
+		tolua_module(toLua_S, "Scheduler", 0);
+		tolua_beginmodule(toLua_S, "Scheduler");
 
 		tolua_function(toLua_S, "schedule", lua_schedule_repeat);
 		tolua_function(toLua_S, "once", lua_schedule_once);

@@ -4,8 +4,24 @@
 //#pragma comment(lib,"HiredisWrapper.lib")
 
 
-#define my_malloc malloc
-#define my_free free
+#include "../utils/small_alloc.h"
+#define my_malloc small_alloc
+#define my_free small_free
+
+
+static char* my_strdup(const char* src)
+{
+	int len = strlen(src) + 1;
+	char* dst = (char*)my_malloc(len);
+	strcpy(dst, src);
+	return dst;
+}
+
+static void free_strdup(char* str)
+{
+	my_free(str);
+}
+
 
 struct connect_req
 {
@@ -39,7 +55,7 @@ static void connect_work(uv_work_t* req)
 	redisContext* rc = RedisConnectWithTimeout((char*)r->ip, r->port, timeout);
 	if (rc->err) {//连接出错
 		printf("Connection error: %s\n", rc->errstr);
-		r->error = strdup(rc->errstr);
+		r->error = my_strdup(rc->errstr);
 		r->context = NULL;
 		RedisFree(rc);
 	}
@@ -62,10 +78,10 @@ static void on_connect_complete(uv_work_t* req, int status)
 	r->open_cb(r->error, r->context,r->udata);
 	//释放资源
 	if (r->ip)
-		free(r->ip);
+		free_strdup(r->ip);
 
 	if (r->error)
-		free(r->error);
+		free_strdup(r->error);
 	my_free(r);
 	my_free(req);
 
@@ -80,7 +96,7 @@ void redis_wrapper::connect(char* ip, int port,
 
 	connect_req* r = (connect_req*)my_malloc(sizeof(connect_req));
 	memset(r, 0, sizeof(connect_req));
-	r->ip = strdup(ip);
+	r->ip = my_strdup(ip);
 	r->port = port;
 
 	r->open_cb = open_cb;
@@ -146,7 +162,7 @@ static void query_work(uv_work_t* req)
 	redisReply* reply = (redisReply*)RedisCommand(rc, r->cmd, 15);
 	if (reply->type == REDIS_REPLY_ERROR)
 	{
-		r->error = strdup(reply->str);
+		r->error = my_strdup(reply->str);
 		r->result = NULL;
 		FreeReplyObject(reply);
 	}
@@ -164,12 +180,12 @@ static void on_query_complete(uv_work_t* req, int status)
 	r->query_cb(r->error, r->result,r->udata);
 
 	if (r->cmd)
-		free(r->cmd);
+		free_strdup(r->cmd);
 	if (r->result)
 		FreeReplyObject(r->result);
 	//freeReplyObject(r->result);
 	if (r->error)
-		free(r->error);
+		free_strdup(r->error);
 
 	my_free(r);
 	my_free(req);
@@ -192,7 +208,7 @@ void redis_wrapper::query(void* context,
 	query_req* r = (query_req*)my_malloc(sizeof(query_req));
 	memset(r, 0, sizeof(query_req));
 	r->context = context;
-	r->cmd = strdup(cmd);
+	r->cmd = my_strdup(cmd);
 	r->query_cb = query_cb;
 	r->udata = udata;
 	w->data = (void*)r;

@@ -125,10 +125,6 @@ public class network : MonoBehaviour
         
         if (msg!=null)
         {
-            //test
-//            gprotocol.LoginRes res = proto_man
-//                .protobuf_deserialize<gprotocol.LoginRes>(msg.body);
-//            Debug.Log("res= "+res.status);
             lock (this._netEvent)//收数据线程
             {
                 this._netEvent.Enqueue(msg);

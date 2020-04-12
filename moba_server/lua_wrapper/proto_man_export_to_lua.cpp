@@ -71,8 +71,8 @@ int register_proto_man_export(lua_State* toLua_S)
 	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
 	if (lua_istable(toLua_S, -1)) {
 		tolua_open(toLua_S);
-		tolua_module(toLua_S, "proto_man", 0);
-		tolua_beginmodule(toLua_S, "proto_man");
+		tolua_module(toLua_S, "ProtoMan", 0);
+		tolua_beginmodule(toLua_S, "ProtoMan");
 
 		tolua_function(toLua_S, "init", lua_proto_man_init);
 		tolua_function(toLua_S, "proto_type", lua_proto_type);

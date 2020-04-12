@@ -343,8 +343,8 @@ int register_session_export(lua_State* toLua_S)
 	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
 	if (lua_istable(toLua_S, -1)) {
 		tolua_open(toLua_S);
-		tolua_module(toLua_S, "session", 0);
-		tolua_beginmodule(toLua_S, "session");
+		tolua_module(toLua_S, "Session", 0);
+		tolua_beginmodule(toLua_S, "Session");
 
 		tolua_function(toLua_S, "close", lua_session_close);
 		tolua_function(toLua_S, "send_msg", lua_send_msg);

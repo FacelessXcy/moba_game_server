@@ -141,8 +141,8 @@ int register_redis_export(lua_State* toLua_S)
 	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
 	if (lua_istable(toLua_S, -1)) {
 		tolua_open(toLua_S);
-		tolua_module(toLua_S, "redis_wrapper", 0);
-		tolua_beginmodule(toLua_S, "redis_wrapper");
+		tolua_module(toLua_S, "Redis", 0);
+		tolua_beginmodule(toLua_S, "Redis");
 
 		tolua_function(toLua_S, "connect", lua_redis_connect);
 		tolua_function(toLua_S, "close_redis", lua_redis_close);

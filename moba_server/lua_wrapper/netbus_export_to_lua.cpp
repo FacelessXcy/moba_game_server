@@ -65,8 +65,8 @@ int register_netbus_export(lua_State* toLua_S)
 	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
 	if (lua_istable(toLua_S, -1)) {
 		tolua_open(toLua_S);
-		tolua_module(toLua_S, "netbus", 0);
-		tolua_beginmodule(toLua_S, "netbus");
+		tolua_module(toLua_S, "Netbus", 0);
+		tolua_beginmodule(toLua_S, "Netbus");
 
 		tolua_function(toLua_S, "udp_listen", lua_udp_listen);
 		tolua_function(toLua_S, "tcp_listen", lua_tcp_listen);

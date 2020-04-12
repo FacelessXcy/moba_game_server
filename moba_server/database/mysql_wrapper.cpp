@@ -15,8 +15,9 @@
 #include "mysql_wrapper.h"
 
 
-#define my_malloc malloc
-#define my_free free
+#include "../utils/small_alloc.h"
+#define my_malloc small_alloc
+#define my_free small_free
 
 struct connect_req
 {
@@ -40,6 +41,18 @@ struct mysql_context
 	int is_closed;
 };
 
+static char* my_strdup(const char* src)
+{
+	int len = strlen(src) + 1;
+	char* dst = (char*)my_malloc(len);
+	strcpy(dst, src);
+	return dst;
+}
+
+static void free_strdup(char* str)
+{
+	my_free(str);
+}
 
  //工作队列的用处：
 //1.把复杂的算法放到工作队列
@@ -65,7 +78,7 @@ static void connect_work(uv_work_t* req)
 	else
 	{//连接失败
 		r->context = NULL;
-		r->error = strdup(mysql_error(pConn));
+		r->error = my_strdup(mysql_error(pConn));
 	}
 }
 
@@ -77,15 +90,15 @@ static void on_connect_complete(uv_work_t* req, int status)
 	r->open_cb(r->error, r->context,r->udata);
 	//释放资源
 	if (r->ip)
-		free(r->ip);
+		free_strdup(r->ip);
 	if (r->db_name)
-		free(r->db_name);
+		free_strdup(r->db_name);
 	if (r->uname)
-		free(r->uname);
+		free_strdup(r->uname);
 	if (r->upwd)
-		free(r->upwd);
+		free_strdup(r->upwd);
 	if (r->error)
-		free(r->error);
+		free_strdup(r->error);
 	my_free(r);
 	my_free(req);
 
@@ -101,11 +114,11 @@ void mysql_wrapper::connect(char* ip, int port,
 
 	struct connect_req* r = (struct connect_req*)my_malloc(sizeof(struct connect_req));
 	memset(r, 0, sizeof(struct connect_req));
-	r->ip = strdup(ip);
+	r->ip = my_strdup(ip);
 	r->port = port;
-	r->db_name = strdup(db_name);
-	r->uname = strdup(uname);
-	r->upwd = strdup(pwd);
+	r->db_name = my_strdup(db_name);
+	r->uname = my_strdup(uname);
+	r->upwd = my_strdup(pwd);
 	r->open_cb = open_cb;
 	r->udata = udata;
 	w->data = (void*)r;
@@ -172,7 +185,7 @@ static void query_work(uv_work_t* req)
 	int ret = mysql_query(pConn, r->sql);
 	if (ret != 0)
 	{
-		r->error = strdup(mysql_error(pConn));
+		r->error = my_strdup(mysql_error(pConn));
 		r->result = NULL;
 		//释放锁
 		uv_mutex_unlock(&my_conn->lock);
@@ -204,14 +217,14 @@ static void on_query_complete(uv_work_t* req, int status)
 	query_req* r = (query_req*)req->data;
 	r->query_cb(r->error, r->result,r->udata);
 	if (r->sql)
-		free(r->sql);
+		free_strdup(r->sql);
 	if (r->result)
 	{
 		mysql_free_result(r->result);
 		r->result = NULL;
 	}
 	if (r->error)
-		free(r->error);
+		free_strdup(r->error);
 
 	my_free(r);
 	my_free(req);
@@ -235,7 +248,7 @@ void mysql_wrapper::query(void* context,
 	query_req* r = (query_req*)my_malloc(sizeof(query_req));
 	memset(r, 0, sizeof(query_req));
 	r->context = context;
-	r->sql = strdup(sql);
+	r->sql = my_strdup(sql);
 	r->query_cb = query_cb;
 	r->udata = udata;
 	w->data = (void*)r;

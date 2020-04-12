@@ -12,7 +12,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game_scene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/tcp_packer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D195DA47-F292-4AA6-AB1F-FC82F421F850/b4/41d7fa37/AsyncCallback.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/protos/game.cs" root0="FORCE_HIGHLIGHTING" />
@@ -23,15 +22,17 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/862B9365-843C-4BF1-BA93-210C124BB523/45/7d60ef56/IPEndPoint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/data_viewer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0467F5C0-E463-4B2C-ACC5-F718CB71F056/6d/c43a78ca/SocketFlags.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/talkroom.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/network/data_viewer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/network/tcp_packer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game_scene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/network/proto_man.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/network/network.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game_scene.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/talkroom.cs" />
       </list>
     </option>
   </component>
@@ -87,7 +88,7 @@
       <workItem from="1586597143205" duration="3129000" />
       <workItem from="1586613277865" duration="517000" />
       <workItem from="1586614382279" duration="8486000" />
-      <workItem from="1586660643655" duration="2575000" />
+      <workItem from="1586660643655" duration="12607000" />
     </task>
     <servers />
   </component>

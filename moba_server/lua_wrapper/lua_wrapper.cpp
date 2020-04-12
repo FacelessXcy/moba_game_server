@@ -215,8 +215,8 @@ static int register_logger_export(lua_State* toLua_S)
 	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
 	if (lua_istable(toLua_S, -1)) {
 		tolua_open(toLua_S);
-		tolua_module(toLua_S, "logger", 0);
-		tolua_beginmodule(toLua_S, "logger");
+		tolua_module(toLua_S, "Logger", 0);
+		tolua_beginmodule(toLua_S, "Logger");
 
 		tolua_function(toLua_S, "debug", lua_log_debug);
 		tolua_function(toLua_S, "warning", lua_log_warning);

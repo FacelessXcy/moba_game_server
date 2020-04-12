@@ -31,7 +31,7 @@ public class proto_man
         }
     }
 
-    //protobuf 打包(2 stype 2 ctype 4 utag)8+msg.body
+    //protobuf 打包成字节流(2 stype 2 ctype 4 utag)8+msg.body
     public static byte[] pack_protobuf_cmd(int stype, int ctype,
         ProtoBuf.IExtensible msg)
     {

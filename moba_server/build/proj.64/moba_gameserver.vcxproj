@@ -232,6 +232,7 @@
     <ClCompile Include="..\..\netbus\ws_protocol.cc" />
     <ClCompile Include="..\..\utils\cache_alloc.c" />
     <ClCompile Include="..\..\utils\logger.cc" />
+    <ClCompile Include="..\..\utils\small_alloc.c" />
     <ClCompile Include="..\..\utils\timer_list.c" />
     <ClCompile Include="..\..\utils\timestamp.c" />
   </ItemGroup>
@@ -318,6 +319,7 @@
     <ClInclude Include="..\..\netbus\ws_protocol.h" />
     <ClInclude Include="..\..\utils\cache_alloc.h" />
     <ClInclude Include="..\..\utils\logger.h" />
+    <ClInclude Include="..\..\utils\small_alloc.h" />
     <ClInclude Include="..\..\utils\timer_list.h" />
     <ClInclude Include="..\..\utils\timestamp.h" />
     <ClInclude Include="hiredis\include\HiredisWrapper.h" />

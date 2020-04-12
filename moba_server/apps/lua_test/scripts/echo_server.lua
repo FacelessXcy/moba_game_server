@@ -9,12 +9,12 @@ function echo_recv_cmd( s,msg )
 
     --send to client
     local to_client={1,2,0,{status=200}}
-    session.send_msg(s,to_client)
+    Session.send_msg(s,to_client)
 
 end
 
 function echo_session_disconnect( s )
-    local ip,port=session.get_address(s);
+    local ip,port=Session.get_address(s);
     print("echo_session_disconnect"..ip..":"..port);
 end
 

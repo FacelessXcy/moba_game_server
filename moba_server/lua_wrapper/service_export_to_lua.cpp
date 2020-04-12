@@ -300,6 +300,8 @@ bool lua_service::on_session_recv_cmd(session* s, cmd_msg* msg)
 	if (msg->body == NULL)
 	{
 		lua_pushnil(lua_wrapper::lua_state());
+		lua_rawseti(lua_wrapper::lua_state(), -2, index);
+		++index;
 	}
 	else
 	{
@@ -365,8 +367,8 @@ int register_service_export(lua_State* toLua_S)
 	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
 	if (lua_istable(toLua_S, -1)) {
 		tolua_open(toLua_S);
-		tolua_module(toLua_S, "service", 0);
-		tolua_beginmodule(toLua_S, "service");
+		tolua_module(toLua_S, "Service", 0);
+		tolua_beginmodule(toLua_S, "Service");
 
 		tolua_function(toLua_S, "register", lua_register_service);
 

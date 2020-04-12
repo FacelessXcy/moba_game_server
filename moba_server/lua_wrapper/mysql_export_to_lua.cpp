@@ -160,8 +160,8 @@ int register_mysql_export(lua_State* toLua_S) {
 	lua_getglobal(toLua_S, "_G");//获取全局变量的_G的值,并将其放入栈顶
 	if (lua_istable(toLua_S, -1)) {
 		tolua_open(toLua_S);
-		tolua_module(toLua_S, "mysql_wrapper", 0);
-		tolua_beginmodule(toLua_S, "mysql_wrapper");
+		tolua_module(toLua_S, "Mysql", 0);
+		tolua_beginmodule(toLua_S, "Mysql");
 
 		tolua_function(toLua_S, "connect", lua_mysql_connect);
 		tolua_function(toLua_S, "close", lua_mysql_close);
