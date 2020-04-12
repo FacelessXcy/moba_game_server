@@ -20,4 +20,4 @@
 6.学习中...
 
 ## 总体架构
-![image]（https://github.com/FacelessXcy/moba_game_server/Image/服务器总体架构.png）
+![image1]（https://github.com/FacelessXcy/moba_game_server/blob/master/Image/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84.png）
