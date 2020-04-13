@@ -19,8 +19,9 @@ public class game_scene : MonoBehaviour
     private void test()
     {
         Debug.Log("Test");
-        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
-        .eLoginReq,null);
+        EventManager.Instance.DispatchEvent("coin",100);
+//        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+//        .eLoginReq,null);
     }
 
     void on_auth_server_return(cmd_msg msg)

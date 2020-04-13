@@ -13,10 +13,12 @@ public class cmd_msg
     public byte[] body;//protobuf || utf8 jsonStr byte
 }
 
+//自定义协议管理
 public class proto_man
 {
     private const int HEADER_SIZE = 8;//(2 stype 2 ctype 4 utag)8+msg.body
     
+    //将msg对象序列化为字节流
     private static byte[] protobuf_serializer(ProtoBuf.IExtensible data)
     {
         using (MemoryStream m = new MemoryStream())

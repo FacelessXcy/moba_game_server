@@ -8,10 +8,10 @@ using gprotocol;
 using TMPro;
 using UnityEngine;
 
-public class network : MonoBehaviour
+public class network : UnitySingleton<network>
 {
-    public string serverIP;
-    public int port;
+    private string _serverIP="127.0.0.1";
+    private int _port=6080;
     
     
     
@@ -36,22 +36,10 @@ public class network : MonoBehaviour
     
     
     
-    private static network _instance;
-    public static network Instance => _instance;
-
-    void Awake()
-    {
-        _instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
     private void Start()
     {
         connect_to_server();
-        
         //test
-        
-        
     }
 
     private void Update()
@@ -98,8 +86,8 @@ public class network : MonoBehaviour
             this._clientSocket=new Socket(AddressFamily.InterNetwork,
             SocketType.Stream,ProtocolType.Tcp);
             
-            IPAddress ipAddress = IPAddress.Parse((this.serverIP));
-            IPEndPoint ipEndPoint=new IPEndPoint(ipAddress,port);
+            IPAddress ipAddress = IPAddress.Parse((this._serverIP));
+            IPEndPoint ipEndPoint=new IPEndPoint(ipAddress,_port);
             
             IAsyncResult result = this._clientSocket.BeginConnect
             (ipEndPoint,on_connected,
@@ -240,7 +228,7 @@ public class network : MonoBehaviour
             _isConnect = true;
             _recvThread=new Thread(thread_recv_worker);
             _recvThread.Start();
-            Debug.Log("connect to server success!!"+serverIP+":"+port+"!");
+            Debug.Log("connect to server success!!"+_serverIP+":"+_port+"!");
         }
         catch (Exception e)
         {
