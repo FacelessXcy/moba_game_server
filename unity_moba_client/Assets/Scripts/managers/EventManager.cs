@@ -6,8 +6,12 @@ public class EventManager : Singleton<EventManager>
 {
     private Dictionary<string, OnEventHandler> _eventListeners=new Dictionary<string, OnEventHandler>();
     public delegate void OnEventHandler(string name,object udata);
-     
-    
+
+    public void Init()
+    {
+        
+    }
+
     //订阅者
     public void AddEventListener(string name,OnEventHandler handler)
     {

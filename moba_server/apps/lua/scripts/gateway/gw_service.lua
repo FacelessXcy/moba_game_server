@@ -70,7 +70,7 @@ end
 
 function send_to_server( client_session,raw_cmd )
     local stype,ctype,utag=RawCmd.read_header(raw_cmd);
-    print(stype,ctype,utag);
+    --print(stype,ctype,utag);
     local server_session=server_session_man[stype];
     if server_session==nil then--系统错误
        return; 

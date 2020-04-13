@@ -1,10 +1,16 @@
 local Stype=require("Stype");
 local Cmd=require("Cmd");
+local guest=require("auth_server/guest");
+
+local auth_service_handler={}
+auth_service_handler[Cmd.eGuestLoginReq]=guest.login;
+
 --{stype,ctype,utag,[{message} or jsonStr]}
 function on_auth_recv_cmd( s,msg )
-    print(msg[1],msg[2],msg[3])
-    local res_msg={Stype.Auth,Cmd.eLoginRes,msg[3],{status=200}}
-    Session.send_msg(s,res_msg);
+    
+    if auth_service_handler[msg[2]]  then
+        auth_service_handler[msg[2]](s,msg);
+    end
 end
 function on_auth_session_disconnect( s,stype )
 

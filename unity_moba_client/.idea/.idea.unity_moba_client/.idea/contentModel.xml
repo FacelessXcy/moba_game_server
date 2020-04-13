@@ -102,7 +102,15 @@
               <e p="WireType.cs" t="Include" />
             </e>
           </e>
-          <e p="game_scene.cs" t="Include" />
+          <e p="game" t="Include">
+            <e p="GameManager.cs" t="Include" />
+            <e p="login_scene" t="Include">
+              <e p="LoginScene.cs" t="Include" />
+            </e>
+            <e p="modules" t="Include">
+              <e p="UserLogin.cs" t="Include" />
+            </e>
+          </e>
           <e p="managers" t="Include">
             <e p="AudioManager.cs" t="Include" />
             <e p="EventManager.cs" t="Include" />
@@ -119,10 +127,10 @@
           <e p="talkroom" t="Include">
             <e p="talkroom.cs" t="Include" />
           </e>
-          <e p="test_ui.cs" t="Include" />
           <e p="utils" t="Include">
             <e p="ShowFPS.cs" t="Include" />
             <e p="Singleton.cs" t="Include" />
+            <e p="utils.cs" t="Include" />
           </e>
         </e>
       </e>
