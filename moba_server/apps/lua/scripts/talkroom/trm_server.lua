@@ -77,7 +77,7 @@ function on_trm_recv_cmd( s,msg )
     end
 end
 
-function on_trm_session_disconnect( s )
+function on_trm_session_disconnect( s,stype )
     local ip,port=Session.get_address(s);
     --当前是否在集合内，如果是，返回已经在聊天室的提示
     for i=1,#session_set do

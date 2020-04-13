@@ -19,6 +19,7 @@ void service_man::init()
 
 bool service_man::register_service(int stype, service* s)
 {
+	printf("register : %d \n", stype);
 	if (stype < 0 || stype >= MAX_SERVICE)
 	{
 		return false;
@@ -64,8 +65,7 @@ void service_man::on_session_disconnect(session* s)
 		{
 			continue;
 		}
-		g_service_set[i]->on_session_disconnect(s);
-
+		g_service_set[i]->on_session_disconnect(s,i);
 	}
 
 }

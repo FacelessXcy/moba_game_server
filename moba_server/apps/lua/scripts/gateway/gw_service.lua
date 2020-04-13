@@ -5,6 +5,12 @@ local server_session_man={}
 --当前正在连接的服务器
 local do_connecting={}
 
+--临时ukey-->client_session
+local g_ukey=1;
+local client_session_ukey={};
+--uid-->client_session
+local client_session_uid={};
+
 --连接到服务器
 function connect_to_server( stype,ip,port )
     Netbus.tcp_connect(ip,port,
@@ -44,14 +50,22 @@ function gw_service_init(  )
 end
 
 function send_to_client( server_session,raw_cmd )
-    
+    local stype,ctype,utag=RawCmd.read_header(raw_cmd);
+    local client_session=nil;
+    --很有可能是UId做key
+    --区分命令是登录前还是登录后
+    --只有命令的类型才知道是到uid里查，还是到ukey里查
+    --暂时预留出来
+    if client_session_uid[utag] ~=nil then
+        client_session=client_session_uid[utag];
+    elseif client_session_ukey[utag] ~=nil then
+        client_session=client_session_ukey[utag];
+    end
+    RawCmd.set_utag(raw_cmd,0);
+    if client_session then
+        Session.send_raw_cmd(client_session,raw_cmd);
+    end
 end
-
---临时ukey-->client_session
-local g_ukey=1;
-local client_session_ukey={};
---uid-->client_session
-local client_session_uid={};
 
 
 function send_to_server( client_session,raw_cmd )
@@ -92,7 +106,7 @@ function on_gw_recv_raw_cmd( s,raw_cmd )
 
 end 
 
-function on_gw_session_disconnect( s )
+function on_gw_session_disconnect( s,stype )
     --连接到服务器的session断线了
     if Session.asclient(s)==1 then
         for k,v in pairs(server_session_man) do
@@ -104,24 +118,26 @@ function on_gw_session_disconnect( s )
         end 
         return;
     end
+
     --连接到网关的客户端session断线了  
     --把客户端从临时映射表中删除
     local utag=Session.get_utag(s);
     if client_session_ukey[utag] ~=nil then
-        print("client remove from temp");
         client_session_ukey[utag]=nil;
         Session.set_utag(s,0);
         table.remove(client_session_ukey,utag);
     end
     --end
-
     --把客户端从uid映射表中移除
     local uid=Session.get_uid(s);
     if client_session_uid[uid] ~=nil then
         client_session_uid[uid]=nil;
-        Session.set_uid(s,0);
         table.remove( client_session_uid,uid );
     end
+    --客户端uid用户断开连接，转发事件给与网关连接Stype类型的服务器
+    if uid ~= 0 then
+        
+    end 
 
 end 
 

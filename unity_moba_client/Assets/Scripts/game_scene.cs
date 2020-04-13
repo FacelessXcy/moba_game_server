@@ -28,6 +28,9 @@ public class game_scene : MonoBehaviour
         switch (msg.ctype)
         {
             case (int)Cmd.eLoginRes:
+                LoginRes res = proto_man.protobuf_deserialize<LoginRes>
+                    (msg.body);
+                Debug.Log(res.status);
                 break;
         }
     }
