@@ -35,11 +35,9 @@ public class network : UnitySingleton<network>
         new Dictionary<int, net_message_handler>();
     
     
-    
     private void Start()
     {
         connect_to_server();
-        //test
     }
 
     private void Update()
@@ -68,9 +66,7 @@ public class network : UnitySingleton<network>
     {
         this.close();
     }
-
-
-
+    
     void on_connect_timeout()
     {
         

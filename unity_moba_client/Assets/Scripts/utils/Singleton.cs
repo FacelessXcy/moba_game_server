@@ -52,7 +52,7 @@ public class UnitySingleton<T> : MonoBehaviour
         }
     }
 
-    private void Awake()
+    public virtual void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
         if (_instance==null)
