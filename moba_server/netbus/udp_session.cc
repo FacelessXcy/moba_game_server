@@ -57,7 +57,7 @@ void udp_session::send_msg(cmd_msg* msg)
 	}
 }
 
-void udp_session::send_raw_msg(raw_cmd* raw)
+void udp_session::send_raw_cmd(raw_cmd* raw)
 {
 	this->send_data(raw->raw_data, raw->raw_len);
 }

@@ -102,6 +102,7 @@
               <e p="WireType.cs" t="Include" />
             </e>
           </e>
+          <e p="game_scene.cs" t="Include" />
           <e p="network" t="Include">
             <e p="data_viewer.cs" t="Include" />
             <e p="network.cs" t="Include" />
@@ -111,7 +112,9 @@
             </e>
             <e p="tcp_packer.cs" t="Include" />
           </e>
-          <e p="talkroom.cs" t="Include" />
+          <e p="talkroom" t="Include">
+            <e p="talkroom.cs" t="Include" />
+          </e>
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />

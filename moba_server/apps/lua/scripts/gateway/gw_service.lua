@@ -43,15 +43,58 @@ function gw_service_init(  )
     --end
 end
 
+function send_to_client( server_session,raw_cmd )
+    
+end
+
+--临时ukey-->client_session
+local g_ukey=1;
+local client_session_ukey={};
+--uid-->client_session
+local client_session_uid={};
+
+
+function send_to_server( client_session,raw_cmd )
+    local stype,ctype,utag=RawCmd.read_header(raw_cmd);
+    print(stype,ctype,utag);
+    local server_session=server_session_man[stype];
+    if server_session==nil then--系统错误
+       return; 
+    end
+    --获取session的uid/utag
+    local uid=Session.get_uid(client_session);
+    if uid==0 then--登录前
+        utag=Session.get_utag(client_session);
+        if utag==0 then--如果未设置过utag，则设置一个默认utag
+            utag=g_ukey;
+            g_ukey=g_ukey+1;
+            client_session_ukey[utag]=client_session;
+            Session.set_utag(client_session,utag);
+        end
+    else--登陆后
+        utag=uid;
+        client_sessions_uid[utag]=client_session;
+    end
+
+    --给cmd打上utag，转发给服务器
+    RawCmd.set_utag(raw_cmd,utag);
+    Session.send_raw_cmd(server_session,raw_cmd);
+
+end
+
 --{stype,ctype,utag,}
 function on_gw_recv_raw_cmd( s,raw_cmd )
-    
+    if Session.asclient(s)==0 then--数据由客户端传来，转发给服务器
+        send_to_server(s,raw_cmd);
+    else--数据由其他服务器传来，转发给客户端
+        send_to_client(s,raw_cmd);
+    end
 
 end 
 
 function on_gw_session_disconnect( s )
     --连接到服务器的session断线了
-    if Session.asclient(s) then
+    if Session.asclient(s)==1 then
         for k,v in pairs(server_session_man) do
             if v ==s then
                 print("gateway disconnect: ["..game_config.servers[k].desic.."]");
@@ -61,7 +104,25 @@ function on_gw_session_disconnect( s )
         end 
         return;
     end
-    --连接到网关的客户端session断线了
+    --连接到网关的客户端session断线了  
+    --把客户端从临时映射表中删除
+    local utag=Session.get_utag(s);
+    if client_session_ukey[utag] ~=nil then
+        print("client remove from temp");
+        client_session_ukey[utag]=nil;
+        Session.set_utag(s,0);
+        table.remove(client_session_ukey,utag);
+    end
+    --end
+
+    --把客户端从uid映射表中移除
+    local uid=Session.get_uid(s);
+    if client_session_uid[uid] ~=nil then
+        client_session_uid[uid]=nil;
+        Session.set_uid(s,0);
+        table.remove( client_session_uid,uid );
+    end
+
 end 
 
 

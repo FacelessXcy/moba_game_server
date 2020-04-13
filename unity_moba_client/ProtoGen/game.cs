@@ -157,6 +157,23 @@ namespace gprotocol
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+    [global::ProtoBuf.ProtoContract(Name=@"Stype")]
+    public enum Stype
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"INVALID_STYPE", Value=0)]
+      INVALID_STYPE = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Auth", Value=1)]
+      Auth = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"System", Value=2)]
+      System = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Logic", Value=3)]
+      Logic = 3
+    }
+  
     [global::ProtoBuf.ProtoContract(Name=@"Cmd")]
     public enum Cmd
     {

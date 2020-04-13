@@ -141,7 +141,7 @@ static void InitDefaultsscc_info_SendMsgRes_game_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SendMsgRes_game_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_game_2eproto[7];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_game_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_game_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_game_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -230,11 +230,13 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "us\030\001 \002(\005\"\'\n\013OnUserLogin\022\n\n\002ip\030\001 \002(\t\022\014\n\004p"
   "ort\030\002 \002(\005\"&\n\nOnUserExit\022\n\n\002ip\030\001 \002(\t\022\014\n\004p"
   "ort\030\002 \002(\005\"6\n\tOnSendMsg\022\n\n\002ip\030\001 \002(\t\022\014\n\004po"
-  "rt\030\002 \002(\005\022\017\n\007content\030\003 \002(\t*\245\001\n\003Cmd\022\017\n\013INV"
-  "ALID_CMD\020\000\022\r\n\teLoginReq\020\001\022\r\n\teLoginRes\020\002"
-  "\022\014\n\010eExitReq\020\003\022\014\n\010eExitRes\020\004\022\017\n\013eSendMsg"
-  "Req\020\005\022\017\n\013eSendMsgRes\020\006\022\020\n\014eOnUserLogin\020\007"
-  "\022\017\n\013eOnUserExit\020\010\022\016\n\neOnSendMsg\020\t"
+  "rt\030\002 \002(\005\022\017\n\007content\030\003 \002(\t*;\n\005Stype\022\021\n\rIN"
+  "VALID_STYPE\020\000\022\010\n\004Auth\020\001\022\n\n\006System\020\002\022\t\n\005L"
+  "ogic\020\003*\245\001\n\003Cmd\022\017\n\013INVALID_CMD\020\000\022\r\n\teLogi"
+  "nReq\020\001\022\r\n\teLoginRes\020\002\022\014\n\010eExitReq\020\003\022\014\n\010e"
+  "ExitRes\020\004\022\017\n\013eSendMsgReq\020\005\022\017\n\013eSendMsgRe"
+  "s\020\006\022\020\n\014eOnUserLogin\020\007\022\017\n\013eOnUserExit\020\010\022\016"
+  "\n\neOnSendMsg\020\t"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_2eproto_deps[1] = {
 };
@@ -250,7 +252,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_gam
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_2eproto_once;
 static bool descriptor_table_game_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_2eproto = {
-  &descriptor_table_game_2eproto_initialized, descriptor_table_protodef_game_2eproto, "game.proto", 433,
+  &descriptor_table_game_2eproto_initialized, descriptor_table_protodef_game_2eproto, "game.proto", 494,
   &descriptor_table_game_2eproto_once, descriptor_table_game_2eproto_sccs, descriptor_table_game_2eproto_deps, 7, 0,
   schemas, file_default_instances, TableStruct_game_2eproto::offsets,
   file_level_metadata_game_2eproto, 7, file_level_enum_descriptors_game_2eproto, file_level_service_descriptors_game_2eproto,
@@ -258,9 +260,25 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_2
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_game_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_game_2eproto), true);
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Stype_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_game_2eproto);
   return file_level_enum_descriptors_game_2eproto[0];
+}
+bool Stype_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_game_2eproto);
+  return file_level_enum_descriptors_game_2eproto[1];
 }
 bool Cmd_IsValid(int value) {
   switch (value) {

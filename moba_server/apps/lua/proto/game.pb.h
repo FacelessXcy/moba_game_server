@@ -86,6 +86,31 @@ template<> ::SendMsgReq* Arena::CreateMaybeMessage<::SendMsgReq>(Arena*);
 template<> ::SendMsgRes* Arena::CreateMaybeMessage<::SendMsgRes>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
+enum Stype : int {
+  INVALID_STYPE = 0,
+  Auth = 1,
+  System = 2,
+  Logic = 3
+};
+bool Stype_IsValid(int value);
+constexpr Stype Stype_MIN = INVALID_STYPE;
+constexpr Stype Stype_MAX = Logic;
+constexpr int Stype_ARRAYSIZE = Stype_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Stype_descriptor();
+template<typename T>
+inline const std::string& Stype_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, Stype>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function Stype_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    Stype_descriptor(), enum_t_value);
+}
+inline bool Stype_Parse(
+    const std::string& name, Stype* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Stype>(
+    Stype_descriptor(), name, value);
+}
 enum Cmd : int {
   INVALID_CMD = 0,
   eLoginReq = 1,
@@ -1780,6 +1805,11 @@ inline void OnSendMsg::set_allocated_content(std::string* content) {
 
 PROTOBUF_NAMESPACE_OPEN
 
+template <> struct is_proto_enum< ::Stype> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Stype>() {
+  return ::Stype_descriptor();
+}
 template <> struct is_proto_enum< ::Cmd> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Cmd>() {

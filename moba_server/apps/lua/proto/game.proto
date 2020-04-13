@@ -1,4 +1,12 @@
 syntax = "proto2"; 
+
+enum Stype{
+  INVALID_STYPE=0;
+  Auth=1;
+  System=2;
+  Logic=3;
+}
+
 enum Cmd {
   INVALID_CMD=0;
 
