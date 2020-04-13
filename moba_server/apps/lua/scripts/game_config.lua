@@ -24,6 +24,14 @@ local game_config={
     gateway_ws_port=6081,
 
     servers=remote_servers,
+
+    auth_mysql={
+        host="127.0.0.1",--数据host
+        port=3306,--数据库端口
+        db_name="auth_center",--数据库名
+        uname="root",--数据库登录账号
+        upwd="xcy19990419"--数据库登录密码
+    },
 }
 
 return game_config;

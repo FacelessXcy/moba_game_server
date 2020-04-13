@@ -123,16 +123,15 @@ function on_gw_session_disconnect( s,stype )
     --把客户端从临时映射表中删除
     local utag=Session.get_utag(s);
     if client_session_ukey[utag] ~=nil then
+        --lua的table在删除数组元素时，会自动保持数组的有序性，会把后面的元素向前移动
         client_session_ukey[utag]=nil;
         Session.set_utag(s,0);
-        table.remove(client_session_ukey,utag);
     end
     --end
     --把客户端从uid映射表中移除
     local uid=Session.get_uid(s);
     if client_session_uid[uid] ~=nil then
         client_session_uid[uid]=nil;
-        table.remove( client_session_uid,uid );
     end
     --客户端uid用户断开连接，转发事件给与网关连接Stype类型的服务器
     if uid ~= 0 then
