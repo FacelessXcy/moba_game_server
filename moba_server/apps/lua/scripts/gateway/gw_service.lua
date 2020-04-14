@@ -7,9 +7,12 @@ local do_connecting={}
 
 --临时ukey-->client_session
 local g_ukey=1;
-local client_session_ukey={};
+local client_sessions_ukey={};
 --uid-->client_session
-local client_session_uid={};
+local client_sessions_uid={};
+local Stype=require("Stype");
+local Cmd=require("Cmd");
+local Response = require("Response")
 
 --连接到服务器
 function connect_to_server( stype,ip,port )
@@ -49,24 +52,65 @@ function gw_service_init(  )
     --end
 end
 
+function is_login_return_cmd( ctype )
+    if ctype == Cmd.eGuestLoginRes then
+        return true;
+    end
+    return false;
+end
+
 function send_to_client( server_session,raw_cmd )
     local stype,ctype,utag=RawCmd.read_header(raw_cmd);
     local client_session=nil;
+
+    if is_login_return_cmd(ctype) then
+        client_session=client_sessions_ukey[utag];
+        client_sessions_ukey[utag]=nil;
+        if client_session == nil then
+            return;
+        end
+
+        local body=RawCmd.read_body(raw_cmd);
+
+        if body.status ~= Response.OK then
+            RawCmd.set_utag(raw_cmd,0);
+            Session.send_raw_cmd(client_session,raw_cmd);
+            return
+        end
+
+        local uid=body.uinfo.uid;
+        --判断是否有相同的session已经登录
+        if client_sessions_uid[uid] and client_sessions_uid[uid]~= client_session then
+            local relogin_cmd={Stype.Auth,Cmd.eRelogin,0,nil};
+            Session.send_msg(client_sessions_uid[uid],relogin_cmd);
+            Session.close(client_sessions_uid[uid]);
+            --client_sessions_uid[uid]=nil;
+        end
+
+        client_sessions_uid[uid]=client_session;
+        Session.set_uid(client_session,uid);
+        body.uinfo.uid=0;
+        local login_res={stype,ctype,0,body};
+        Session.send_msg(client_session,login_res);
+        return;
+    end
     --很有可能是UId做key
     --区分命令是登录前还是登录后
     --只有命令的类型才知道是到uid里查，还是到ukey里查
-    --暂时预留出来
-    if client_session_uid[utag] ~=nil then
-        client_session=client_session_uid[utag];
-    elseif client_session_ukey[utag] ~=nil then
-        client_session=client_session_ukey[utag];
-    end
+
+    client_session=client_sessions_uid[utag];
     RawCmd.set_utag(raw_cmd,0);
     if client_session then
         Session.send_raw_cmd(client_session,raw_cmd);
     end
 end
 
+function is_login_request_cmd( ctype )
+    if ctype == Cmd.eGuestLoginReq then
+        return true;
+    end
+    return false;
+end
 
 function send_to_server( client_session,raw_cmd )
     local stype,ctype,utag=RawCmd.read_header(raw_cmd);
@@ -75,25 +119,27 @@ function send_to_server( client_session,raw_cmd )
     if server_session==nil then--系统错误
        return; 
     end
-    --获取session的uid/utag
-    local uid=Session.get_uid(client_session);
-    if uid==0 then--登录前
+
+    if is_login_request_cmd(ctype) then
         utag=Session.get_utag(client_session);
         if utag==0 then--如果未设置过utag，则设置一个默认utag
             utag=g_ukey;
             g_ukey=g_ukey+1;
-            client_session_ukey[utag]=client_session;
             Session.set_utag(client_session,utag);
         end
-    else--登陆后
+        client_sessions_ukey[utag]=client_session;
+    else
+        local uid=Session.get_uid(client_session);
         utag=uid;
-        client_sessions_uid[utag]=client_session;
+        if utag==0 then--该用户未登录,需要先登录
+            return;
+        end
+        --client_sessions_uid[uid]=client_session;
     end
 
     --给cmd打上utag，转发给服务器
     RawCmd.set_utag(raw_cmd,utag);
     Session.send_raw_cmd(server_session,raw_cmd);
-
 end
 
 --{stype,ctype,utag,}
@@ -122,20 +168,28 @@ function on_gw_session_disconnect( s,stype )
     --连接到网关的客户端session断线了  
     --把客户端从临时映射表中删除
     local utag=Session.get_utag(s);
-    if client_session_ukey[utag] ~=nil then
+    if client_sessions_ukey[utag] ~=nil and client_sessions_ukey[utag] ==s then
         --lua的table在删除数组元素时，会自动保持数组的有序性，会把后面的元素向前移动
-        client_session_ukey[utag]=nil;
+        client_sessions_ukey[utag]=nil;
         Session.set_utag(s,0);
     end
     --end
     --把客户端从uid映射表中移除
     local uid=Session.get_uid(s);
-    if client_session_uid[uid] ~=nil then
-        client_session_uid[uid]=nil;
+    if client_sessions_uid[uid] ~=nil and client_sessions_uid[uid]==s then
+        client_sessions_uid[uid]=nil;
     end
+
+    local server_session=server_session_man[stype];
+    if server_session==nil then
+       return; 
+    end
+
     --客户端uid用户断开连接，转发事件给与网关连接Stype类型的服务器
     if uid ~= 0 then
-        
+        print(uid,"lost_connect")
+        local user_lost={stype,Cmd.eUserLostConn,uid,nil};
+        Session.send_msg(server_session,user_lost);
     end 
 
 end 

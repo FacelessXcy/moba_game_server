@@ -161,7 +161,7 @@ public:
 	virtual void on_session_disconnect(session* s, int stype);
 };
 
-static void push_proto_message_tolua(const Message* message)
+void push_proto_message_tolua(const Message* message)
 {
 	lua_State* state = lua_wrapper::lua_state();
 	if (!message) {

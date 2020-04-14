@@ -1,5 +1,5 @@
 --初始化日志模块
-Logger.init("logger/gateway/","gateway",false);
+Logger.init("logger/gateway/","gateway",true);
 --end
 
 --初始化协议模块

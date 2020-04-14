@@ -125,7 +125,13 @@ namespace gprotocol
       eGuestLoginReq = 1,
             
       [global::ProtoBuf.ProtoEnum(Name=@"eGuestLoginRes", Value=2)]
-      eGuestLoginRes = 2
+      eGuestLoginRes = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"eRelogin", Value=3)]
+      eRelogin = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"eUserLostConn", Value=4)]
+      eUserLostConn = 4
     }
   
 }

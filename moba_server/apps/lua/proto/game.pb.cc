@@ -126,9 +126,9 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   " \002(\005\022\013\n\003uid\030\005 \002(\005\"\?\n\rGuestLoginRes\022\016\n\006st"
   "atus\030\001 \002(\005\022\036\n\005uinfo\030\002 \001(\0132\017.UserCenterIn"
   "fo*;\n\005Stype\022\021\n\rINVALID_STYPE\020\000\022\010\n\004Auth\020\001"
-  "\022\n\n\006System\020\002\022\t\n\005Logic\020\003*>\n\003Cmd\022\017\n\013INVALI"
+  "\022\n\n\006System\020\002\022\t\n\005Logic\020\003*_\n\003Cmd\022\017\n\013INVALI"
   "D_CMD\020\000\022\022\n\016eGuestLoginReq\020\001\022\022\n\016eGuestLog"
-  "inRes\020\002"
+  "inRes\020\002\022\014\n\010eRelogin\020\003\022\021\n\reUserLostConn\020\004"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_2eproto_deps[1] = {
 };
@@ -140,7 +140,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_gam
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_2eproto_once;
 static bool descriptor_table_game_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_2eproto = {
-  &descriptor_table_game_2eproto_initialized, descriptor_table_protodef_game_2eproto, "game.proto", 327,
+  &descriptor_table_game_2eproto_initialized, descriptor_table_protodef_game_2eproto, "game.proto", 360,
   &descriptor_table_game_2eproto_once, descriptor_table_game_2eproto_sccs, descriptor_table_game_2eproto_deps, 3, 0,
   schemas, file_default_instances, TableStruct_game_2eproto::offsets,
   file_level_metadata_game_2eproto, 3, file_level_enum_descriptors_game_2eproto, file_level_service_descriptors_game_2eproto,
@@ -173,6 +173,8 @@ bool Cmd_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+    case 3:
+    case 4:
       return true;
     default:
       return false;

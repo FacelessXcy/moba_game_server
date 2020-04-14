@@ -15,6 +15,8 @@ extern "C"
 #endif // __cplusplus
 #include "tolua_fix.h"
 #include "proto_man_export_to_lua.h"
+#include "google/protobuf/message.h"
+using namespace google::protobuf;
 
 #define my_malloc malloc
 #define my_free free
@@ -105,6 +107,42 @@ lua_failed:
 	return 0;
 }
 
+void push_proto_message_tolua(const Message* message);
+
+static int lua_raw_read_body(lua_State* toLua_S)
+{
+	int argc = lua_gettop(toLua_S);
+	if (argc != 1)
+	{
+		goto lua_failed;
+	}
+	raw_cmd* raw = (raw_cmd*)tolua_touserdata(toLua_S, 1, NULL);
+	if (raw == NULL)
+	{
+		goto lua_failed;
+	}
+	cmd_msg* msg;
+	if (proto_man::decode_cmd_msg(raw->raw_data, raw->raw_len, &msg))
+	{
+		if (msg->body==NULL)
+		{
+			lua_pushnil(toLua_S);
+		}
+		else if (proto_man::proto_type()==PROTO_JSON)
+		{
+			lua_pushstring(toLua_S,(const char*)msg->body);
+		}
+		else
+		{
+			push_proto_message_tolua((Message*)msg->body);
+		}
+		proto_man::cmd_msg_free(msg);
+	}
+	return 1;
+lua_failed:
+	return 0;
+}
+
 static int lua_raw_set_utag(lua_State* toLua_S)
 {
 	int argc = lua_gettop(toLua_S);
@@ -141,7 +179,7 @@ int register_raw_cmd_export(lua_State* toLua_S)
 
 		tolua_function(toLua_S, "read_header", lua_raw_read_header);
 		tolua_function(toLua_S, "set_utag", lua_raw_set_utag);
-		
+		tolua_function(toLua_S, "read_body", lua_raw_read_body);
 		tolua_endmodule(toLua_S);
 	}
 	lua_pop(toLua_S, 1);//从栈中弹出1个元素

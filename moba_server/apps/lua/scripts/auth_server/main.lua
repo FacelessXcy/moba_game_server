@@ -1,5 +1,5 @@
 --初始化日志模块
-Logger.init("logger/auth_server/","auth",false);
+Logger.init("logger/auth_server/","auth",true);
 --end
 
 --连接到Auth_center数据库
