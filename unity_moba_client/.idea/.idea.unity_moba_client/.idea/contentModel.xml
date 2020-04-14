@@ -110,6 +110,7 @@
             <e p="modules" t="Include">
               <e p="UserLogin.cs" t="Include" />
             </e>
+            <e p="Response.cs" t="Include" />
           </e>
           <e p="managers" t="Include">
             <e p="AudioManager.cs" t="Include" />

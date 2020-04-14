@@ -1,1 +1,1 @@
-protoc --cpp_out=./ game.proto
+protoc.exe --cpp_out=./ game.proto
