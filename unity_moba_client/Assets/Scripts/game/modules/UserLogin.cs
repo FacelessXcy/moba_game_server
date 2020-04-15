@@ -27,6 +27,7 @@ public class UserLogin:Singleton<UserLogin>
 
         UserCenterInfo uinfo = res.uinfo;
         Debug.Log(uinfo.unick+"   "+uinfo.usex);
+        EventManager.Instance.DispatchEvent("login_success",null);
     }
 
     void OnAuthServerReturn(cmd_msg msg)

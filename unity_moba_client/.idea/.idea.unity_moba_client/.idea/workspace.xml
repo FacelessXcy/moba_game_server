@@ -50,9 +50,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/utils/ShowFPS.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/managers/EventManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/utils/utils.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/Response.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UserLogin.cs" />
       </list>
     </option>
@@ -113,7 +113,7 @@
       <workItem from="1586743746496" duration="11173000" />
       <workItem from="1586785631215" duration="2988000" />
       <workItem from="1586836457242" duration="1154000" />
-      <workItem from="1586941889669" duration="490000" />
+      <workItem from="1586941889669" duration="1090000" />
     </task>
     <servers />
   </component>
