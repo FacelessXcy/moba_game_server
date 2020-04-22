@@ -1,4 +1,5 @@
 local mysql_center=require("database/mysql_auth_center");
+local redis_center=require("database/redis_center")
 local Response=require("Response");
 local Stype=require("Stype");
 local Cmd=require("Cmd");
@@ -56,6 +57,10 @@ function login( s,req )
         end
 
         print(uinfo.uid,uinfo.unick);--登陆成功，返回给客户端
+
+        print("uinfo.uvip in login "..uinfo.uvip)
+        redis_center.set_uinfo_inredis(uinfo.uid,uinfo);
+        print("uinfo.uvip in login double "..uinfo.uvip)
         local msg={Stype.Auth,Cmd.eGuestLoginRes,utag,{
             status=Response.OK,
             uinfo={

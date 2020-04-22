@@ -1,5 +1,4 @@
 local game_config=require("game_config");
-
 local mysql_conn=nil;
 
 function mysql_connect_to_auth_center( )

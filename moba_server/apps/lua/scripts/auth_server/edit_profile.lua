@@ -1,4 +1,5 @@
 local mysql_center=require("database/mysql_auth_center");
+local redis_center=require("database/redis_center")
 local Response=require("Response");
 local Stype=require("Stype");
 local Cmd=require("Cmd");
@@ -37,12 +38,16 @@ function do_edit_profile( s,req )
 		}}
 		Session.send_msg(s, msg)
 	end
-
+    
     mysql_center.edit_profile(uid, 
                                 edit_profile_req.unick,
                                 edit_profile_req.uface, 
                                 edit_profile_req.usex, 
                                 ret_handler)
+    redis_center.edit_profile(uid, 
+                                edit_profile_req.unick,
+                                edit_profile_req.uface, 
+                                edit_profile_req.usex);
 	--  end
 end
 
