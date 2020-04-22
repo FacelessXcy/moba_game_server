@@ -3,10 +3,19 @@ local Response=require("Response");
 local Stype=require("Stype");
 local Cmd=require("Cmd");
 
-function login( s,msg )
-    local g_key = msg[4].guest_key
-    local utag=msg[3];
-    --print(msg[1],msg[2],msg[3],msg[4].guest_key);
+function login( s,req )
+    local g_key = req[4].guest_key
+    local utag=req[3];
+    --print(req[1],req[2],req[3],req[4].guest_key);
+    --判断guestkey的合法性，并且长度为32
+    if type(g_key) ~="string" or string.len(g_key) ~= 32 then--如果不是返回错误信息
+        local msg={Stype.Auth,Cmd.eGuestLoginRes,utag,{
+            status=Response.InvalidParams,
+        }};
+        Session.send_msg(s,msg);
+        return;
+    end
+
     mysql_center.get_guest_uinfo(g_key,--获取gkey的资料
     function ( err,uinfo )
         if err then--告诉客户端某个错误信息
@@ -26,7 +35,7 @@ function login( s,msg )
                     Session.send_msg(s,msg);
                     return;
                 end
-                login(s,msg);
+                login(s,req);
             end)     
             return  
         end

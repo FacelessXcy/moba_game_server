@@ -85,9 +85,32 @@ function insert_guest_user( g_key,ret_handler )
     end)
 end
 
+function edit_profile( uid,unick,uface,usex,ret_handler )
+    if mysql_conn == nil then
+        if ret_handler then
+            ret_handler("mysql is not connected",nil);
+        end
+        return;
+    end
+
+    local sql="update uinfo set unick = \"%s\", usex = %d, uface = %d where uid = %d"
+    local sql_cmd=string.format(sql,unick,usex,uface,uid);
+    Mysql.query(mysql_conn,sql_cmd,
+    function ( err,ret )
+        if err then
+            ret_handler(err,nil);
+            return;
+        else
+            ret_handler(nil,nil);
+        end
+    end)
+
+end
+
 local mysql_auth_center={
     get_guest_uinfo=get_guest_uinfo,
     insert_guest_user=insert_guest_user,
+    edit_profile=edit_profile,
 
 }
 

@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using gprotocol;
+using UnityEngine.PlayerLoop;
+
 public class UserLogin:Singleton<UserLogin>
 {
+    private string g_key = null;
+    private bool _isSaveGKey = false;
 
+    private EditProfileReq _tempReq = null;
     public void Init()
     {
         network.Instance.add_service_listeners((int)Stype.Auth,OnAuthServerReturn);
@@ -26,8 +31,37 @@ public class UserLogin:Singleton<UserLogin>
         }
 
         UserCenterInfo uinfo = res.uinfo;
-        Debug.Log(uinfo.unick+"   "+uinfo.usex);
+        UGame.Instance.SaveUInfo(uinfo,true);
+        
+        //保存游客Key到本地
+        if (this._isSaveGKey)
+        {
+            this._isSaveGKey = false;
+            PlayerPrefs.SetString("xcy_moba_guest_key",this.g_key);
+        }
+        
         EventManager.Instance.DispatchEvent("login_success",null);
+        EventManager.Instance.DispatchEvent("sync_uinfo",null);
+    }
+
+    private void OnEditProfileReturn(cmd_msg msg)
+    {
+        EditProfileRes res = proto_man
+            .protobuf_deserialize<EditProfileRes>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        if (res.status!=Response.OK)
+        {
+            Debug.Log("Edit Profile status:"+res.status);
+            return;
+        }
+        UGame.Instance.SaveEditProfile(this._tempReq.unick,this
+        ._tempReq.uface,this._tempReq.usex);
+        this._tempReq = null;
+        EventManager.Instance.DispatchEvent("sync_uinfo",null);
+
     }
 
     void OnAuthServerReturn(cmd_msg msg)
@@ -36,22 +70,60 @@ public class UserLogin:Singleton<UserLogin>
         {
             case (int)Cmd.eGuestLoginRes:
                 OnGuestLoginReturn(msg);
-                break;;
-                
+                break;
+            case (int)Cmd.eEditProfileRes:
+                OnEditProfileReturn(msg);
+                break;
+            
         }
         
     }
 
     public void GuestLogin()
     {
-        string g_key = utils.RandStr(32);
-        g_key = "to9OveCec00GdBnaTp0mFRashRUsnQJu";
-        Debug.Log(g_key);
+        this.g_key = PlayerPrefs.GetString("xcy_moba_guest_key");
+        this._isSaveGKey = false;
+        if (this.g_key==null||this.g_key.Length!=32)
+        {
+            this.g_key = utils.RandStr(32);
+            //this.g_key = "to9OveCec00GdBnaTp0mFRashRUsnQJu";
+            this._isSaveGKey = true;
+            Debug.Log("random key:"+this.g_key);
+        }
+
+//        this.g_key = "Hello";
         GuestLoginReq req=new GuestLoginReq();
-        req.guest_key = g_key;
+        req.guest_key = this.g_key;
         network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
         .eGuestLoginReq,req);
         
     }
+
+    public void EditProfile(string unick,int uface,int usex)
+    {
+        if (unick.Length<=0)
+        {
+            return;
+        }
+
+        if (uface<=0||uface>9)
+        {
+            return;
+        }
+        if (usex!=0&&usex!=1)
+        {
+            return;
+        }
+        //提交修改资料的请求
+        EditProfileReq req=new EditProfileReq();
+        req.unick = unick;
+        req.uface = uface;
+        req.usex = usex;
+        this._tempReq = req;
+        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+        .eEditProfileReq,req);
+        
+    }
+
 
 }

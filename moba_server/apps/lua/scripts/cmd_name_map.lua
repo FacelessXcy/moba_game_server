@@ -3,6 +3,8 @@
     "GuestLoginRes",
     "Relogin",
     "UserLostConn",
+    "EditProfileReq",
+    "EditProfileRes",
 }
 
 return cmd_name_map;

@@ -104,10 +104,15 @@
           </e>
           <e p="game" t="Include">
             <e p="GameManager.cs" t="Include" />
+            <e p="home_scene" t="Include">
+              <e p="HomeScene.cs" t="Include" />
+              <e p="UserInfoDlg.cs" t="Include" />
+            </e>
             <e p="login_scene" t="Include">
               <e p="LoginScene.cs" t="Include" />
             </e>
             <e p="modules" t="Include">
+              <e p="UGame.cs" t="Include" />
               <e p="UserLogin.cs" t="Include" />
             </e>
             <e p="Response.cs" t="Include" />

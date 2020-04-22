@@ -13,6 +13,8 @@ enum Cmd {
   eGuestLoginRes = 2;
   eRelogin=3;
   eUserLostConn=4;
+  eEditProfileReq=5;
+  eEditProfileRes=6;
 }
 
 
@@ -32,4 +34,16 @@ message UserCenterInfo{
 message GuestLoginRes{
   required int32 status=1;
   optional UserCenterInfo uinfo=2;
+}
+
+message EditProfileReq
+{
+  required string unick=1;
+  required int32 uface=2;
+  required int32 usex=3;
+}
+
+message EditProfileRes
+{
+  required int32 status=1;
 }

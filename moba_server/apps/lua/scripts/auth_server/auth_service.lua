@@ -1,9 +1,11 @@
 local Stype=require("Stype");
 local Cmd=require("Cmd");
 local guest=require("auth_server/guest");
+local edit_profile=require("auth_server/edit_profile");
 
 local auth_service_handler={}
 auth_service_handler[Cmd.eGuestLoginReq]=guest.login;
+auth_service_handler[Cmd.eEditProfileReq]=edit_profile.do_edit_profile;
 
 --{stype,ctype,utag,[{message} or jsonStr]}
 function on_auth_recv_cmd( s,msg )
