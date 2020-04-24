@@ -15,6 +15,19 @@ public class UserLogin:Singleton<UserLogin>
         network.Instance.add_service_listeners((int)Stype.Auth,OnAuthServerReturn);
     }
 
+    private void OnGuestAccountUpgradeReturn(cmd_msg msg)
+    {
+        AccountUpgradeRes res = proto_man
+            .protobuf_deserialize<AccountUpgradeRes>(msg.body);
+        if (res.status==Response.OK)
+        {
+            UGame.Instance.isGuest = false;
+        }
+
+        EventManager.Instance.DispatchEvent("upgrade_account_return",
+            res.status);
+    }
+
     private void OnGuestLoginReturn(cmd_msg msg)
     {
         GuestLoginRes res = proto_man
@@ -31,7 +44,7 @@ public class UserLogin:Singleton<UserLogin>
         }
 
         UserCenterInfo uinfo = res.uinfo;
-        UGame.Instance.SaveUInfo(uinfo,true);
+        UGame.Instance.SaveUInfo(uinfo,true,this.g_key);
         
         //保存游客Key到本地
         if (this._isSaveGKey)
@@ -63,7 +76,7 @@ public class UserLogin:Singleton<UserLogin>
         EventManager.Instance.DispatchEvent("sync_uinfo",null);
 
     }
-
+    
     void OnAuthServerReturn(cmd_msg msg)
     {
         switch (msg.ctype)
@@ -74,7 +87,9 @@ public class UserLogin:Singleton<UserLogin>
             case (int)Cmd.eEditProfileRes:
                 OnEditProfileReturn(msg);
                 break;
-            
+            case (int)Cmd.eAccountUpgradeRes:
+                OnGuestAccountUpgradeReturn(msg);
+                break;
         }
         
     }
@@ -99,6 +114,15 @@ public class UserLogin:Singleton<UserLogin>
         
     }
 
+    public void DoAccountUpgrade(string uname,string upwd_md5)
+    {
+        AccountUpgradeReq req=new AccountUpgradeReq();
+        req.uname = uname;
+        req.upwd_md5 = upwd_md5;
+        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+        .eAccountUpgradeReq,req);
+    }
+    
     public void EditProfile(string unick,int uface,int usex)
     {
         if (unick.Length<=0)
@@ -124,6 +148,6 @@ public class UserLogin:Singleton<UserLogin>
         .eEditProfileReq,req);
         
     }
-
+    
 
 }

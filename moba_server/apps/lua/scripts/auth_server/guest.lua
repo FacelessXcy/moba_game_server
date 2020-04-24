@@ -58,9 +58,7 @@ function login( s,req )
 
         print(uinfo.uid,uinfo.unick);--登陆成功，返回给客户端
 
-        print("uinfo.uvip in login "..uinfo.uvip)
         redis_center.set_uinfo_inredis(uinfo.uid,uinfo);
-        print("uinfo.uvip in login double "..uinfo.uvip)
         local msg={Stype.Auth,Cmd.eGuestLoginRes,utag,{
             status=Response.OK,
             uinfo={

@@ -1,49 +1,137 @@
 syntax = "proto2"; 
 
-enum Stype{
-  INVALID_STYPE=0;
-  Auth=1;
-  System=2;
-  Logic=3;
+enum Stype {
+	INVALIDI_STYPE = 0;
+	Auth = 1;
+	System = 2;
+	Logic = 3;
 }
 
 enum Cmd {
-  INVALID_CMD=0;
+	INVALID_CMD = 0;
+	
 	eGuestLoginReq = 1;
-  eGuestLoginRes = 2;
-  eRelogin=3;
-  eUserLostConn=4;
-  eEditProfileReq=5;
-  eEditProfileRes=6;
-}
+	eGuestLoginRes = 2;
+	eRelogin = 3;
+	eUserLostConn = 4;
+	eEditProfileReq = 5;
+	eEditProfileRes = 6;
 
+	eAccountUpgradeReq = 7;
+	eAccountUpgradeRes = 8;
+
+	eUnameLoginReq = 9;
+	eUnameLoginRes = 10;
+
+	eLoginOutReq = 11;
+	eLoginOutRes = 12;
+
+	eGetUgameInfoReq = 13;
+	eGetUgameInfoRes = 14;
+
+	eRecvLoginBonuesReq = 15;
+	eRecvLoginBonuesRes = 16;
+
+	eGetWorldRankUchipReq = 17;
+	eGetWorldRankUchipRes = 18;
+
+	eGetSysMsgReq = 19;
+	eGetSysMsgRes = 20;
+}
 
 message GuestLoginReq {
-  required string guest_key = 1;	
+	required string guest_key = 1;
 }
 
-message UserCenterInfo{
-  required string unick=1;
-  required int32 uface=2;
-  required int32 usex=3;
-  required int32 uvip=4;
-  required int32 uid=5;
-
+message UnameLoginReq {
+	required string uname = 1;
+	required string upwd = 2;
 }
 
-message GuestLoginRes{
-  required int32 status=1;
-  optional UserCenterInfo uinfo=2;
+message UserCenterInfo {
+	required string unick = 1;
+	required int32 uface = 2;
+	required int32 usex = 3;
+	required int32 uvip = 4;
+	required int32 uid = 5;
 }
 
-message EditProfileReq
-{
-  required string unick=1;
-  required int32 uface=2;
-  required int32 usex=3;
+message GuestLoginRes {
+	required int32 status = 1;
+	optional UserCenterInfo uinfo = 2; 
 }
 
-message EditProfileRes
-{
-  required int32 status=1;
+message UnameLoginRes {
+	required int32 status = 1;
+	optional UserCenterInfo uinfo = 2; 
+}
+
+message EditProfileReq {
+	required string unick = 1;
+	required int32 uface = 2;
+	required int32 usex = 3;
+}
+
+message EditProfileRes {
+	required int32 status = 1;
+}
+
+message AccountUpgradeReq {
+	required string uname = 1;
+	required string upwd_md5 = 2;
+}
+
+message AccountUpgradeRes {
+	required int32 status = 1;
+}
+
+message LoginOutRes {
+	required int32 status = 1;
+}
+
+message UserGameInfo {
+	required int32 uchip = 1;
+	required int32 uexp = 2;
+	required int32 uvip = 3;
+	required int32 uchip2 = 4;
+	required int32 uchip3 = 5;
+	required int32 udata1 = 6;
+	required int32 udata2 = 7;
+	required int32 udata3 = 8;
+
+	required int32 bonues_status = 9;
+	required int32 bonues = 10;
+	required int32 days = 11;
+}
+
+message GetUgameInfoRes {
+	required int32 status = 1;
+	optional UserGameInfo uinfo = 2; 
+}
+
+message RecvLoginBonuesRes {
+	required int32 status = 1;	
+}
+
+message WorldChipRankInfo {
+	required string unick = 1;
+	required int32 uface = 2;
+	required int32 usex = 3;
+	required int32 uvip = 4;
+	required int32 uchip = 5;
+}
+
+message GetWorldRankUchipRes {
+	required int32 status = 1; 
+	repeated WorldChipRankInfo rank_info = 2;
+}
+
+message GetSysMsgReq {
+	required int32 ver_num = 1;
+}
+
+message GetSysMsgRes {
+	required int32 status = 1;
+	required int32 ver_num = 2;
+	repeated string sys_msgs = 3;
 }

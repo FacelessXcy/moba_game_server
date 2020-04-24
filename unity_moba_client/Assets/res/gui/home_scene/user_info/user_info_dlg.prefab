@@ -176,6 +176,10 @@ MonoBehaviour:
   femaleCheck: {fileID: 1691928276759737464}
   maleCheck: {fileID: 1691441957183494776}
   faceDlg: {fileID: 1691113383054821966}
+  accountUpgradeDlg: {fileID: 1691388038614948556}
+  unameEdit: {fileID: 1650668520674590210}
+  upwdEdit: {fileID: 1651053695669908552}
+  upwdAgainEdit: {fileID: 1651207911353497426}
 --- !u!1 &1691113383054821966
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +533,7 @@ GameObject:
   - component: {fileID: 1471087490363286368}
   - component: {fileID: 1651163831106126350}
   m_Layer: 5
-  m_Name: upwd_gain
+  m_Name: upwd_again
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4012,8 +4016,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: on_do_account_upgrade
+      - m_Target: {fileID: 1691108406899480605}
+        m_MethodName: OnDoAccountUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5245,8 +5249,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: on_hide_account_upgrade
+      - m_Target: {fileID: 1691108406899480605}
+        m_MethodName: OnHideAccountUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6757,8 +6761,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: on_show_account_upgrade
+      - m_Target: {fileID: 1691108406899480605}
+        m_MethodName: OnShowAccountUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

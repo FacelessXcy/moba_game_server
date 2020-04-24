@@ -12,13 +12,18 @@ public class UGame : Singleton<UGame>
     public int uSex = 0;
     public int uVip = 0;
     public bool isGuest = false;
-    public void SaveUInfo(UserCenterInfo uinfo,bool is_guest)
+    public string guestKey;
+    
+    
+    public void SaveUInfo(UserCenterInfo uinfo,bool is_guest,string 
+    guest_key=null)
     {
         this.uNick = uinfo.unick;
         this.uFace = uinfo.uface;
         this.uSex = uinfo.usex;
         this.uVip = uinfo.uvip;
         this.isGuest = is_guest;
+        this.guestKey = guest_key;
     }
 
     public void SaveEditProfile(string unick,int uface,int usex)

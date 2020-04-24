@@ -12,8 +12,12 @@ public class UserInfoDlg : MonoBehaviour
     public Sprite[] avatorSprites;
     public GameObject femaleCheck;
     public GameObject maleCheck;
-    public GameObject faceDlg;
     
+    public GameObject faceDlg;
+    public GameObject accountUpgradeDlg;
+    public InputField unameEdit;
+    public InputField upwdEdit;
+    public InputField upwdAgainEdit;
 
     private int _uSex = 0;
     private int _uFace = 1;
@@ -56,8 +60,58 @@ public class UserInfoDlg : MonoBehaviour
             this.maleCheck.SetActive(false);
             this.femaleCheck.SetActive(true);
         }
+        
+        //监听事件
+        EventManager.Instance.AddEventListener
+        ("upgrade_account_return",OnUpgradeAccountReturn);
+        
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Instance.RemoveEventListener("upgrade_account_return",OnUpgradeAccountReturn);
+    }
+
+    private void OnUpgradeAccountReturn(string name,object udata)
+    {
+        int status = (int) udata;
+        Debug.Log("upgrade account status："+status);
+        if (status==Response.OK)
+        {
+            OnHideAccountUpgrade();
+            guestUpgrade.SetActive(false);
+        }
+        
+    }
+
+    public void OnShowAccountUpgrade()
+    {
+        this.accountUpgradeDlg.SetActive(true);
+    }
+
+    public void OnHideAccountUpgrade()
+    {
+        this.accountUpgradeDlg.SetActive(false);
+    }
+
+    public void OnDoAccountUpgrade()
+    {
+        if (!UGame.Instance.isGuest)
+        {
+            return;
+        }
+
+        if (this.unameEdit.text.Length<=0||
+            this.upwdEdit.text.Length<=0||
+            !this.upwdEdit.text.Equals(this.upwdAgainEdit.text))
+        {
+            return;
+        }
+
+        string md5Pwd = utils.md5(this.upwdEdit.text);
+        UserLogin.Instance.DoAccountUpgrade(this.unameEdit.text,md5Pwd);
+
+    }
 
     public void OnSexChange(int usex)
     {

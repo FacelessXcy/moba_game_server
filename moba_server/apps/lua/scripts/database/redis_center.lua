@@ -41,8 +41,6 @@ function set_uinfo_inredis( uid,uinfo )
         if err then
 			return 
 		end
-
-		Logger.debug("Set UserInfo in Redis Success!!")
     end)
 end
 
