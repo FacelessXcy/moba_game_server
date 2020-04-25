@@ -13,8 +13,14 @@ public class UGame : Singleton<UGame>
     public int uVip = 0;
     public bool isGuest = false;
     public string guestKey;
+
+
+    public UserGameInfo uGameInfo;
     
-    
+    public void SaveUGameInfo(UserGameInfo ugame_info)
+    {
+        this.uGameInfo = ugame_info;
+    }
     public void SaveUInfo(UserCenterInfo uinfo,bool is_guest,string 
     guest_key=null)
     {

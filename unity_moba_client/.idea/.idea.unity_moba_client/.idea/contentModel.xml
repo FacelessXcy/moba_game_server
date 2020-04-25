@@ -112,9 +112,9 @@
               <e p="LoginScene.cs" t="Include" />
             </e>
             <e p="modules" t="Include">
-              <e p="SystemServer.cs" t="Include" />
+              <e p="AuthServiceProxy.cs" t="Include" />
+              <e p="SystemServiceProxy.cs" t="Include" />
               <e p="UGame.cs" t="Include" />
-              <e p="UserLogin.cs" t="Include" />
             </e>
             <e p="Response.cs" t="Include" />
           </e>

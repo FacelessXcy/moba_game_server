@@ -109,7 +109,7 @@ public class UserInfoDlg : MonoBehaviour
         }
 
         string md5Pwd = utils.md5(this.upwdEdit.text);
-        UserLogin.Instance.DoAccountUpgrade(this.unameEdit.text,md5Pwd);
+        AuthServiceProxy.Instance.DoAccountUpgrade(this.unameEdit.text,md5Pwd);
 
     }
 
@@ -154,7 +154,7 @@ public class UserInfoDlg : MonoBehaviour
     //用户注销
     public void OnUserLoginOutClick()
     {
-        UserLogin.Instance.UserLoginOut();
+        AuthServiceProxy.Instance.UserLoginOut();
         OnCloseUInfoDlgClick();
     }
 
@@ -167,7 +167,7 @@ public class UserInfoDlg : MonoBehaviour
             return;
         }
         //提交修改资料请求到服务器
-        UserLogin.Instance.EditProfile(this.unickEdit.text,this
+        AuthServiceProxy.Instance.EditProfile(this.unickEdit.text,this
         ._uFace,this._uSex);
     }
 

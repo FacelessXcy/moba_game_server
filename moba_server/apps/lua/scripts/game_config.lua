@@ -36,7 +36,14 @@ local game_config={
         host="127.0.0.1",--数据库host
         port=6379,
         db_index=1,
-    }
+    },
+    game_mysql={
+        host="127.0.0.1",--数据host
+        port=3306,--数据库端口
+        db_name="moba_game",--数据库名
+        uname="root",--数据库登录账号
+        upwd="xcy19990419"--数据库登录密码
+    },
 }
 
 return game_config;

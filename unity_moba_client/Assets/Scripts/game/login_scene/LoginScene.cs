@@ -13,23 +13,30 @@ public class LoginScene : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.AddEventListener("login_success",OnLoginSuccess);
+        EventManager.Instance.AddEventListener("get_ugame_info_success",OnGetUGameInfoSuccess);
     }
 
     private void OnDestroy()
     {
         EventManager.Instance.RemoveEventListener("login_success",OnLoginSuccess);
+        EventManager.Instance.RemoveEventListener("get_ugame_info_success",OnGetUGameInfoSuccess);
     }
 
-    public void OnLoginSuccess(string name,object udata)
+    private void OnGetUGameInfoSuccess(string name,object udata)
+    {
+        SceneManager.LoadScene("Scenes/home_scene");
+    }
+
+    private void OnLoginSuccess(string name,object udata)
     {
         //SceneManager.LoadScene("Scenes/home_scene");
         Debug.Log("load game data...");
-        SystemServer.Instance.LoadUserUGameInfo();
+        SystemServiceProxy.Instance.LoadUserUGameInfo();
     }
 
     public void OnGuestLoginClick()
     {
-        UserLogin.Instance.GuestLogin();
+        AuthServiceProxy.Instance.GuestLogin();
     }
 
     public void OnUnameLoginClick()
@@ -39,7 +46,7 @@ public class LoginScene : MonoBehaviour
             return;
         }
         
-        UserLogin.Instance.UnameLogin(this.unameInput.text,this.upwdInput
+        AuthServiceProxy.Instance.UnameLogin(this.unameInput.text,this.upwdInput
         .text);
         
     }

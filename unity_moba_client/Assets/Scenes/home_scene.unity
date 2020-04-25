@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 26568420}
   - component: {fileID: 26568419}
   m_Layer: 5
-  m_Name: diamond_value
+  m_Name: value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 93107173}
   - component: {fileID: 93107172}
   m_Layer: 5
-  m_Name: coin_value
+  m_Name: value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2952,6 +2952,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unick: {fileID: 1448726112}
+  uchipLabel: {fileID: 93107172}
+  diamondLabel: {fileID: 26568419}
   header: {fileID: 445676631}
   ufaceImg:
   - {fileID: 21300000, guid: 7c51eb3cac26e3a44a5b78f63c045cb6, type: 3}

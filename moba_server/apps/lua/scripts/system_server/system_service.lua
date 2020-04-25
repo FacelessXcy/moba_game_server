@@ -1,15 +1,13 @@
 local Stype=require("Stype");
 local Cmd=require("Cmd");
-
+local ugame=require("system_server/ugame");
 
 local system_service_handlers={}
-
+system_service_handlers[Cmd.eGetUgameInfoReq]=ugame.get_ugame_info;
 
 
 --{stype,ctype,utag,[{message} or jsonStr]}
 function on_system_recv_cmd( s,msg )
-    print(msg[1],msg[2],msg[3])
-
     if system_service_handlers[msg[2]]  then
         system_service_handlers[msg[2]](s,msg);
     end

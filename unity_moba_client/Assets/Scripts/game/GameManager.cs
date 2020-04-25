@@ -8,7 +8,7 @@ public class GameManager : UnitySingleton<GameManager>
     private void Start()
     {
         EventManager.Instance.Init();
-        UserLogin.Instance.Init();   
-        SystemServer.Instance.Init();
+        AuthServiceProxy.Instance.Init();   
+        SystemServiceProxy.Instance.Init();
     }
 }

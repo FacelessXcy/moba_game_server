@@ -4,7 +4,7 @@ using UnityEngine;
 using gprotocol;
 using UnityEngine.PlayerLoop;
 
-public class UserLogin:Singleton<UserLogin>
+public class AuthServiceProxy:Singleton<AuthServiceProxy>
 {
     private string g_key = null;
     private bool _isSaveGKey = false;
