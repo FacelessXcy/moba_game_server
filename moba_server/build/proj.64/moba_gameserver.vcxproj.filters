@@ -370,6 +370,9 @@
     <ClCompile Include="..\..\apps\lua\proto\game.pb.cc">
       <Filter>apps\lua\proto</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\lua_wrapper\utils_export_to_lua.cpp">
+      <Filter>lua_wrapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\3rd\libuv\include\android-ifaddrs.h">
@@ -632,6 +635,9 @@
     </ClInclude>
     <ClInclude Include="..\..\apps\lua\proto\game.pb.h">
       <Filter>apps\lua\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua_wrapper\utils_export_to_lua.h">
+      <Filter>lua_wrapper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

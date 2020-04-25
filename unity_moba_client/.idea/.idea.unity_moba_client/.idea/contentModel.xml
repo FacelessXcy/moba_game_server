@@ -106,6 +106,7 @@
             <e p="GameManager.cs" t="Include" />
             <e p="home_scene" t="Include">
               <e p="HomeScene.cs" t="Include" />
+              <e p="LoginBonues.cs" t="Include" />
               <e p="UserInfoDlg.cs" t="Include" />
             </e>
             <e p="login_scene" t="Include">
@@ -115,6 +116,7 @@
               <e p="AuthServiceProxy.cs" t="Include" />
               <e p="SystemServiceProxy.cs" t="Include" />
               <e p="UGame.cs" t="Include" />
+              <e p="ULevel.cs" t="Include" />
             </e>
             <e p="Response.cs" t="Include" />
           </e>

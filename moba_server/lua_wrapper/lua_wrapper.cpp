@@ -12,6 +12,7 @@
 #include "scheduler_export_to_lua.h"
 #include "netbus_export_to_lua.h"
 #include "proto_man_export_to_lua.h"
+#include "utils_export_to_lua.h"
 //lua虚拟机对象
 lua_State* g_lua_State = NULL;
 //lua只能调用int (*lua_CFunction) (lua_State *L)格式的C函数
@@ -259,6 +260,7 @@ void lua_wrapper::init()
 	register_netbus_export(g_lua_State);
 	register_proto_man_export(g_lua_State);
 	register_raw_cmd_export(g_lua_State);
+	register_utils_export(g_lua_State);
 
 
 }

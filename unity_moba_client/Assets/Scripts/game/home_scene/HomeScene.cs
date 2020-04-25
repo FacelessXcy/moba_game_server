@@ -17,7 +17,11 @@ public class HomeScene : MonoBehaviour
     public Sprite[] ufaceImg;
 
     public GameObject uinfoDlgPrefab;
-    
+    public GameObject loginBonues;
+
+    public Text ulevelLabel;
+    public Text expressLabel;
+    public Image expressProcess;
     private void Start()
     {
         EventManager.Instance.AddEventListener("sync_uinfo",SyncUInfo);
@@ -53,7 +57,37 @@ public class HomeScene : MonoBehaviour
             this.diamondLabel.text = UGame.Instance.uGameInfo.uchip2
             .ToString();
         }
+        //计算等级信息，并显示
+        int now_exp,next_level_exp;
+        int level = ULevel.Instance.GetLevelInfo(UGame.Instance
+            .uGameInfo.uexp,out now_exp,out next_level_exp);
+        if (this.ulevelLabel!=null)
+        {
+            this.ulevelLabel.text = "LV\n" + level;
+        }
+
+        if (this.expressLabel!=null)
+        {
+            this.expressLabel.text = now_exp + " / " + next_level_exp;
+        }
+
+        if (this.expressProcess!=null)
+        {
+            this.expressProcess.fillAmount =
+                (float) now_exp / next_level_exp;
+        }
         
+        //同步登录奖励信息
+        if (UGame.Instance.uGameInfo.bonues_status==0)//有登录奖励可以领取
+        {
+            loginBonues.SetActive(true);
+            loginBonues.GetComponent<LoginBonues>().ShowLoginBonues
+            (UGame.Instance.uGameInfo.days);
+        }
+        else
+        {
+            loginBonues.SetActive(false);
+        }
     }
 
     //负责同步主信息

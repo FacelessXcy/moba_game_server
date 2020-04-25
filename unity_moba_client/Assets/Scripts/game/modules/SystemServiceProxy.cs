@@ -34,12 +34,36 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
         
     }
 
+    public void OnRecvLoginBonuesReturn(cmd_msg msg)
+    {
+        RecvLoginBonuesRes res = proto_man
+            .protobuf_deserialize<RecvLoginBonuesRes>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        if (res.status!=Response.OK)
+        {
+            Debug.Log("recv login bonues status:"+res.status);
+            return;
+        }
+
+        UGame.Instance.uGameInfo.uchip +=
+            UGame.Instance.uGameInfo.bonues;
+        UGame.Instance.uGameInfo.bonues_status = 1;
+        
+        EventManager.Instance.DispatchEvent("sync_ugame_info",null);
+    }
+
     void OnSystemServerReturn(cmd_msg msg)
     {
         switch (msg.ctype)
         {
             case (int)Cmd.eGetUgameInfoRes:
                 OnGetUgameInfoReturn(msg);
+                break;
+            case (int)Cmd.eRecvLoginBonuesRes:
+                OnRecvLoginBonuesReturn(msg);
                 break;
         }
     }
@@ -50,4 +74,9 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
             .eGetUgameInfoReq,null);
     }
 
+    public void RecvLoginBonues()
+    {
+        network.Instance.send_protobuf_cmd((int)Stype.System,(int)Cmd
+        .eRecvLoginBonuesReq,null);
+    }
 }

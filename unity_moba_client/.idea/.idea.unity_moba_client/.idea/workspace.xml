@@ -16,6 +16,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FCB9DAC8-AE3A-4886-93B0-F4CD5B0DB0BE/29/7268b890/Array.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/862B9365-843C-4BF1-BA93-210C124BB523/10/46af7302/Socket.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/LoginBonues.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/862B9365-843C-4BF1-BA93-210C124BB523/45/7d60ef56/IPEndPoint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/utils/ShowFPS.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/UserInfoDlg.cs" root0="FORCE_HIGHLIGHTING" />
@@ -37,6 +38,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0467F5C0-E463-4B2C-ACC5-F718CB71F056/6d/c43a78ca/SocketFlags.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/Response.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/ULevel.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -57,14 +59,16 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/Response.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/UserInfoDlg.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UserLogin.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServerProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/ULevel.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/LoginBonues.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy.cs" />
       </list>
     </option>
   </component>
@@ -128,7 +132,7 @@
       <workItem from="1587548257434" duration="6288000" />
       <workItem from="1587560724868" duration="6262000" />
       <workItem from="1587731711436" duration="5014000" />
-      <workItem from="1587791025220" duration="9679000" />
+      <workItem from="1587791025220" duration="16393000" />
     </task>
     <servers />
   </component>
