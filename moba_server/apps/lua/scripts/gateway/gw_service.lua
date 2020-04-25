@@ -100,9 +100,14 @@ function send_to_client( server_session,raw_cmd )
     --只有命令的类型才知道是到uid里查，还是到ukey里查
 
     client_session=client_sessions_uid[utag];
-    RawCmd.set_utag(raw_cmd,0);
     if client_session then
+        RawCmd.set_utag(raw_cmd,0);
         Session.send_raw_cmd(client_session,raw_cmd);
+
+        if ctype == Cmd.eLoginOutRes then--注销的消息转发给其他服务器
+            Session.set_uid(client_session,0);
+            client_sessions_uid[utag]=nil;
+        end
     end
 end
 

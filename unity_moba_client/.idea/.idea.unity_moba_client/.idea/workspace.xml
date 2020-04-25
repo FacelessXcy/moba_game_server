@@ -53,13 +53,13 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/utils/ShowFPS.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/managers/EventManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/utils/utils.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/UserInfoDlg.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/Response.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/UserInfoDlg.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UserLogin.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
       </list>
     </option>
   </component>
@@ -123,7 +123,7 @@
       <workItem from="1587548257434" duration="6288000" />
       <workItem from="1587560724868" duration="6262000" />
       <workItem from="1587731711436" duration="5014000" />
-      <workItem from="1587791025220" duration="2826000" />
+      <workItem from="1587791025220" duration="5529000" />
     </task>
     <servers />
   </component>

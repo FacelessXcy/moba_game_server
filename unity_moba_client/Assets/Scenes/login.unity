@@ -1045,7 +1045,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u6E38\u5BA2\u5347\u7EA7"
+  m_Text: "\u7528\u6237\u767B\u5F55"
 --- !u!222 &1040540598
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1064,7 +1064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1170000742}
   m_Layer: 5
-  m_Name: account_upgrade
+  m_Name: uname_login
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

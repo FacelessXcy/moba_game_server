@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HomeScene : MonoBehaviour
@@ -15,14 +16,23 @@ public class HomeScene : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.AddEventListener("sync_uinfo",SyncUInfo);
+        EventManager.Instance.AddEventListener("login_out",OnUserLoginOut);
         SyncUInfo("sync_uinfo",null);
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.RemoveEventListener("sync_uinfo",SyncUInfo);
+        EventManager.Instance.RemoveEventListener("sync_uinfo",
+            SyncUInfo);
+        EventManager.Instance.RemoveEventListener("login_out",
+            OnUserLoginOut);
     }
     
+    private void OnUserLoginOut(string name,object udata)
+    {
+        SceneManager.LoadScene("Scenes/login");
+    }
+
     //负责同步主信息
     private void SyncUInfo(string name,object udata)
     {

@@ -26,6 +26,9 @@ public class UserLogin:Singleton<UserLogin>
 
         EventManager.Instance.DispatchEvent("upgrade_account_return",
             res.status);
+        //本地保存的guest_key清空
+        PlayerPrefs.SetString("xcy_moba_guest_key","");
+        
     }
 
     private void OnUnameLoginReturn(cmd_msg msg)
@@ -97,7 +100,26 @@ public class UserLogin:Singleton<UserLogin>
         EventManager.Instance.DispatchEvent("sync_uinfo",null);
 
     }
-    
+
+    private void OnUserLoginOutReturn(cmd_msg msg)
+    {
+        LoginOutRes res = proto_man
+            .protobuf_deserialize<LoginOutRes>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        if (res.status!=Response.OK)
+        {
+            Debug.Log("User Login Out status:"+res.status);
+            return;
+        }
+        
+        //注销完成
+        UGame.Instance.UserLoginOut();
+        EventManager.Instance.DispatchEvent("login_out",null);
+    }
+
     void OnAuthServerReturn(cmd_msg msg)
     {
         switch (msg.ctype)
@@ -113,6 +135,9 @@ public class UserLogin:Singleton<UserLogin>
                 break;
             case (int)Cmd.eUnameLoginRes:
                 OnUnameLoginReturn(msg);
+                break;
+            case (int)Cmd.eLoginOutRes:
+                OnUserLoginOutReturn(msg);
                 break;
         }
         
@@ -183,6 +208,11 @@ public class UserLogin:Singleton<UserLogin>
         .eEditProfileReq,req);
         
     }
-    
+
+    public void UserLoginOut()
+    {
+        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+            .eLoginOutReq,null);
+    }
 
 }

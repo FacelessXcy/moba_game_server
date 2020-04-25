@@ -150,6 +150,13 @@ public class UserInfoDlg : MonoBehaviour
         //this.gameObject.SetActive(false);
         GameObject.Destroy(this.gameObject);
     }
+    
+    //用户注销
+    public void OnUserLoginOutClick()
+    {
+        UserLogin.Instance.UserLoginOut();
+        OnCloseUInfoDlgClick();
+    }
 
     public void OnEditProfileCommit()
     {

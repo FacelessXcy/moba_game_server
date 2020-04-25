@@ -31,6 +31,10 @@ public class UGame : Singleton<UGame>
         this.uNick = unick;
         this.uFace = uface;
         this.uSex = usex;
+    }
+
+    public void UserLoginOut()
+    {
         
     }
 
