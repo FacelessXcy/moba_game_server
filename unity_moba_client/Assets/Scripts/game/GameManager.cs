@@ -9,5 +9,6 @@ public class GameManager : UnitySingleton<GameManager>
     {
         EventManager.Instance.Init();
         UserLogin.Instance.Init();   
+        SystemServer.Instance.Init();
     }
 }

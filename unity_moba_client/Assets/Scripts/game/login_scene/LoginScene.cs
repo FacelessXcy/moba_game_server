@@ -22,7 +22,9 @@ public class LoginScene : MonoBehaviour
 
     public void OnLoginSuccess(string name,object udata)
     {
-        SceneManager.LoadScene("Scenes/home_scene");
+        //SceneManager.LoadScene("Scenes/home_scene");
+        Debug.Log("load game data...");
+        SystemServer.Instance.LoadUserUGameInfo();
     }
 
     public void OnGuestLoginClick()
