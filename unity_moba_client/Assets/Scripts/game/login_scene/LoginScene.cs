@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoginScene : MonoBehaviour
 {
-    
+    public InputField unameInput;
+    public InputField upwdInput;
     
     private void Start()
     {
@@ -26,6 +28,18 @@ public class LoginScene : MonoBehaviour
     public void OnGuestLoginClick()
     {
         UserLogin.Instance.GuestLogin();
+    }
+
+    public void OnUnameLoginClick()
+    {
+        if (this.unameInput.text.Length<=0||this.upwdInput.text.Length<=0)
+        {
+            return;
+        }
+        
+        UserLogin.Instance.UnameLogin(this.unameInput.text,this.upwdInput
+        .text);
+        
     }
 
 }

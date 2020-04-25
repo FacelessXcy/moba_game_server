@@ -4,6 +4,7 @@ local Response=require("Response");
 local Stype=require("Stype");
 local Cmd=require("Cmd");
 
+--{stype,ctype,utag,body}
 function login( s,req )
     local g_key = req[4].guest_key
     local utag=req[3];

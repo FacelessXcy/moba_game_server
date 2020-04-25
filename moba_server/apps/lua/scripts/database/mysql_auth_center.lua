@@ -118,6 +118,47 @@ function get_uinfo_by_uid( uid,ret_handler )
     end)
 end
 
+function get_uinfo_by_uname_upwd( uname,upwd,ret_handler )
+    if mysql_conn == nil then
+        if ret_handler then
+            ret_handler("mysql is not connected",nil);
+        end
+        return;
+    end
+
+    local sql="select uid, unick, usex, uface, uvip, status, is_guest from uinfo where uname = \"%s\" and upwd =  \"%s\" limit 1";
+    local sql_cmd=string.format(sql,uname,upwd);
+
+    Mysql.query(mysql_conn,sql_cmd,
+    function ( err,ret )
+        if err then
+            if ret_handler ~=nil then
+                ret_handler(err,nil);
+            end
+            return
+        end
+        --没有此条记录
+        if ret == nil or #ret<=0 then
+            if ret_handler ~=nil then
+                ret_handler(nil,nil);
+            end
+            return;
+        end
+
+        local result=ret[1];
+        local uinfo={};
+        uinfo.uid=tonumber(result[1]);
+        uinfo.unick=result[2];
+        uinfo.usex=tonumber(result[3]);
+        uinfo.uface=tonumber(result[4]);
+        uinfo.uvip=tonumber(result[5]);
+        uinfo.status=tonumber(result[6]);
+        uinfo.is_guest=tonumber(result[7]);
+        ret_handler(nil,uinfo);
+    end)
+
+end
+
 --ret_handler lua回调函数
 function get_guest_uinfo( g_key,ret_handler )
     if mysql_conn == nil then
@@ -210,6 +251,7 @@ local mysql_auth_center={
     check_uname_exit=check_uname_exit,
     do_guest_account_upgrade=do_guest_account_upgrade,
     get_uinfo_by_uid=get_uinfo_by_uid,
+    get_uinfo_by_uname_upwd=get_uinfo_by_uname_upwd,
 }
 
 return mysql_auth_center;

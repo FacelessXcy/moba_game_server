@@ -28,6 +28,27 @@ public class UserLogin:Singleton<UserLogin>
             res.status);
     }
 
+    private void OnUnameLoginReturn(cmd_msg msg)
+    {
+        UnameLoginRes res = proto_man
+            .protobuf_deserialize<UnameLoginRes>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+
+        if (res.status!=Response.OK)
+        {
+            Debug.Log("Uname Login status:"+res.status);
+            return;
+        }
+        UserCenterInfo uinfo = res.uinfo;
+        UGame.Instance.SaveUInfo(uinfo,false);
+        
+        EventManager.Instance.DispatchEvent("login_success",null);
+        EventManager.Instance.DispatchEvent("sync_uinfo",null);
+    }
+
     private void OnGuestLoginReturn(cmd_msg msg)
     {
         GuestLoginRes res = proto_man
@@ -90,6 +111,9 @@ public class UserLogin:Singleton<UserLogin>
             case (int)Cmd.eAccountUpgradeRes:
                 OnGuestAccountUpgradeReturn(msg);
                 break;
+            case (int)Cmd.eUnameLoginRes:
+                OnUnameLoginReturn(msg);
+                break;
         }
         
     }
@@ -111,7 +135,18 @@ public class UserLogin:Singleton<UserLogin>
         req.guest_key = this.g_key;
         network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
         .eGuestLoginReq,req);
+    }
+
+    public void UnameLogin(string uname,string upwd)
+    {
+        string upwd_md5 = utils.md5(upwd);
         
+        Debug.Log(uname+" "+upwd_md5);
+        UnameLoginReq req=new UnameLoginReq();
+        req.uname = uname;
+        req.upwd = upwd_md5;
+        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+        .eUnameLoginReq,req);
     }
 
     public void DoAccountUpgrade(string uname,string upwd_md5)

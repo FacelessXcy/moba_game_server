@@ -53,7 +53,8 @@ function gw_service_init(  )
 end
 
 function is_login_return_cmd( ctype )
-    if ctype == Cmd.eGuestLoginRes then
+    if ctype == Cmd.eGuestLoginRes 
+    or ctype == Cmd.eUnameLoginRes then
         return true;
     end
     return false;
@@ -106,7 +107,8 @@ function send_to_client( server_session,raw_cmd )
 end
 
 function is_login_request_cmd( ctype )
-    if ctype == Cmd.eGuestLoginReq then
+    if ctype == Cmd.eGuestLoginReq 
+    or ctype == Cmd.eUnameLoginReq then
         return true;
     end
     return false;

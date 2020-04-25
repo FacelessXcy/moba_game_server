@@ -3,11 +3,13 @@ local Cmd=require("Cmd");
 local guest=require("auth_server/guest");
 local edit_profile=require("auth_server/edit_profile");
 local account_upgrade=require("auth_server/account_upgrade")
+local uname_login=require("auth_server/uname_login");
 
 local auth_service_handler={}
 auth_service_handler[Cmd.eGuestLoginReq]=guest.login;
 auth_service_handler[Cmd.eEditProfileReq]=edit_profile.do_edit_profile;
 auth_service_handler[Cmd.eAccountUpgradeReq]=account_upgrade.do_upgrade;
+auth_service_handler[Cmd.eUnameLoginReq]=uname_login.login;
 
 
 --{stype,ctype,utag,[{message} or jsonStr]}
