@@ -48,6 +48,11 @@ local game_config={
         host="127.0.0.1",
         port=6379,
         db_index=2,
+    },
+    rank_redis={--排行榜redis服务器
+        host="127.0.0.1",
+        port=6379,
+        db_index=3,
     }
 }
 

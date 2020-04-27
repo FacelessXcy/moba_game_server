@@ -55,6 +55,25 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
         EventManager.Instance.DispatchEvent("sync_ugame_info",null);
     }
 
+    private void OnGetWorldUChipRankInfoReturn(cmd_msg msg)
+    {
+        GetWorldRankUchipRes res = proto_man
+            .protobuf_deserialize<GetWorldRankUchipRes>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        if (res.status!=Response.OK)
+        {
+            Debug.Log("recv World Rank status:"+res.status);
+            return;
+        }
+        
+        //获取得到排行榜数据
+        
+        
+    }
+
     void OnSystemServerReturn(cmd_msg msg)
     {
         switch (msg.ctype)
@@ -64,6 +83,9 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
                 break;
             case (int)Cmd.eRecvLoginBonuesRes:
                 OnRecvLoginBonuesReturn(msg);
+                break;
+            case (int)Cmd.eGetWorldRankUchipRes:
+                OnGetWorldUChipRankInfoReturn(msg);
                 break;
         }
     }
@@ -78,5 +100,11 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
     {
         network.Instance.send_protobuf_cmd((int)Stype.System,(int)Cmd
         .eRecvLoginBonuesReq,null);
+    }
+
+    public void GetWorldUChipRankInfo()
+    {
+        network.Instance.send_protobuf_cmd((int)Stype.System,(int)Cmd
+        .eGetWorldRankUchipReq,null);
     }
 }

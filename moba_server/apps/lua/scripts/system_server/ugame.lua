@@ -5,6 +5,7 @@ local Cmd=require("Cmd");
 local mysql_game=require("database/mysql_game");
 local login_bonues=require("system_server/login_bonues");
 local redis_game=require("database/redis_game");
+local redis_rank=require("database/redis_rank");
 
 
 --{stype,ctype,utag,[{message} or jsonStr]}
@@ -48,6 +49,9 @@ function get_ugame_info( s,req )
         --更新redis数据库
         redis_game.set_ugame_info_inredis(uid,ugame_info);
 
+        --刷新世界排行榜
+        redis_rank.flush_world_rank_with_uchip_inredis(uid,ugame_info.uchip);
+        
         --检查登录奖励
         login_bonues.check_login_bonues(uid,
         function ( err,bonues_info )
