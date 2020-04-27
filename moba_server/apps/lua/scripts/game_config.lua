@@ -44,6 +44,11 @@ local game_config={
         uname="root",--数据库登录账号
         upwd="xcy19990419"--数据库登录密码
     },
+    game_redis={
+        host="127.0.0.1",
+        port=6379,
+        db_index=2,
+    }
 }
 
 return game_config;

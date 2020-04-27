@@ -3,6 +3,7 @@ local Stype=require("Stype");
 local Cmd=require("Cmd");
 local mysql_game=require("database/mysql_game");
 local moba_game_config=require("moba_game_config");
+local redis_game=require("database/redis_game");
 
 function send_bonues_to_user( uid,bonues_info,ret_handler )
     --要更新发放奖励
@@ -98,6 +99,9 @@ function recv_login_bonues( s,req )
             --更新数据库的金币
             mysql_game.add_chip(uid,bonues_info.bonues,nil);
             
+            --更新redis的uchip
+            redis_game.add_chip_inredis(uid,bonues_info.bonues);
+
             local msg={Stype.System,Cmd.eRecvLoginBonuesRes,uid,{
                 status=Response.OK,
             }};
