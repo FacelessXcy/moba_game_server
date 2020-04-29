@@ -7,7 +7,7 @@ local game_rank=require("system_server/game_rank")
 local system_service_handlers={}
 system_service_handlers[Cmd.eGetUgameInfoReq]=ugame.get_ugame_info;
 system_service_handlers[Cmd.eRecvLoginBonuesReq]=login_bonues.recv_login_bonues;
-system_service_handlers[Cmd.eGetWorldRankUchipReq]=game_rank.get_world_uchip_rank_info;
+system_service_handlers[Cmd.eGetWorldRankUchipReq]=game_rank.get_world_uchip_rank;
 
 --{stype,ctype,utag,[{message} or jsonStr]}
 function on_system_recv_cmd( s,msg )

@@ -19,6 +19,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/LoginBonues.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/862B9365-843C-4BF1-BA93-210C124BB523/45/7d60ef56/IPEndPoint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/utils/ShowFPS.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/RankList.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/UserInfoDlg.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/managers/AudioManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D195DA47-F292-4AA6-AB1F-FC82F421F850/b4/41d7fa37/AsyncCallback.cs" root0="FORCE_HIGHLIGHTING" />
@@ -66,9 +67,10 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/ULevel.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/LoginBonues.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/RankList.cs" />
       </list>
     </option>
   </component>
@@ -134,7 +136,8 @@
       <workItem from="1587731711436" duration="5014000" />
       <workItem from="1587791025220" duration="17043000" />
       <workItem from="1587871697553" duration="1319000" />
-      <workItem from="1587991634769" duration="2050000" />
+      <workItem from="1587991634769" duration="2060000" />
+      <workItem from="1588157400049" duration="3364000" />
     </task>
     <servers />
   </component>

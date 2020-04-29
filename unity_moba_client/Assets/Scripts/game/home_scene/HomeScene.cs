@@ -18,6 +18,7 @@ public class HomeScene : MonoBehaviour
 
     public GameObject uinfoDlgPrefab;
     public GameObject loginBonues;
+    public GameObject rankListPrefab;
 
     public Text ulevelLabel;
     public Text expressLabel;
@@ -109,6 +110,13 @@ public class HomeScene : MonoBehaviour
         GameObject uinfoDlg =
             GameObject.Instantiate(this.uinfoDlgPrefab);
         uinfoDlg.transform.SetParent(this.transform,false);
+    }
+
+    public void OnGetRankClick()
+    {
+        GameObject rankList =
+            GameObject.Instantiate(this.rankListPrefab);
+        rankList.transform.SetParent(this.transform,false);
     }
 
 }

@@ -71,6 +71,7 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
         
         //获取得到排行榜数据
         
+        EventManager.Instance.DispatchEvent("get_rank_list",res.rank_info);
         
     }
 

@@ -75,7 +75,10 @@ function get_world_rank_with_uchip_inredis( n,ret_handler )
         for k,v in pairs(ret) do
             rank_info[k]=tonumber(v);
         end
-
+        
+        if ret_handler then
+            ret_handler(nil,rank_info);
+        end
 
     end)
 end
