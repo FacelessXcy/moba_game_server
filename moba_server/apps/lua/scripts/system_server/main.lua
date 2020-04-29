@@ -2,8 +2,8 @@
 Logger.init("logger/system_server/","system",true);
 --end
 
---连接到Auth_center数据库
---require("database/mysql_auth_center")
+--连接到mysql_game数据库
+require("database/mysql_game")
 
 --初始化协议模块
 local proto_type={

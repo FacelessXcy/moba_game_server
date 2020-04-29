@@ -119,4 +119,9 @@ public class HomeScene : MonoBehaviour
         rankList.transform.SetParent(this.transform,false);
     }
 
+    public void OnGetSysMsgClick()
+    {
+        SystemServiceProxy.Instance.GetSysMsg();
+    }
+
 }

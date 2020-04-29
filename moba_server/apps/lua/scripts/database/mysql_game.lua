@@ -228,6 +228,44 @@ function add_chip( uid,chip,ret_handler )
     end)
 end
 
+function get_sys_msg( ret_handler )
+    if mysql_conn == nil then
+        if ret_handler then
+            ret_handler("mysql_game is not connected",nil);
+        end
+        return;
+    end
+
+    local sql="select msg from sys_msg";
+    local sql_cmd=sql;
+
+    Mysql.query(mysql_conn,sql_cmd,
+    function ( err,ret )
+        if err then
+            if ret_handler ~=nil then
+                ret_handler(err,nil);
+            end
+            return
+        end
+        --没有此条记录
+        if ret == nil or #ret<=0 then
+            if ret_handler ~=nil then
+                ret_handler(nil,nil);
+            end
+            return;
+        end
+
+        --{{"msg内容"},{}}
+        local result={};
+        local k,v;
+        for k,v in pairs(ret) do
+            result[k]=v[1];
+        end
+
+        ret_handler(nil,result);
+    end)
+end
+
 local mysql_game={
     get_ugame_info=get_ugame_info,
     insert_ugame_info=insert_ugame_info,
@@ -236,6 +274,7 @@ local mysql_game={
     update_login_bonues=update_login_bonues,
     update_login_bonues_status=update_login_bonues_status,
     add_chip=add_chip,
+    get_sys_msg=get_sys_msg,
 }
 
 return mysql_game;

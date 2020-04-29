@@ -6,7 +6,8 @@ using UnityEngine.PlayerLoop;
 
 public class SystemServiceProxy:Singleton<SystemServiceProxy>
 {
-
+    private int _verNum = 0;
+    private List<string> _sysMsgs=null;
     public void Init()
     {
         network.Instance.add_service_listeners((int) Stype.System,
@@ -75,6 +76,41 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
         
     }
 
+    private void OnGetSysMsgReturn(cmd_msg msg)
+    {
+        GetSysMsgRes res = proto_man
+            .protobuf_deserialize<GetSysMsgRes>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        if (res.status!=Response.OK)
+        {
+            Debug.Log("get sys msg status:"+res.status);
+            return;
+        }
+        Debug.Log("get sys msg success!!");
+        
+        if (this._verNum==res.ver_num)
+        {//本地版本号和服务器相同，使用本地数据
+            Debug.Log("use local data");
+        }
+        else
+        {
+            this._verNum = res.ver_num;
+            this._sysMsgs = res.sys_msgs;
+            Debug.Log("sync server data");
+        }
+
+        if (this._sysMsgs!=null)
+        {
+            for (int i = 0; i < this._sysMsgs.Count; i++)
+            {
+                Debug.Log(this._sysMsgs[i]);
+            }
+        }
+    }
+
     void OnSystemServerReturn(cmd_msg msg)
     {
         switch (msg.ctype)
@@ -87,6 +123,9 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
                 break;
             case (int)Cmd.eGetWorldRankUchipRes:
                 OnGetWorldUChipRankInfoReturn(msg);
+                break;
+            case (int)Cmd.eGetSysMsgRes:
+                OnGetSysMsgReturn(msg);
                 break;
         }
     }
@@ -108,4 +147,14 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
         network.Instance.send_protobuf_cmd((int)Stype.System,(int)Cmd
         .eGetWorldRankUchipReq,null);
     }
+
+    public void GetSysMsg()
+    {
+        GetSysMsgReq req=new GetSysMsgReq();
+        req.ver_num = this._verNum;
+        
+        network.Instance.send_protobuf_cmd((int)Stype.System,
+            (int)Cmd.eGetSysMsgReq,req);
+    }
+
 }
