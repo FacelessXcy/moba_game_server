@@ -5,6 +5,7 @@ using UnityEngine;
 public class LoginBonues : MonoBehaviour
 {
     public GameObject[] fingerPrint;
+    public GameObject recvButton;
     
     //显示指纹图标
     public void ShowLoginBonues(int days)
@@ -19,16 +20,25 @@ public class LoginBonues : MonoBehaviour
         {
             this.fingerPrint[i].SetActive(false);
         }
+
+        if (UGame.Instance.uGameInfo.bonues_status==0)
+        {//有登录奖励可领取
+            this.recvButton.SetActive(true);
+        }
+        else
+        {
+            this.recvButton.SetActive(false);
+        }
     }
 
     public void OnRecvLoginBonuesClick()
     {
-        this.gameObject.SetActive(false);
         SystemServiceProxy.Instance.RecvLoginBonues();
+        GameObject.Destroy(this.gameObject);
     }
 
     public void OnCloseLoginBonues()
     {
-        this.gameObject.SetActive(false);
+        GameObject.Destroy(this.gameObject);
     }
 }

@@ -17,18 +17,26 @@ public class HomeScene : MonoBehaviour
     public Sprite[] ufaceImg;
 
     public GameObject uinfoDlgPrefab;
-    public GameObject loginBonues;
+    public GameObject loginBonuesPrefab;
     public GameObject rankListPrefab;
     public GameObject emailListPrefab;
 
     public Text ulevelLabel;
     public Text expressLabel;
     public Image expressProcess;
+
+    public GameObject homePage;
+    public GameObject warPage;
+
+    public Sprite[] normalSprites;
+    public Sprite[] highLightSprites;
+    public Image[] tabButtoms;
     private void Start()
     {
         EventManager.Instance.AddEventListener("sync_uinfo",SyncUInfo);
         EventManager.Instance.AddEventListener("sync_ugame_info",SyncUGameInfo);
         EventManager.Instance.AddEventListener("login_out",OnUserLoginOut);
+        OnHomePageClick();
         SyncUInfo("sync_uinfo",null);
         SyncUGameInfo("sync_ugame_info",null);
     }
@@ -82,13 +90,11 @@ public class HomeScene : MonoBehaviour
         //同步登录奖励信息
         if (UGame.Instance.uGameInfo.bonues_status==0)//有登录奖励可以领取
         {
-            loginBonues.SetActive(true);
-            loginBonues.GetComponent<LoginBonues>().ShowLoginBonues
+            GameObject loginBonues = Instantiate(loginBonuesPrefab);
+            loginBonuesPrefab.SetActive(true);
+            loginBonuesPrefab.GetComponent<LoginBonues>().ShowLoginBonues
             (UGame.Instance.uGameInfo.days);
-        }
-        else
-        {
-            loginBonues.SetActive(false);
+            loginBonues.transform.SetParent(this.transform,false);
         }
     }
 
@@ -104,6 +110,35 @@ public class HomeScene : MonoBehaviour
         {
             this.header.sprite = ufaceImg[UGame.Instance.uFace - 1];
         }
+    }
+
+    public void OnHomePageClick()
+    {
+        this.homePage.SetActive(true);
+        this.warPage.SetActive(false);
+        this.tabButtoms[0].sprite =
+            this.highLightSprites[0];
+        this.tabButtoms[1].sprite =
+            this.normalSprites[1];
+    }
+    
+    public void OnWarPageClick()
+    {
+        this.homePage.SetActive(false);
+        this.warPage.SetActive(true);
+        this.tabButtoms[0].sprite =
+            this.normalSprites[0];
+        this.tabButtoms[1].sprite =
+            this.highLightSprites[1];
+    }
+
+    public void OnLoginBonuesClick()
+    {
+        GameObject loginBonues = Instantiate(loginBonuesPrefab);
+        loginBonuesPrefab.SetActive(true);
+        loginBonuesPrefab.GetComponent<LoginBonues>().ShowLoginBonues
+            (UGame.Instance.uGameInfo.days);
+        loginBonues.transform.SetParent(this.transform,false);
     }
 
     public void OnUInfoClick()
