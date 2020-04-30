@@ -109,6 +109,9 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
                 Debug.Log(this._sysMsgs[i]);
             }
         }
+        
+        EventManager.Instance.DispatchEvent("get_sys_email",
+        this._sysMsgs);
     }
 
     void OnSystemServerReturn(cmd_msg msg)

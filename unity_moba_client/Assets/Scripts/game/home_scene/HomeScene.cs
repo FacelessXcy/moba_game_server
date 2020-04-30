@@ -19,6 +19,7 @@ public class HomeScene : MonoBehaviour
     public GameObject uinfoDlgPrefab;
     public GameObject loginBonues;
     public GameObject rankListPrefab;
+    public GameObject emailListPrefab;
 
     public Text ulevelLabel;
     public Text expressLabel;
@@ -121,7 +122,9 @@ public class HomeScene : MonoBehaviour
 
     public void OnGetSysMsgClick()
     {
-        SystemServiceProxy.Instance.GetSysMsg();
+        //SystemServiceProxy.Instance.GetSysMsg();
+        GameObject sysEmail = Instantiate(this.emailListPrefab);
+        sysEmail.transform.SetParent(this.transform,false);
     }
 
 }
