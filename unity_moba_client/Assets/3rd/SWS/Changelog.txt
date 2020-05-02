@@ -1,0 +1,85 @@
+**************************************
+CHANGELOG (v5 and above)
+**************************************
+v5.2
+- Reverse() method added to movement scripts, reverse walkers anytime
+- Adding PathManagers to WaypointManager at runtime redesigned: you dont
+  have to call WaypointManager.AddPath on runtime created paths anymore.
+  Also instantiated path names don't have to be unique anymore: they
+  will be counted up automatically with a number to make them unique.
+- ease type field stays visible when using speed based tweens
+- moved navMove agent initialization to Awake for better runtime access
+- fixed custom animation curve setting when selecting ease type 'Unset'
+- fixed NRE of BezierPathManager when creating bezier paths at runtime
+- fixed bezier path handles slowly getting offset when looking around
+- DOTween updated to 1.1.310
+- Unity 5.4 compatibility
+
+v5.1.1
+- fixed initial positioning issue with local walkers on bezier paths
+- fixed events not being called on local or repositioned bezier paths
+
+v5.1
+BREAKING CHANGES! PLEASE READ CAREFULLY
+- removed support for Unity 4.x
+- removed bezierMove script! splineMove works on bezier paths now too
+- removed manual type selection on MoveAnimator script (automatic now)
+- added sample scene "Events" showcasing different event scenarios
+- added waypoint rename button on path managers to update waypoint names
+- waypoint rename button has a custom checkbox to ignore custom names
+- bezier handles on bezier paths are now independent by default
+- auto-align bezier points on path creation to create correct curves
+- fixed inserting bezier point at last waypoint making it unresponsive
+- fixed exception calling CalculatePath() without previous population
+- fixed Gizmo scaling getting too large, limited to max size now
+- fixed resuming Pause before seconds run out having multiple coroutines
+- fixed inconsistent Gizmo drawing on waypoint names and height
+- fixed PlayMaker action ChangeSpeed & UpdateBezierPath on every frame
+- DOTween updated to 1.1.135
+
+Upgrade guide:
+- bezierMove scripts are gone, so if you have been using them in your
+  scenes, please replace them with the splineMove movement script.
+  Make a backup to easily compare script values during this process.
+
+v5.0.4
+- fixed path creation not working in Unity 5.1
+- removed automatic renaming of waypoint object names
+
+v5.0.3
+- fixed navMove not detecting reached waypoints correctly in Unity 5,
+  resulting in skipped waypoints along its path
+- fixed navMove throwing NullReferenceException if path is not set
+- potentially fixed PathManager NullReferenceException in OnDrawGizmos
+- solved a few Unity warnings/errors about version compatibility 
+
+v5.0.2
+- DOTween updated to 1.0.720 (Unity 5.0.2 fix)
+
+v5.0.1
+- reduced path resolution argument on bezier paths which caused overhead
+- DOTween updated to 1.0.291
+
+v5.0
+BREAKING CHANGES! PLEASE READ CAREFULLY
+- NEW: HOTween has been replaced with DOTween for 400% faster tweens
+- NEW: Message functionality has been replaced with built-in UnityEvents
+  for specifying target, method, argument in the inspector at waypoints
+- NEW: "reverse" checkbox on movement scripts, allows moving in the
+  opposite direction on the path on a per-walker basis 
+- NEW: "startPoint" variable added on movement scripts, allows
+  starting from a different waypoint position on the path3
+- NEW: startPoint also works with "moveToPath", e.g. walking directly to
+  the third waypoint, then continuing the path as usual
+- NEW: included DOTween looptype "Yoyo" which lets your object move on
+  the path forwards until the end, then it moves backwards to the start
+- NEW: movement script methods: GoToWaypoint(index), Pause(seconds)
+- CHANGE: BezierMove events can now be called at waypoints too, the
+  setting for messages on percentual path positions has been removed
+- CHANGE: "currentPoint" variable is not meant to be modified anymore
+  for setting a start position, use the new startPoint variable instead
+- CHANGE: minor variable naming adjustments to be in line with DOTween
+- CHANGE: method renaming: ResetMove() -> ResetToStart()
+- DEL: minimalMove movement script removed, use splineMove instead
+- DEL: delay settings removed, use new events and Pause(seconds) instead
+- DEL: PlayMaker action SetDelayAtWaypoint is gone, see the sample scene

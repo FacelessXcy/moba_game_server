@@ -2,8 +2,73 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="D:\C++\UnityMobaServer\moba_game_server\unity_moba_client" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="3rd" t="Include">
+          <e p="SWS" t="Include">
+            <e p="Changelog.txt" t="Include" />
+            <e p="Examples" t="Include">
+              <e p="Assets" t="Include">
+                <e p="Shaders" t="Include">
+                  <e p="DiffuseReflectiveShader.shader" t="Include" />
+                </e>
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="CameraInputDemo.cs" t="Include" />
+                <e p="EventCollisionTrigger.cs" t="Include" />
+                <e p="EventReceiver.cs" t="Include" />
+                <e p="PathInputDemo.cs" t="Include" />
+                <e p="RapidInputDemo.cs" t="Include" />
+                <e p="RotationHelper.cs" t="Include" />
+                <e p="RuntimeDemo.cs" t="Include" />
+                <e p="ShowcaseGUI.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Extensions" t="Include">
+              <e p="DOTween" t="Include">
+                <e p="DOTween43.xml" t="Include" />
+                <e p="DOTween46.xml" t="Include" />
+                <e p="DOTween50.xml" t="Include" />
+                <e p="readme.txt" t="Include" />
+              </e>
+            </e>
+            <e p="readme.txt" t="Include" />
+            <e p="Scripts" t="Include">
+              <e p="Editor" t="Include">
+                <e p="AboutSWSEditor.cs" t="Include" />
+                <e p="BezierPathEditor.cs" t="Include" />
+                <e p="CreateWPManager.cs" t="Include" />
+                <e p="moveEditor.cs" t="Include" />
+                <e p="navMoveEditor.cs" t="Include" />
+                <e p="PathEditor.cs" t="Include" />
+                <e p="ReviewWindowEditor.cs" t="Include" />
+                <e p="splineMoveEditor.cs" t="Include" />
+                <e p="WaypointEditor.cs" t="Include" />
+              </e>
+              <e p="Helper" t="Include">
+                <e p="MoveAnimator.cs" t="Include" />
+                <e p="PathIndicator.cs" t="Include" />
+                <e p="PathRenderer.cs" t="Include" />
+              </e>
+              <e p="Manager" t="Include">
+                <e p="BezierPathManager.cs" t="Include" />
+                <e p="PathManager.cs" t="Include" />
+                <e p="WaypointManager.cs" t="Include" />
+              </e>
+              <e p="Movement" t="Include">
+                <e p="navMove.cs" t="Include" />
+                <e p="splineMove.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="Media" t="Include">
+          <e p="Shader" t="Include">
+            <e p="Additive Turbulence.shader" t="Include" />
+            <e p="Trail Additive Turbulence.shader" t="Include" />
+          </e>
+        </e>
         <e p="Scripts" t="Include">
           <e p="3rd" t="Include">
             <e p="protobuf" t="Include">
@@ -116,6 +181,7 @@
             </e>
             <e p="modules" t="Include">
               <e p="AuthServiceProxy.cs" t="Include" />
+              <e p="LogicServiceProxy.cs" t="Include" />
               <e p="SystemServiceProxy.cs" t="Include" />
               <e p="UGame.cs" t="Include" />
               <e p="ULevel.cs" t="Include" />

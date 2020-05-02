@@ -37,6 +37,24 @@ enum Cmd {
 
 	eGetSysMsgReq = 19;
 	eGetSysMsgRes = 20;
+
+	eLoginLogicReq = 21;
+	eLoginLogicRes = 22;
+
+	eEnterZoneReq = 23;
+	eEnterZoneRes = 24;
+
+	eEnterMatch = 25;
+	eUserArrived = 26;
+
+	eExitMatchReq = 27;
+	eExitMatchRes = 28;
+	eUserExitMatch = 29;
+
+	eGameStart = 30;
+	eUdpTest = 31;
+	eLogicFrame = 32;
+	eNextFrameOpts = 33;
 }
 
 message GuestLoginReq {
@@ -135,3 +153,84 @@ message GetSysMsgRes {
 	required int32 ver_num = 2;
 	repeated string sys_msgs = 3;
 }
+
+message LoginLogicRes {
+	required int32 status = 1;
+}
+
+message EnterZoneReq {
+	required int32 zid = 1;
+}
+
+message EnterZoneRes {
+	required int32 status = 1;
+}
+
+message EnterMatch {
+	required int32 zid = 1;
+	required int32 matchid = 2;
+	required int32 seatid = 3;
+	required int32 side = 4;
+}
+
+message UserArrived {
+	required string unick = 1;
+	required int32 uface = 2;
+	required int32 usex = 3;
+	required int32 seatid = 4;
+	required int32 side = 5;
+}
+
+message ExitMatchRes {
+	required int32 status = 1;
+}
+
+message UserExitMatch {
+	required int32 seatid = 1;	
+}
+
+message PlayerMatchInfo {
+	required int32 heroid = 1;
+	required int32 seatid = 2;
+	required int32 side = 3;
+}
+
+message GameStart {
+	repeated PlayerMatchInfo players_match_info = 1; 
+}
+
+message UdpTest {
+	required string content = 1;
+}
+
+message LoginLogicReq {
+	required string udp_ip = 1;
+	required int32 udp_port = 2;
+}
+
+message OptionEvent {
+	required int32 seatid = 1;
+	required int32 opt_type = 2;
+	optional int32 x = 3;
+	optional int32 y = 4;  	
+}
+
+message FrameOpts {
+	required int32 frameid = 1;
+	repeated OptionEvent opts = 2;
+}
+
+message LogicFrame {
+	required int32 frameid = 1;
+	repeated FrameOpts unsync_frames = 2;
+}
+
+message NextFrameOpts {
+	required int32 frameid = 1;
+	required int32 zid = 2;
+	required int32 matchid = 3;
+	required int32 seatid = 4;
+	repeated OptionEvent opts = 5;
+}
+
+

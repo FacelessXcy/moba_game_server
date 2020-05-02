@@ -11,5 +11,6 @@ public class GameManager : UnitySingleton<GameManager>
         ULevel.Instance.Init();
         AuthServiceProxy.Instance.Init();   
         SystemServiceProxy.Instance.Init();
+        LogicServiceProxy.Instance.Init();
     }
 }

@@ -28,10 +28,12 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/utils/Singleton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Helper/PathRenderer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/data_viewer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F38C71C8-6AA6-4E29-9D4C-EA9FB7C715E1/35/098659e3/HideFlags.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/managers/EventManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/talkroom/talkroom.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/network.cs" root0="FORCE_HIGHLIGHTING" />
@@ -66,13 +68,15 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServerProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/ULevel.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/RankList.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/EmailInfo.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/LoginBonues.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy1.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
       </list>
     </option>
   </component>
@@ -140,7 +144,8 @@
       <workItem from="1587871697553" duration="1319000" />
       <workItem from="1587991634769" duration="2060000" />
       <workItem from="1588157400049" duration="5766000" />
-      <workItem from="1588242438738" duration="4066000" />
+      <workItem from="1588242438738" duration="4620000" />
+      <workItem from="1588394736803" duration="1057000" />
     </task>
     <servers />
   </component>
