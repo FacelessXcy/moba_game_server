@@ -8,6 +8,7 @@ local logic_service_handlers={}
 
 logic_service_handlers[Cmd.eLoginLogicReq]=game_mgr.login_logic_server;
 logic_service_handlers[Cmd.eUserLostConn]=game_mgr.on_player_disconnect;
+logic_service_handlers[Cmd.eEnterZoneReq]=game_mgr.enter_zone;
 
 
 --{stype,ctype,utag,[{message} or jsonStr]}

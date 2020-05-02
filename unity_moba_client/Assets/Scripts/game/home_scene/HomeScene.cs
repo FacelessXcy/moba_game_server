@@ -20,6 +20,7 @@ public class HomeScene : MonoBehaviour
     public GameObject loginBonuesPrefab;
     public GameObject rankListPrefab;
     public GameObject emailListPrefab;
+    public GameObject teamMatchPrefab;
 
     public Text ulevelLabel;
     public Text expressLabel;
@@ -160,6 +161,13 @@ public class HomeScene : MonoBehaviour
         //SystemServiceProxy.Instance.GetSysMsg();
         GameObject sysEmail = Instantiate(this.emailListPrefab);
         sysEmail.transform.SetParent(this.transform,false);
+    }
+
+    public void OnZoneSGYDClick()
+    {
+        GameObject matchDlg = Instantiate(teamMatchPrefab);
+        matchDlg.transform.SetParent(this.transform,false);
+        UGame.Instance.zid = Zone.SGYD;
     }
 
 }

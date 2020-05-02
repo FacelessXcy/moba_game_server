@@ -32,6 +32,22 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         
     }
 
+    private void OnEnterZoneReturn(cmd_msg msg)
+    {
+        EnterZoneRes res = proto_man
+            .protobuf_deserialize<EnterZoneRes>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        if (res.status!=Response.OK)
+        {
+            Debug.Log("Enter Zone status:"+res.status);
+            return;
+        }
+        Debug.Log("enter zone success!!!");
+    }
+
     void OnLogicServerReturn(cmd_msg msg)
     {
         //Debug.Log(msg.ctype.ToString());
@@ -39,6 +55,9 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         {
             case (int)Cmd.eLoginLogicRes:
                 OnLoginLogicServerReturn(msg);
+                break;
+            case (int)Cmd.eEnterZoneRes:
+                OnEnterZoneReturn(msg);
                 break;
         }
     }
@@ -49,7 +68,17 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
             .eLoginLogicReq,null);
     }
 
-
+    public void EnterZone(int zid)
+    {
+        if (zid<Zone.SGYD||zid>Zone.ASSY)
+        {
+            return;
+        }
+        EnterZoneReq req=new EnterZoneReq();
+        req.zid = zid;
+        network.Instance.send_protobuf_cmd((int)Stype.Logic,(int)Cmd
+        .eEnterZoneReq,req);
+    }
 
 
 }

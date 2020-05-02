@@ -20,6 +20,7 @@ end
 function player:init( uid,s,ret_handler )
     self.session=s;
     self.uid=uid;
+    self.zid=-1;--表明玩家所在空间 -1：不在任何游戏场中
 
     --从数据库中读取玩家基本信息；
     mysql_game.get_ugame_info(uid,
