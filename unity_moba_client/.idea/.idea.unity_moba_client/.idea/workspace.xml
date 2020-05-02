@@ -8,6 +8,20 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -24,17 +38,21 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/managers/AudioManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D195DA47-F292-4AA6-AB1F-FC82F421F850/b4/41d7fa37/AsyncCallback.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/utils/utils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Editor/WaypointEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/protos/game.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/utils/Singleton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Helper/PathRenderer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Helper/PathRenderer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/Temp/HZ$D.924.3788/HZ$D.924.3792/moba_game_server/unity_moba_client/Assets/Scripts/game/login_scene/login_scene.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/Temp/HZ$D.924.3788/HZ$D.924.3793/moba_game_server/unity_moba_client/Assets/Scripts/game/modules/logic_service_proxy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/data_viewer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F38C71C8-6AA6-4E29-9D4C-EA9FB7C715E1/35/098659e3/HideFlags.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/managers/EventManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F38C71C8-6AA6-4E29-9D4C-EA9FB7C715E1/6c/5cbea316/LineRenderer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/talkroom/talkroom.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/network.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/proto_man.cs" root0="FORCE_HIGHLIGHTING" />
@@ -52,7 +70,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/talkroom.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/network/proto_man.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game_scene.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/network/network.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/utils/Singleton.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/talkroom/talkroom.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/managers/AudioManager.cs" />
@@ -66,7 +83,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServerProxy.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/ULevel.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/RankList.cs" />
@@ -75,8 +91,11 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/LoginBonues.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy1.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Editor/WaypointEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/network/network.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
       </list>
     </option>
   </component>
@@ -145,7 +164,7 @@
       <workItem from="1587991634769" duration="2060000" />
       <workItem from="1588157400049" duration="5766000" />
       <workItem from="1588242438738" duration="4620000" />
-      <workItem from="1588394736803" duration="1057000" />
+      <workItem from="1588394736803" duration="6786000" />
     </task>
     <servers />
   </component>

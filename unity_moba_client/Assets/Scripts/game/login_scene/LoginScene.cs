@@ -12,19 +12,34 @@ public class LoginScene : MonoBehaviour
     
     private void Start()
     {
-        EventManager.Instance.AddEventListener("login_success",OnLoginSuccess);
-        EventManager.Instance.AddEventListener("get_ugame_info_success",OnGetUGameInfoSuccess);
+        EventManager.Instance.AddEventListener("login_success",
+            OnLoginSuccess);
+        EventManager.Instance.AddEventListener("get_ugame_info_success",
+            OnGetUGameInfoSuccess);
+        EventManager.Instance.AddEventListener("login_logic_server",
+            OnLoginLogicServerSuccess);
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.RemoveEventListener("login_success",OnLoginSuccess);
-        EventManager.Instance.RemoveEventListener("get_ugame_info_success",OnGetUGameInfoSuccess);
+        EventManager.Instance.RemoveEventListener("login_success",
+            OnLoginSuccess);
+        EventManager.Instance.RemoveEventListener("get_ugame_info_success",
+            OnGetUGameInfoSuccess);
+        EventManager.Instance.RemoveEventListener("login_logic_server",
+            OnLoginLogicServerSuccess);
+    }
+
+    private void OnLoginLogicServerSuccess(string name, object udata)
+    {
+        SceneManager.LoadScene("Scenes/home_scene");
     }
 
     private void OnGetUGameInfoSuccess(string name,object udata)
     {
-        SceneManager.LoadScene("Scenes/home_scene");
+        //SceneManager.LoadScene("Scenes/home_scene");
+        //Debug.Log("get_ugame_info_success");
+        LogicServiceProxy.Instance.LoginLogicServer();
     }
 
     private void OnLoginSuccess(string name,object udata)
