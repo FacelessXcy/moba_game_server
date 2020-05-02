@@ -273,11 +273,10 @@ static int lua_send_msg(lua_State* toLua_S)
 	{
 		goto lua_failed;
 	}
-
-
+	
 	cmd_msg msg;
 	int n = luaL_len(toLua_S, 2);
-	if (n!=4)
+	if (n!=4&&n!=3)
 	{
 		goto lua_failed;
 	}
@@ -293,6 +292,12 @@ static int lua_send_msg(lua_State* toLua_S)
 	lua_gettable(toLua_S, 2);
 	msg.utag = luaL_checkinteger(toLua_S, -1);
 
+	if (n==3)
+	{
+		msg.body = NULL;
+		s->send_msg(&msg);
+		return 0;
+	}
 	lua_pushnumber(toLua_S, 4);
 	lua_gettable(toLua_S, 2);
 

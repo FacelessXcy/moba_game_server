@@ -34,7 +34,7 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
 
     void OnLogicServerReturn(cmd_msg msg)
     {
-        Debug.Log(msg.ctype.ToString());
+        //Debug.Log(msg.ctype.ToString());
         switch (msg.ctype)
         {
             case (int)Cmd.eLoginLogicRes:

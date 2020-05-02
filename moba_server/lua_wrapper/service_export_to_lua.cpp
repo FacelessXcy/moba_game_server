@@ -155,10 +155,12 @@ public:
 	unsigned int lua_recv_cmd_handler;
 	unsigned int lua_disconnect_handler;
 	unsigned int lua_recv_raw_handler;
+	unsigned int lua_connect_handler;
 public:
 	virtual bool on_session_recv_raw_cmd(session* s, struct raw_cmd* raw);
 	virtual bool on_session_recv_cmd(session* s, struct cmd_msg* msg);
 	virtual void on_session_disconnect(session* s, int stype);
+	virtual void on_session_connect(session* s, int stype);
 };
 
 void push_proto_message_tolua(const Message* message)
@@ -338,7 +340,16 @@ void lua_service::on_session_disconnect(session* s, int stype)
 	lua_pushinteger(lua_wrapper::lua_state(), stype);
 	//call lua func
 	execute_service_function(this->lua_disconnect_handler, 2);
+}
 
+void lua_service::on_session_connect(session* s, int stype)
+{
+	tolua_pushuserdata(lua_wrapper::lua_state(), (void*)s);
+	lua_pushinteger(lua_wrapper::lua_state(), stype);
+	if (this->lua_connect_handler)
+	{
+		execute_service_function(this->lua_connect_handler, 2);
+	}
 }
 
 
@@ -354,13 +365,16 @@ static int lua_register_service(lua_State* toLua_S)
 	
 	unsigned int lua_recv_cmd_handler;
 	unsigned int lua_disconnect_handler;
+	unsigned int lua_connect_handler;
 
 	//从table中取值
 	lua_getfield(toLua_S, 2, "on_session_recv_cmd");
 	lua_getfield(toLua_S, 2, "on_session_disconnect");
+	lua_getfield(toLua_S, 2, "on_session_connect");
 	//stack 3  on_session_recv_cmd,4  on_session_disconnect
 	lua_recv_cmd_handler=save_service_function(toLua_S, 3, 0);
 	lua_disconnect_handler =save_service_function(toLua_S, 4, 0);
+	lua_connect_handler = save_service_function(toLua_S, 5, 0);
 	if (lua_recv_cmd_handler == 0 || lua_disconnect_handler == 0)
 	{//没有这两个函数
 		goto lua_failed;
@@ -372,6 +386,7 @@ static int lua_register_service(lua_State* toLua_S)
 	s->lua_recv_cmd_handler = lua_recv_cmd_handler;
 	s->lua_disconnect_handler = lua_disconnect_handler;
 	s->lua_recv_raw_handler = 0;
+	s->lua_connect_handler = lua_connect_handler;
 	ret = service_man::register_service(stype, s);
 lua_failed :
 	lua_pushboolean(toLua_S, ret ? 1 : 0);
@@ -390,14 +405,15 @@ static int lua_register_raw_service(lua_State* toLua_S)
 
 	unsigned int lua_recv_raw_handler;
 	unsigned int lua_disconnect_handler;
-
+	unsigned int lua_connect_handler;
 	//从table中取值
 	lua_getfield(toLua_S, 2, "on_session_recv_raw_cmd");
 	lua_getfield(toLua_S, 2, "on_session_disconnect");
+	lua_getfield(toLua_S, 2, "on_session_connect");
 	//stack 3  on_session_recv_cmd,4  on_session_disconnect
 	lua_recv_raw_handler = save_service_function(toLua_S, 3, 0);
 	lua_disconnect_handler = save_service_function(toLua_S, 4, 0);
-
+	lua_connect_handler = save_service_function(toLua_S, 5, 0);
 	if (lua_recv_raw_handler == 0 || lua_disconnect_handler == 0)
 	{//没有这两个函数
 		goto lua_failed;
@@ -408,6 +424,7 @@ static int lua_register_raw_service(lua_State* toLua_S)
 	s->lua_disconnect_handler = lua_disconnect_handler;
 	s->lua_recv_cmd_handler = 0;
 	s->lua_recv_raw_handler = lua_recv_raw_handler;
+	s->lua_connect_handler = lua_connect_handler;
 	ret = service_man::register_service(stype, s);
 lua_failed:
 	lua_pushboolean(toLua_S, ret ? 1 : 0);

@@ -69,3 +69,16 @@ void service_man::on_session_disconnect(session* s)
 	}
 
 }
+
+void service_man::on_session_connect(session* s)
+{
+	for (int i = 0; i < MAX_SERVICE; i++)
+	{
+		if (g_service_set[i] == NULL)
+		{
+			continue;
+		}
+		g_service_set[i]->on_session_connect(s, i);
+	}
+
+}

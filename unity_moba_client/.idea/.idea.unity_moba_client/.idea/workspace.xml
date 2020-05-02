@@ -44,10 +44,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/utils/Singleton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Helper/PathRenderer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/AppData/Local/Temp/HZ$D.924.3788/HZ$D.924.3792/moba_game_server/unity_moba_client/Assets/Scripts/game/login_scene/login_scene.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/AppData/Local/Temp/HZ$D.924.3788/HZ$D.924.3793/moba_game_server/unity_moba_client/Assets/Scripts/game/modules/logic_service_proxy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/data_viewer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F38C71C8-6AA6-4E29-9D4C-EA9FB7C715E1/35/098659e3/HideFlags.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
@@ -164,7 +162,7 @@
       <workItem from="1587991634769" duration="2060000" />
       <workItem from="1588157400049" duration="5766000" />
       <workItem from="1588242438738" duration="4620000" />
-      <workItem from="1588394736803" duration="6786000" />
+      <workItem from="1588394736803" duration="7392000" />
     </task>
     <servers />
   </component>

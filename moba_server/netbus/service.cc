@@ -26,3 +26,8 @@ void service::on_session_disconnect(session* s ,int stype)
 {
 
 }
+
+void service::on_session_connect(session* s, int stype)
+{
+
+}

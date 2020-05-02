@@ -303,6 +303,8 @@ extern "C"
 
 		//printf("new client coming  %s : %d\n", s->c_address, s->c_port);
 		uv_read_start((uv_stream_t*)client, uv_alloc_buf, after_read);
+
+		service_man::on_session_connect((session*)s);
 	}
 
 }

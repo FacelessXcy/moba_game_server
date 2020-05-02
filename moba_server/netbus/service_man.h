@@ -12,6 +12,7 @@ public:
 	static bool register_service(int stype, service* s);
 	static bool on_recv_raw_cmd(session* s, struct raw_cmd* raw);
 	static void on_session_disconnect(session* s);
+	static void on_session_connect(session* s);
 };
 
 
