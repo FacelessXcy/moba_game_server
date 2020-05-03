@@ -68,6 +68,7 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
             return;
         }
         Debug.Log(res.unick+" user arrived!");
+        EventManager.Instance.DispatchEvent("user_arrived",res);
     }
 
     void OnLogicServerReturn(cmd_msg msg)

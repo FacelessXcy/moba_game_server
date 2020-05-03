@@ -142,7 +142,8 @@ function do_match_players()
 			if match then
 				 if not match:enter_player(v) then 
 				 	Logger.error("match system error : player state: ", v.state)
-				 else
+                 else
+                    --print("select zid",zid)
 				 	wait_list[k] = nil
 				 end
 			end

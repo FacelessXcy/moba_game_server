@@ -53,7 +53,9 @@ function match_mgr:enter_player( p )
     --通知客户端，已进入游戏房间，matchid,zid
     local body={
         zid=self.zid,
-        matchid=self.matchid
+        matchid=self.matchid,
+        seatid=1,
+        side=1,
     }
     p:send_cmd(Stype.Logic,Cmd.eEnterMatch,body);
     --将用户进入的消息发送给房间里的其他玩家

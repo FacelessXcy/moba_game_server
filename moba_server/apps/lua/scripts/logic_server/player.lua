@@ -63,6 +63,8 @@ function player:get_user_arrived( )
         unick=self.uinfo.unick,
         uface=self.uinfo.uface,
         usex=self.uinfo.usex,
+        seatid=1,
+        side=1,
     }
     return body;
 end

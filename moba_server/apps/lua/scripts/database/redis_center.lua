@@ -36,7 +36,7 @@ function set_uinfo_inredis( uid,uinfo )
         Logger.error("redis center disconnected");
         return;
     end
-    print("set_uinfo_inredis "..uinfo.uvip);
+    --print("set_uinfo_inredis "..uinfo.uvip);
 	local redis_cmd = "hmset moba_auth_center_user_uid_" .. uid ..
 	                  " unick " .. uinfo.unick ..
 	                  " usex " .. uinfo.usex .. 
@@ -71,7 +71,7 @@ function get_uinfo_inredis( uid,ret_handler )
 		uinfo.uface = tonumber(ret[6])
 		uinfo.uvip = tonumber(ret[8])
 		uinfo.is_guest = tonumber(ret[10])
-        print("get_uinfo_inredis "..uinfo.uvip);
+        --print("get_uinfo_inredis "..uinfo.uvip);
         ret_handler(nil,uinfo);
     end)
 

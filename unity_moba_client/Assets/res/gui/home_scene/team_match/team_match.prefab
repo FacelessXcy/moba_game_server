@@ -871,6 +871,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2ff84189dee8e47a13ecf99cd54959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollView: {fileID: 114612373597836400}
+  optPrefab: {fileID: 1326078444809182, guid: fa2b3af6bb00f874b8b3ba4f22654006, type: 3}
+  ufaceImg:
+  - {fileID: 21300000, guid: 076877bd57a9b194d818cf1ad6e52a30, type: 3}
+  - {fileID: 21300000, guid: 6df2b9f916c9d45498971dbfd806f712, type: 3}
+  - {fileID: 21300000, guid: af23a4d3479ac9549b375f8cd1f0ba55, type: 3}
+  - {fileID: 21300000, guid: 830e5690bfcc56044a4c1de0aaedc587, type: 3}
+  - {fileID: 21300000, guid: 65bcb21962ce90945b0c5023165b1aa6, type: 3}
+  - {fileID: 21300000, guid: c984485ed2835eb4aa259f4113fc51d4, type: 3}
+  - {fileID: 21300000, guid: df3c1d4edd93cf54285950ddd75a4282, type: 3}
+  - {fileID: 21300000, guid: 86896590f23d56c4b8597032ac8cccc5, type: 3}
+  - {fileID: 21300000, guid: f7a0881d0358f8a4d9b9166327867609, type: 3}
 --- !u!1 &1492167234415326
 GameObject:
   m_ObjectHideFlags: 0
