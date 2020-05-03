@@ -9,7 +9,7 @@ public class TeamMatch : MonoBehaviour
     public void OnBeginMatchClick()
     {
         int zid = UGame.Instance.zid;
-        Debug.Log(zid);
+        //Debug.Log(zid);
         LogicServiceProxy.Instance.EnterZone(zid);
     }
 

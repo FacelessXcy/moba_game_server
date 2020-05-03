@@ -48,6 +48,28 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         Debug.Log("enter zone success!!!");
     }
 
+    private void OnEnterMatchReturn(cmd_msg msg)
+    {
+        EnterMatch res = proto_man
+            .protobuf_deserialize<EnterMatch>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        Debug.Log("enter success zid "+res.zid+" match id: "+res.matchid);
+    }
+
+    private void OnUserArrivedReturn(cmd_msg msg)
+    {
+        UserArrived res = proto_man
+            .protobuf_deserialize<UserArrived>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        Debug.Log(res.unick+" user arrived!");
+    }
+
     void OnLogicServerReturn(cmd_msg msg)
     {
         //Debug.Log(msg.ctype.ToString());
@@ -58,6 +80,12 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
                 break;
             case (int)Cmd.eEnterZoneRes:
                 OnEnterZoneReturn(msg);
+                break;
+            case (int)Cmd.eEnterMatch:
+                OnEnterMatchReturn(msg);
+                break;
+            case (int)Cmd.eUserArrived:
+                OnUserArrivedReturn(msg);
                 break;
         }
     }
