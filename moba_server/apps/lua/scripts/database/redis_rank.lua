@@ -1,6 +1,13 @@
 local game_config=require("game_config");
 local redis_conn=nil;
 
+local function is_connected(  )
+    if not redis_conn then
+        return false;
+    end
+    return true;
+end
+
 function redis_connect_to_rank(  )
     local host=game_config.rank_redis.host;
     local port=game_config.rank_redis.port;
@@ -86,7 +93,7 @@ end
 local redis_rank={
     flush_world_rank_with_uchip_inredis=flush_world_rank_with_uchip_inredis,
     get_world_rank_with_uchip_inredis=get_world_rank_with_uchip_inredis,
-
+    is_connected=is_connected,
 }
 
 return redis_rank;

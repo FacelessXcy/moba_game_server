@@ -1,6 +1,14 @@
 local game_config=require("game_config");
 local mysql_conn=nil;
 
+local function is_connected(  )
+    if not mysql_conn then
+        return false;
+    end
+    return true;
+end
+
+
 function mysql_connect_to_auth_center( )
     local auth_conf=game_config.auth_mysql;
     Mysql.connect(auth_conf.host,
@@ -252,6 +260,7 @@ local mysql_auth_center={
     do_guest_account_upgrade=do_guest_account_upgrade,
     get_uinfo_by_uid=get_uinfo_by_uid,
     get_uinfo_by_uname_upwd=get_uinfo_by_uname_upwd,
+    is_connected=is_connected,
 }
 
 return mysql_auth_center;

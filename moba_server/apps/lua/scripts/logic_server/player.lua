@@ -25,13 +25,15 @@ function player:init( uid,s,ret_handler )
     self.zid=-1;--表明玩家所在空间 -1：不在任何游戏场中
     self.matchid=-1;--玩家所在的比赛房间的id
     self.state=State.InView;--玩家当前处于旁观状态
-
+    self.is_robot=false;--对象是否为机器人
 
     --从数据库中读取玩家基本信息；
     mysql_game.get_ugame_info(uid,
     function ( err,ugame_info )
         if err then
-            ret_handler(Response.SystemErr);
+            if ret_handler then
+                ret_handler(Response.SystemErr);
+            end
             return;
         end
 
@@ -40,12 +42,16 @@ function player:init( uid,s,ret_handler )
         redis_center.get_uinfo_inredis(uid,
         function ( err,uinfo )
             if err then
-                ret_handler(Response.SystemErr);
+                if ret_handler then
+                    ret_handler(Response.SystemErr);
+                end
                 return;
             end
 
             self.uinfo=uinfo;
-            ret_handler(Response.OK);
+            if ret_handler then
+                ret_handler(Response.OK);
+            end
         end)
     end)
 
@@ -66,7 +72,7 @@ function player:set_session(s)
 end
 
 function player:send_cmd( stype,ctype,body )
-    if not self.session then
+    if not self.session or self.is_robot then
         return;
     end
 

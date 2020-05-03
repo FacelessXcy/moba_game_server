@@ -5,7 +5,7 @@ local Stype=require("Stype");
 local Cmd=require("Cmd");
 
 --{stype,ctype,utag,body}
-function login( s,req )
+local function login( s,req )
     local g_key = req[4].guest_key
     local utag=req[3];
     --print(req[1],req[2],req[3],req[4].guest_key);

@@ -5,7 +5,7 @@ local Stype=require("Stype");
 local Cmd=require("Cmd");
 
 --{stype,ctype,utag,body}
-function login( s,req )
+local function login( s,req )
     local utag=req[3];
     local uname_login_req=req[4];
 

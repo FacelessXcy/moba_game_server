@@ -81,7 +81,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/UserInfoDlg.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UserLogin.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServerProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/ULevel.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/RankList.cs" />
@@ -91,13 +90,14 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy1.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Editor/WaypointEditor.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/network/network.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/Zone.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/TeamMatch.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
       </list>
     </option>
   </component>
@@ -167,7 +167,8 @@
       <workItem from="1588157400049" duration="5766000" />
       <workItem from="1588242438738" duration="4620000" />
       <workItem from="1588394736803" duration="9779000" />
-      <workItem from="1588484824783" duration="2682000" />
+      <workItem from="1588484824783" duration="4062000" />
+      <workItem from="1588500747247" duration="1101000" />
     </task>
     <servers />
   </component>

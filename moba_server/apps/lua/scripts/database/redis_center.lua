@@ -1,6 +1,14 @@
 local game_config=require("game_config");
 local redis_conn=nil;
 
+local function is_connected(  )
+    if not redis_conn then
+        return false;
+    end
+    return true;
+end
+
+
 function redis_connect_to_center(  )
     local host=game_config.center_redis.host;
     local port=game_config.center_redis.port;
@@ -90,6 +98,7 @@ local redis_center={
     set_uinfo_inredis=set_uinfo_inredis,
     get_uinfo_inredis=get_uinfo_inredis,
     edit_profile=edit_profile,
+    is_connected=is_connected,
 }
 
 return redis_center;

@@ -146,6 +146,7 @@ public class AuthServiceProxy:Singleton<AuthServiceProxy>
     public void GuestLogin()
     {
         this.g_key = PlayerPrefs.GetString("xcy_moba_guest_key");
+        //this.g_key = null;
         this._isSaveGKey = false;
         if (this.g_key==null||this.g_key.Length!=32)
         {

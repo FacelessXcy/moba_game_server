@@ -3,6 +3,14 @@ local moba_game_config=require("moba_game_config");
 
 local mysql_conn=nil;
 
+local function is_connected(  )
+    if not mysql_conn then
+        return false;
+    end
+    return true;
+end
+
+
 function mysql_connect_to_moba_game( )
     local conf=game_config.game_mysql;
     Mysql.connect(conf.host,conf.port,
@@ -20,6 +28,57 @@ function mysql_connect_to_moba_game( )
 end
 
 mysql_connect_to_moba_game();
+
+function get_robots_ugame_info( ret_handler )
+    if mysql_conn == nil then
+        if ret_handler then
+            ret_handler("mysql_game is not connected",nil);
+        end
+        return;
+    end
+
+    local sql="select uchip, uchip2, uchip3, uvip, uvip_endtime, udata1, udata2, udata3, uexp, ustatus ,uid from ugame where is_robot = 1";
+    local sql_cmd=sql;
+
+    Mysql.query(mysql_conn,sql_cmd,
+    function ( err,ret )
+        if err then
+            if ret_handler ~=nil then
+                ret_handler(err,nil);
+            end
+            return
+        end
+        --没有此条记录
+        if ret == nil or #ret<=0 then
+            if ret_handler ~=nil then
+                ret_handler(nil,nil);
+            end
+            return;
+        end
+
+        local k,v;
+        local robots={};
+        for k,v in pairs(ret) do
+            local result = v;
+            local one_robot={};
+            one_robot.uchip=tonumber(result[1]);
+            one_robot.uchip2=tonumber(result[2]);
+            one_robot.uchip3=tonumber(result[3]);
+            one_robot.uvip=tonumber(result[4]);
+            one_robot.uvip_endtime=tonumber(result[5]);
+            one_robot.udata1=tonumber(result[6]);
+            one_robot.udata2=tonumber(result[7]);
+            one_robot.udata3=tonumber(result[8]);
+            one_robot.uexp=tonumber(result[9]);
+            one_robot.ustatus=tonumber(result[10]);
+            one_robot.uid=tonumber(result[11]);
+            table.insert(robots,one_robot);
+        end
+        
+        ret_handler(nil,robots);
+    end)
+end
+
 
 function get_ugame_info( uid,ret_handler )
     if mysql_conn == nil then
@@ -275,6 +334,8 @@ local mysql_game={
     update_login_bonues_status=update_login_bonues_status,
     add_chip=add_chip,
     get_sys_msg=get_sys_msg,
+    is_connected=is_connected,
+    get_robots_ugame_info=get_robots_ugame_info,
 }
 
 return mysql_game;
