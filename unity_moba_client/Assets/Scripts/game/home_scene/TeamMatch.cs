@@ -15,17 +15,31 @@ public class TeamMatch : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.AddEventListener("user_arrived",OnUserArrived);
+        EventManager.Instance.AddEventListener("exit_match", OnSelfExitMatch);
     }
 
     private void OnDestroy()
     {
         EventManager.Instance.RemoveEventListener("user_arrived",OnUserArrived);
+        EventManager.Instance.RemoveEventListener("exit_match", OnSelfExitMatch);
     }
 
     public void OnBeginMatchClick()
     {
         int zid = UGame.Instance.zid;
         LogicServiceProxy.Instance.EnterZone(zid);
+    }
+
+    public void OnExitMatchClick()
+    {
+        LogicServiceProxy.Instance.ExitMatch();
+
+    }
+
+    private void OnSelfExitMatch(string eventName,object udata)
+    {
+        UGame.Instance.zid = -1;
+        GameObject.Destroy(this.gameObject);
     }
 
     private void OnUserArrived(string eventName,object udata)

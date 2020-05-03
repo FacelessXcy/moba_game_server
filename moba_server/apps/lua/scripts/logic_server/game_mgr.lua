@@ -126,8 +126,9 @@ function search_inview_match_mgr(zid)
 
 
 	local match = match_mgr:new()
-	table.insert(match_list, match)
+	--table.insert(match_list, match)
 	match:init(zid)
+    match_list[match.matchid]=match;
 
 	return match
 end
@@ -276,13 +277,38 @@ function  enter_zone(s, req)
 	send_status(s, stype, Cmd.eEnterZoneRes, uid, Response.OK)
 end
 
+function do_exit_match( s,req )
+    local uid = req[3]
+	local p = logic_server_players[uid]
+    if not p then
+        send_status(req[1],Cmd.eExitMatchRes,uid,Response.InvalidOpt);
+		return 
+    end
+    
+    if p.state ~= State.InView or p.zid ==-1 or p.matchid == -1 then
+        send_status(req[1],Cmd.eExitMatchRes,uid,Response.InvalidOpt);
+        return
+    end
+
+    local match=zone_match_list[p.zid][p.matchid];
+    if not match or match.state ~= State.InView then
+        send_status(req[1],Cmd.eExitMatchRes,uid,Response.InvalidOpt);
+        return
+    end
+
+    match:exit_player(p);
+
+end
+
+
 local game_mgr = {
 	login_logic_server = login_logic_server,
 	on_player_disconnect = on_player_disconnect,
 	on_gateway_disconnect = on_gateway_disconnect,
 	on_gateway_connect = on_gateway_connect,
 
-	enter_zone = enter_zone,
+    enter_zone = enter_zone,
+    do_exit_match=do_exit_match,
 }
 
 return game_mgr

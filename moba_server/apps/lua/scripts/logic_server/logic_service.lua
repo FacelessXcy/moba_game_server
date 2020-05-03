@@ -9,7 +9,7 @@ local logic_service_handlers={}
 logic_service_handlers[Cmd.eLoginLogicReq]=game_mgr.login_logic_server;
 logic_service_handlers[Cmd.eUserLostConn]=game_mgr.on_player_disconnect;
 logic_service_handlers[Cmd.eEnterZoneReq]=game_mgr.enter_zone;
-
+logic_service_handlers[Cmd.eExitMatchReq]=game_mgr.do_exit_match;
 
 --{stype,ctype,utag,[{message} or jsonStr]}
 function on_logic_recv_cmd( s,msg )

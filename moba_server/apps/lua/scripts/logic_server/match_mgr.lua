@@ -42,6 +42,23 @@ function match_mgr:broadcast_cmd_inview_players( stype,ctype,body,not_to_player 
 	end
 end
 
+function match_mgr:exit_player( p )
+    --从等待列表内，移除player
+    local index=0;
+    for index=1,#self.inview_players do
+        if self.inview_players[index] == p then
+            table.remove(self.inview_players,index);
+        end
+    end
+    p.zid=-1;
+    p.matchid=-1;
+    local body={status=Response.OK};
+    p:send_cmd(Stype.Logic,Cmd.eExitMatchRes,body);
+
+    --广播给其他玩家，该玩家已经离开
+    
+end
+
 function match_mgr:enter_player( p )
     local i;
     if self.state ~= State.InView or p.state ~= State.InView then

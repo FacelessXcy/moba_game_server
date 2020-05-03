@@ -71,6 +71,23 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         EventManager.Instance.DispatchEvent("user_arrived",res);
     }
 
+    private void OnUserExitReturn(cmd_msg msg)
+    {
+        ExitMatchRes res = proto_man
+            .protobuf_deserialize<ExitMatchRes>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        if (res.status!=Response.OK)
+        {
+            Debug.Log("exit match status:"+res.status);
+            return;
+        }
+        Debug.Log("exit match success!!!");
+        EventManager.Instance.DispatchEvent("exit_match",null);
+    }
+
     void OnLogicServerReturn(cmd_msg msg)
     {
         //Debug.Log(msg.ctype.ToString());
@@ -87,6 +104,9 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
                 break;
             case (int)Cmd.eUserArrived:
                 OnUserArrivedReturn(msg);
+                break;
+            case (int)Cmd.eExitMatchRes:
+                OnUserExitReturn(msg);
                 break;
         }
     }
@@ -109,5 +129,9 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         .eEnterZoneReq,req);
     }
 
-
+    public void ExitMatch()
+    {
+        network.Instance.send_protobuf_cmd((int)Stype.Logic,(int)Cmd
+            .eExitMatchReq,null);
+    }
 }
