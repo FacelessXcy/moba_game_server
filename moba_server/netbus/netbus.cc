@@ -56,6 +56,11 @@ extern "C"
 			{
 				break;
 			}
+			if (pkg_size<=head_size)//包的大小<头部大小，此包无效
+			{
+				s->close();
+				break;
+			}
 			if (s->recved < pkg_size)//数据包还未收完
 			{
 				break;

@@ -33,6 +33,8 @@ private:
 public:
 	static uv_session* create();
 	static void destory(uv_session* s);
+	void* operator new(size_t size);
+	void operator delete(void* mem);
 
 public:
 	virtual void close();

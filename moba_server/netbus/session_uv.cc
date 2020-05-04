@@ -66,12 +66,23 @@ extern "C"
 	}
 }
 
+void* uv_session::operator new(size_t size)
+{
+	return cache_alloc(session_allocer, sizeof(uv_session));
+}
+
+void uv_session::operator delete(void* mem)
+{
+	cache_free(session_allocer, mem);
+}
+
 //创建一个session连接
 uv_session* uv_session::create()
 {
-	//uv_session* uv_s = new uv_session();//temp
-	uv_session* uv_s = (uv_session*)cache_alloc(session_allocer, sizeof(uv_session));
-	uv_s->uv_session::uv_session();
+	uv_session* uv_s = new uv_session();
+	//uv_session* uv_s = (uv_session*)cache_alloc(session_allocer, sizeof(uv_session));
+	//uv_s->uv_session::uv_session();//linux不支持直接调用构造函数，重载uv_session类的new以及delete
+
 	uv_s->init();
 	return uv_s;
 }
@@ -80,9 +91,9 @@ uv_session* uv_session::create()
 void uv_session::destory(uv_session* s)
 {
 	s->exit();
-	//delete s;//temp
-	s->uv_session::~uv_session();
-	cache_free(session_allocer, s);
+	delete s;
+	//s->uv_session::~uv_session();
+	//cache_free(session_allocer, s);
 }
  
 void uv_session::init()//create时调用
@@ -114,7 +125,11 @@ void uv_session::close()
 	this->is_shutdown = true;
 	uv_shutdown_t* req = &this->shudown;
 	memset(req, 0, sizeof(uv_shutdown_t));
-	uv_shutdown(req, (uv_stream_t*)&this->tcp_handler, on_shutdown);
+	int ret = uv_shutdown(req, (uv_stream_t*)&this->tcp_handler, on_shutdown);
+	if (ret!=0)
+	{
+		uv_close((uv_handle_t*)&this->tcp_handler, on_close);
+	}
 }
 
 //发送字节流数据

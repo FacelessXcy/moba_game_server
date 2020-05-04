@@ -70,16 +70,14 @@ public class CharacterCtrl : MonoBehaviour
             this._animation.CrossFade("walk");
             this._state = CharacterState.walk;
         }
-
-        float s = this.speed * Time.deltaTime;
-        this._characterController.Move(
-            new Vector3(this.stick.TouchDir.x, 
-                0,
-                this.stick.TouchDir.y) 
-            * s);
         float dir = Mathf.Atan2(this.stick.TouchDir.y,this.stick
-        .TouchDir.x);
-        float degree =360-dir*Mathf.Rad2Deg+90.0f;
+            .TouchDir.x);
+        float s = this.speed * Time.deltaTime;
+        float sx = s * Mathf.Cos(dir- Mathf.PI * 0.25f);
+        float sy = s * Mathf.Sin(dir- Mathf.PI * 0.25f);
+        this._characterController.Move(new Vector3(sx, 0, sy));
+       
+        float degree =360-dir*Mathf.Rad2Deg+90.0f+45.0f;
         this.transform.localEulerAngles = new Vector3(0, degree, 0);
 
         if (!this.isGhost)

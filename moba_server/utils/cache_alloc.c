@@ -21,6 +21,7 @@ struct cache_allocer
 //创建内存池
 struct cache_allocer* create_cache_allocer(int capacity, int elem_size)
 {
+	int i;
 	struct cache_allocer *allocer = malloc(sizeof(struct cache_allocer));
 	memset(allocer, 0, sizeof(struct cache_allocer));
 	elem_size = (elem_size < sizeof(struct node)) ? sizeof(struct node) : elem_size;
@@ -31,7 +32,7 @@ struct cache_allocer* create_cache_allocer(int capacity, int elem_size)
 	memset(allocer->cache_mem, 0, capacity * elem_size);
 
 	allocer->free_list = NULL;
-	for (int i = 0; i < capacity; i++)
+	for (i = 0; i < capacity; i++)
 	{
 		struct node* walk = (struct node*)(allocer->cache_mem + elem_size * i);
 		//头插 插入链表

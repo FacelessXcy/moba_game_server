@@ -15,6 +15,7 @@ public class GameZygote : MonoBehaviour
 
     private void Start()
     {
+        //UGame.Instance.uSex = 1;
         GameObject hero = Instantiate(this.heroCharacters[UGame.Instance.uSex]);
         hero.transform.SetParent(this.transform,false);
         hero.transform.position = this.entryA.transform.position;
