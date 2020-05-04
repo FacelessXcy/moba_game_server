@@ -110,6 +110,22 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         }
     }
 
+    private void OnGameStart(cmd_msg msg)
+    {
+        GameStart res = proto_man
+            .protobuf_deserialize<GameStart>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+
+        foreach (PlayerMatchInfo info in res.players_match_info)
+        {
+            Debug.Log(info.heroid);
+        }
+        EventManager.Instance.DispatchEvent("game_start",null);
+    }
+
     void OnLogicServerReturn(cmd_msg msg)
     {
         //Debug.Log(msg.ctype.ToString());
@@ -132,6 +148,9 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
                 break;
             case (int)Cmd.eUserExitMatch:
                 OnOtherUserExitReturn(msg);
+                break;
+            case (int)Cmd.eGameStart:
+                OnGameStart(msg);
                 break;
         }
     }

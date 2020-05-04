@@ -34,9 +34,14 @@ public class HomeScene : MonoBehaviour
     public Image[] tabButtoms;
     private void Start()
     {
-        EventManager.Instance.AddEventListener("sync_uinfo",SyncUInfo);
-        EventManager.Instance.AddEventListener("sync_ugame_info",SyncUGameInfo);
-        EventManager.Instance.AddEventListener("login_out",OnUserLoginOut);
+        EventManager.Instance.AddEventListener("sync_uinfo",
+            SyncUInfo);
+        EventManager.Instance.AddEventListener("sync_ugame_info",
+            SyncUGameInfo);
+        EventManager.Instance.AddEventListener("login_out",
+            OnUserLoginOut);
+        EventManager.Instance.AddEventListener("game_start", 
+            OnGameStart);
         OnHomePageClick();
         SyncUInfo("sync_uinfo",null);
         SyncUGameInfo("sync_ugame_info",null);
@@ -46,10 +51,19 @@ public class HomeScene : MonoBehaviour
     {
         EventManager.Instance.RemoveEventListener("sync_uinfo",
             SyncUInfo);
+        EventManager.Instance.RemoveEventListener("sync_ugame_info",
+            SyncUGameInfo);
         EventManager.Instance.RemoveEventListener("login_out",
             OnUserLoginOut);
+        EventManager.Instance.RemoveEventListener("game_start", 
+            OnGameStart);
     }
-    
+
+    private void OnGameStart(string name,object udata)
+    {
+        Debug.Log("start game!!");   
+    }
+
     private void OnUserLoginOut(string name,object udata)
     {
         SceneManager.LoadScene("Scenes/login");

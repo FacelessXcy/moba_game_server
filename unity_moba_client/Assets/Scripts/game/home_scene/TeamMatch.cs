@@ -20,6 +20,8 @@ public class TeamMatch : MonoBehaviour
             OnSelfExitMatch);
         EventManager.Instance.AddEventListener("other_user_exit", 
         OnOtherUserExit);
+        EventManager.Instance.AddEventListener("game_start", 
+            OnGameStart);
     }
 
     private void OnDestroy()
@@ -30,6 +32,8 @@ public class TeamMatch : MonoBehaviour
             OnSelfExitMatch);
         EventManager.Instance.RemoveEventListener("other_user_exit", 
             OnOtherUserExit);
+        EventManager.Instance.RemoveEventListener("game_start", 
+            OnGameStart);
     }
 
     public void OnBeginMatchClick()
@@ -42,6 +46,11 @@ public class TeamMatch : MonoBehaviour
     {
         LogicServiceProxy.Instance.ExitMatch();
 
+    }
+
+    private void OnGameStart(string eventName, object udata)
+    {
+        GameObject.Destroy(this.gameObject);
     }
 
     private void OnOtherUserExit(string eventName, object udata)

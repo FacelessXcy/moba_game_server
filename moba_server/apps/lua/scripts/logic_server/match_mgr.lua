@@ -11,7 +11,7 @@ local Zone=require("logic_server/Zone");
 
 local match_mgr={};
 local sg_matchid=1;
-local PLAYER_NUM=3;--3v3
+local PLAYER_NUM=2;--3v3
 
 function match_mgr:new( instant )
     if not instant then
@@ -53,11 +53,28 @@ function match_mgr:exit_player( p )
     p.zid=-1;
     p.matchid=-1;
     p.seatid=-1;
+    p.side=-1;
 
     local body={status=Response.OK};
     p:send_cmd(Stype.Logic,Cmd.eExitMatchRes,body);
     --广播给其他玩家，该玩家已经离开
     
+end
+
+function match_mgr:game_start(  )
+    local players_match_info={};
+    for i=1,PLAYER_NUM*2 do
+        local info={
+            heroid=self.inview_players[i].heroid,
+            seatid=self.inview_players[i].seatid,
+            side=self.inview_players[i].side,
+        }
+        table.insert(players_match_info,info);
+    end
+    local body={
+        players_match_info=players_match_info,
+    }
+    self:broadcast_cmd_inview_players(Stype.Logic,Cmd.eGameStart,body,nil);
 end
 
 function match_mgr:enter_player( p )
@@ -71,6 +88,10 @@ function match_mgr:enter_player( p )
         if not self.inview_players[i] then
             self.inview_players[i]=p;
             p.seatid=i;
+            p.side=0;
+            if i> PLAYER_NUM then
+                p.side=1;
+            end
             break;
         end
     end
@@ -79,8 +100,8 @@ function match_mgr:enter_player( p )
     local body={
         zid=self.zid,
         matchid=self.matchid,
-        seatid=1,
-        side=1,
+        seatid=p.seatid,
+        side=p.side,
     }
     p:send_cmd(Stype.Logic,Cmd.eEnterMatch,body);
     --将用户进入的消息发送给房间里的其他玩家
@@ -88,8 +109,9 @@ function match_mgr:enter_player( p )
     self:broadcast_cmd_inview_players(Stype.Logic,Cmd.eUserArrived,body,p);
 
     --玩家还要收到，其他在等待列表中的玩家信息。
-    for i=1,#self.inview_players do
-        if self.inview_players[i] ~= p  then
+    --for i=1,#self.inview_players do
+    for i=1,PLAYER_NUM*2 do
+        if self.inview_players[i] and self.inview_players[i] ~= p  then
             body=self.inview_players[i]:get_user_arrived();
             p:send_cmd(Stype.Logic,Cmd.eUserArrived,body);
         end
@@ -98,9 +120,20 @@ function match_mgr:enter_player( p )
     --判断是否匹配完成
     if #self.inview_players >= PLAYER_NUM*2 then
         self.state=State.Ready;
-        for i = 1, #self.inview_players do 
+        for i = 1, PLAYER_NUM*2 do 
             self.inview_players[i].state=State.Ready;
         end 
+
+        --开始游戏数据发给客户端
+        --进入到选英雄的界面,直到所有玩家选好英雄
+        --或者在游戏界面内，自己设置使用的英雄。
+        --服务器随机生成英雄id 范围[1,5]
+        for i=1,PLAYER_NUM*2 do
+                self.inview_players[i].heroid=math.floor(math.random()*5+1);--[1,5]
+        end
+
+        self:game_start();
+
     end
 
     return true;
