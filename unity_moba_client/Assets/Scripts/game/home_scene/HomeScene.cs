@@ -28,6 +28,7 @@ public class HomeScene : MonoBehaviour
 
     public GameObject homePage;
     public GameObject warPage;
+    public GameObject loadingPage;
 
     public Sprite[] normalSprites;
     public Sprite[] highLightSprites;
@@ -61,7 +62,9 @@ public class HomeScene : MonoBehaviour
 
     private void OnGameStart(string name,object udata)
     {
-        Debug.Log("start game!!");   
+        Debug.Log("start game!!");  
+        //SceneManager.LoadScene("Scenes/game_scene");
+        this.loadingPage.SetActive(true);
     }
 
     private void OnUserLoginOut(string name,object udata)

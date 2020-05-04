@@ -173,6 +173,7 @@
             </e>
             <e p="GameManager.cs" t="Include" />
             <e p="home_scene" t="Include">
+              <e p="AsyncLoaderScene.cs" t="Include" />
               <e p="EmailInfo.cs" t="Include" />
               <e p="HomeScene.cs" t="Include" />
               <e p="LoginBonues.cs" t="Include" />
