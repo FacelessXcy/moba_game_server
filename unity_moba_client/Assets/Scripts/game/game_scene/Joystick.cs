@@ -28,6 +28,7 @@ public class Joystick : MonoBehaviour
             this.canvas.worldCamera, out pos);
         float len = pos.magnitude;
         this._touchDir = pos.normalized;
+        //Debug.Log(_touchDir);
         if (len>_maxRadius)
         {
             float ratio=_maxRadius/len;//短:长
@@ -39,5 +40,6 @@ public class Joystick : MonoBehaviour
     public void OnStickEndDrag(BaseEventData baseEventData)
     {
         this._stick.localPosition = Vector2.zero;
+        this._touchDir = Vector2.zero;
     }
 }

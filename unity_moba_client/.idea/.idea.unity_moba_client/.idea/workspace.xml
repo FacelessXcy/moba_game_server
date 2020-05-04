@@ -52,6 +52,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/Joystick.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F38C71C8-6AA6-4E29-9D4C-EA9FB7C715E1/35/098659e3/HideFlags.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/CharacterCtrl.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/AsyncLoaderScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/managers/EventManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F38C71C8-6AA6-4E29-9D4C-EA9FB7C715E1/6c/5cbea316/LineRenderer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -59,6 +60,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/network.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/proto_man.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0467F5C0-E463-4B2C-ACC5-F718CB71F056/6d/c43a78ca/SocketFlags.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/Response.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/EmailInfo.cs" root0="FORCE_HIGHLIGHTING" />
@@ -99,9 +101,11 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/TeamMatch.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Joystick.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/AsyncLoaderScene.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Joystick.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/CharacterCtrl.cs" />
       </list>
     </option>
   </component>
@@ -174,6 +178,7 @@
       <workItem from="1588484824783" duration="4062000" />
       <workItem from="1588500747247" duration="5297000" />
       <workItem from="1588564836793" duration="8331000" />
+      <workItem from="1588594719075" duration="5126000" />
     </task>
     <servers />
   </component>
