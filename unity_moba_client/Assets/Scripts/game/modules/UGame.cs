@@ -16,6 +16,8 @@ public class UGame : Singleton<UGame>
     public int zid = -1;
 
     public UserGameInfo uGameInfo;
+
+    public List<UserArrived> otherUsers=new List<UserArrived>();
     
     public void SaveUGameInfo(UserGameInfo ugame_info)
     {

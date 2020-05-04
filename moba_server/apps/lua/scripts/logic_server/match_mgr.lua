@@ -34,27 +34,28 @@ function match_mgr:init( zid )
 end
 
 function match_mgr:broadcast_cmd_inview_players( stype,ctype,body,not_to_player )
-    local i 
-	for i = 1, #self.inview_players do 
-		if self.inview_players[i] ~= not_to_player then 
-			self.inview_players[i]:send_cmd(stype, ctype, body)
+    local k,v;
+    
+	for k,v in pairs(self.inview_players) do
+		if v ~= not_to_player then 
+			v:send_cmd(stype, ctype, body)
 		end
 	end
 end
 
 function match_mgr:exit_player( p )
+    local body={
+        seatid=p.seatid,
+    }
+    self:broadcast_cmd_inview_players(Stype.Logic,Cmd.eUserExitMatch,body,p);
     --从等待列表内，移除player
-    local index=0;
-    for index=1,#self.inview_players do
-        if self.inview_players[index] == p then
-            table.remove(self.inview_players,index);
-        end
-    end
+    self.inview_players[p.seatid]=nil;
     p.zid=-1;
     p.matchid=-1;
+    p.seatid=-1;
+
     local body={status=Response.OK};
     p:send_cmd(Stype.Logic,Cmd.eExitMatchRes,body);
-
     --广播给其他玩家，该玩家已经离开
     
 end
@@ -64,9 +65,16 @@ function match_mgr:enter_player( p )
     if self.state ~= State.InView or p.state ~= State.InView then
         return false;
     end
-    
-    table.insert(self.inview_players,p);--将玩家加入到匹配列表中
     p.matchid=self.matchid;
+    --将玩家加入到匹配列表中
+    for i=1,PLAYER_NUM*2 do
+        if not self.inview_players[i] then
+            self.inview_players[i]=p;
+            p.seatid=i;
+            break;
+        end
+    end
+    
     --通知客户端，已进入游戏房间，matchid,zid
     local body={
         zid=self.zid,

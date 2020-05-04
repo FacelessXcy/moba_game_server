@@ -166,6 +166,12 @@ function search_idle_robot(zid)
 	return nil
 end
 
+-- function do_exit_robot( match,robot )
+-- 	Scheduler.once(function (  )
+-- 		match:exit_player(robot);
+-- 	end,5000)
+-- end
+
 function do_push_robot_to_match()
 	local zid, match_list
 	local k, match  
@@ -176,6 +182,9 @@ function do_push_robot_to_match()
 				if robot then
 					Logger.debug("[".. robot.uid .."]" .. " enter match!")
 					match:enter_player(robot) 
+
+					--test
+					--do_exit_robot(match,robot);
 				end
 			end 
 		end
@@ -285,7 +294,10 @@ function do_exit_match( s,req )
 		return 
     end
     
-    if p.state ~= State.InView or p.zid ==-1 or p.matchid == -1 then
+	if p.state ~= State.InView or 
+		p.zid ==-1 or 
+		p.matchid == -1 or 
+		p.seatid == -1 then
         send_status(req[1],Cmd.eExitMatchRes,uid,Response.InvalidOpt);
         return
     end

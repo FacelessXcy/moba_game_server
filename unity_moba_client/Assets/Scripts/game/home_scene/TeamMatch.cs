@@ -14,14 +14,22 @@ public class TeamMatch : MonoBehaviour
 
     private void Start()
     {
-        EventManager.Instance.AddEventListener("user_arrived",OnUserArrived);
-        EventManager.Instance.AddEventListener("exit_match", OnSelfExitMatch);
+        EventManager.Instance.AddEventListener("user_arrived",
+            OnUserArrived);
+        EventManager.Instance.AddEventListener("exit_match",
+            OnSelfExitMatch);
+        EventManager.Instance.AddEventListener("other_user_exit", 
+        OnOtherUserExit);
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.RemoveEventListener("user_arrived",OnUserArrived);
-        EventManager.Instance.RemoveEventListener("exit_match", OnSelfExitMatch);
+        EventManager.Instance.RemoveEventListener("user_arrived",
+            OnUserArrived);
+        EventManager.Instance.RemoveEventListener("exit_match",
+            OnSelfExitMatch);
+        EventManager.Instance.RemoveEventListener("other_user_exit", 
+            OnOtherUserExit);
     }
 
     public void OnBeginMatchClick()
@@ -36,6 +44,16 @@ public class TeamMatch : MonoBehaviour
 
     }
 
+    private void OnOtherUserExit(string eventName, object udata)
+    {
+        int index = (int) udata;
+        this._memberCount--;
+        GameObject.Destroy(this.scrollView.content.GetChild(index)
+        .gameObject);
+        this.scrollView.content.sizeDelta=new Vector2(0, 
+            this._memberCount*106);
+    }
+
     private void OnSelfExitMatch(string eventName,object udata)
     {
         UGame.Instance.zid = -1;
@@ -46,6 +64,7 @@ public class TeamMatch : MonoBehaviour
     {
         UserArrived userInfo = (UserArrived) udata;
         this._memberCount++;
+        
         GameObject user = Instantiate(this.optPrefab);
         user.transform.SetParent(this.scrollView.content,false);
         this.scrollView.content.sizeDelta=new Vector2(0, 

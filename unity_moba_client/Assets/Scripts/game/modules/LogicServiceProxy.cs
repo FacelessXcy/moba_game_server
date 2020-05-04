@@ -68,6 +68,7 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
             return;
         }
         Debug.Log(res.unick+" user arrived!");
+        UGame.Instance.otherUsers.Add(res);
         EventManager.Instance.DispatchEvent("user_arrived",res);
     }
 
@@ -86,6 +87,27 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         }
         Debug.Log("exit match success!!!");
         EventManager.Instance.DispatchEvent("exit_match",null);
+    }
+
+    private void OnOtherUserExitReturn(cmd_msg msg)
+    {
+        UserExitMatch res = proto_man
+            .protobuf_deserialize<UserExitMatch>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < UGame.Instance.otherUsers.Count; i++)
+        {
+            if (UGame.Instance.otherUsers[i].seatid==res.seatid)
+            {
+                EventManager.Instance.DispatchEvent
+                ("other_user_exit",i);
+                UGame.Instance.otherUsers.RemoveAt(i);
+                return;
+            }
+        }
     }
 
     void OnLogicServerReturn(cmd_msg msg)
@@ -107,6 +129,9 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
                 break;
             case (int)Cmd.eExitMatchRes:
                 OnUserExitReturn(msg);
+                break;
+            case (int)Cmd.eUserExitMatch:
+                OnOtherUserExitReturn(msg);
                 break;
         }
     }

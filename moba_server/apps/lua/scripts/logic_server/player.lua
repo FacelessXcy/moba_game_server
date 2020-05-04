@@ -24,6 +24,7 @@ function player:init( uid,s,ret_handler )
     self.uid=uid;
     self.zid=-1;--表明玩家所在空间 -1：不在任何游戏场中
     self.matchid=-1;--玩家所在的比赛房间的id
+    self.seatid=-1;
     self.state=State.InView;--玩家当前处于旁观状态
     self.is_robot=false;--对象是否为机器人
 
@@ -63,7 +64,7 @@ function player:get_user_arrived( )
         unick=self.uinfo.unick,
         uface=self.uinfo.uface,
         usex=self.uinfo.usex,
-        seatid=1,
+        seatid=self.seatid,
         side=1,
     }
     return body;
