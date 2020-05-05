@@ -32,6 +32,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/LoginBonues.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/862B9365-843C-4BF1-BA93-210C124BB523/45/7d60ef56/IPEndPoint.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://G:/博毅创为/Unity_Moba_全栈架构师/CTO游戏服务器进阶班/C+Lua_Moba服务器开发(unity)/06战斗逻辑服务器开发/第019课UDP帧事件触发/moba_game_server/unity_moba_client/Assets/Scripts/game/game_scene/game_zygote.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/utils/ShowFPS.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/RankList.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/UserInfoDlg.cs" root0="FORCE_HIGHLIGHTING" />
@@ -57,6 +58,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/managers/EventManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F38C71C8-6AA6-4E29-9D4C-EA9FB7C715E1/6c/5cbea316/LineRenderer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/talkroom/talkroom.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://G:/博毅创为/Unity_Moba_全栈架构师/CTO游戏服务器进阶班/C+Lua_Moba服务器开发(unity)/06战斗逻辑服务器开发/第020课帧同步之帧编号与玩家事件采集/moba_game_server/unity_moba_client/Assets/Scripts/game/game_scene/game_zygote.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/network.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/proto_man.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/SystemServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
@@ -97,15 +99,15 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/Zone.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/TeamMatch.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/AsyncLoaderScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/CharacterCtrl.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Joystick.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/network/network.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
       </list>
     </option>
   </component>
@@ -179,7 +181,7 @@
       <workItem from="1588500747247" duration="5297000" />
       <workItem from="1588564836793" duration="8331000" />
       <workItem from="1588594719075" duration="7918000" />
-      <workItem from="1588641748061" duration="7267000" />
+      <workItem from="1588641748061" duration="18653000" />
     </task>
     <servers />
   </component>

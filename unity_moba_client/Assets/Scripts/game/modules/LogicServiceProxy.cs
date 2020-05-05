@@ -56,7 +56,11 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         {
             return;
         }
-        Debug.Log("enter success zid "+res.zid+" match id: "+res.matchid);
+        //Debug.Log("enter success zid "+res.zid+" match id: "+res.matchid);
+        UGame.Instance.zid = res.zid;
+        UGame.Instance.matchid = res.matchid;
+        UGame.Instance.selfSeatid = res.seatid;
+        UGame.Instance.selfSide = res.side;
     }
 
     private void OnUserArrivedReturn(cmd_msg msg)
@@ -119,10 +123,13 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
             return;
         }
 
-        foreach (PlayerMatchInfo info in res.players_match_info)
-        {
-            Debug.Log(info.heroid);
-        }
+//        foreach (PlayerMatchInfo info in res.players_match_info)
+//        {
+//            Debug.Log(info.heroid);
+//        }
+
+        UGame.Instance.playersMatchInfo = res.players_match_info;
+        
         EventManager.Instance.DispatchEvent("game_start",null);
     }
 
@@ -135,6 +142,18 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
             return;
         }
         Debug.Log("Server Udp Return "+res.content);
+    }
+
+    private void OnServerLogicFrame(cmd_msg msg)
+    {
+        LogicFrame res = proto_man
+            .protobuf_deserialize<LogicFrame>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        //Debug.Log(res.frameid);//当前帧id，和当前玩家没有同步到的操作
+        EventManager.Instance.DispatchEvent("on_logic_update",res);
     }
 
     void OnLogicServerReturn(cmd_msg msg)
@@ -166,13 +185,19 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
             case (int)Cmd.eUdpTest:
                 OnUdpTest(msg);
                 break;
+            case (int)Cmd.eLogicFrame:
+                OnServerLogicFrame(msg);
+                break;
         }
     }
 
     public void LoginLogicServer()
     {
+        LoginLogicReq req=new LoginLogicReq();
+        req.udp_ip = "127.0.0.1";
+        req.udp_port = network.Instance.localUdpPort;
         network.Instance.SendProtobufCmd((int)Stype.Logic,(int)Cmd
-            .eLoginLogicReq,null);
+            .eLoginLogicReq,req);
     }
 
     public void EnterZone(int zid)
@@ -199,5 +224,11 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         req.content = content;
         network.Instance.UdpSendProtobufCmd((int)Stype.Logic,(int)Cmd
         .eUdpTest,req);
+    }
+
+    public void SendNextFrameOpts(NextFrameOpts nextFrameOpts)
+    {
+        network.Instance.UdpSendProtobufCmd((int)Stype.Logic,(int)Cmd
+            .eNextFrameOpts,nextFrameOpts);
     }
 }

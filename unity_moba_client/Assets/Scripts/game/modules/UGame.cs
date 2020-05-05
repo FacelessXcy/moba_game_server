@@ -14,10 +14,15 @@ public class UGame : Singleton<UGame>
     public bool isGuest = false;
     public string guestKey;
     public int zid = -1;
+    public int matchid=-1;
+    public int selfSeatid=-1;
+    public int selfSide = -1;
+    
 
     public UserGameInfo uGameInfo;
 
     public List<UserArrived> otherUsers=new List<UserArrived>();
+    public List<PlayerMatchInfo> playersMatchInfo = null;//当局比赛玩家的比赛信息
     
     public void SaveUGameInfo(UserGameInfo ugame_info)
     {

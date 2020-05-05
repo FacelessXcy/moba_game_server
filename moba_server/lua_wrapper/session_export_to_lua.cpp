@@ -6,6 +6,7 @@
 #include "../netbus/session.h"
 #include "../netbus/proto_man.h"
 #include "../netbus/service_man.h"
+#include "../netbus/netbus.h"
 #include "../utils/logger.h"
 
 #include "lua_wrapper.h"
@@ -260,6 +261,94 @@ static google::protobuf::Message* lua_table_to_protobuf(lua_State* toLua_S,
 	return message;
 }
 
+void udp_send_msg(char*ip,int port, cmd_msg* msg)
+{
+	unsigned char* encode_pkg = NULL;
+	int encode_len = 0;
+	encode_pkg = proto_man::encode_msg_to_raw(msg, &encode_len);
+	if (encode_pkg)
+	{
+		//this->send_data(encode_pkg, encode_len);
+		netbus::instance()->udp_send_to(ip, port, encode_pkg, encode_len);
+		proto_man::msg_raw_free(encode_pkg);
+	}
+}
+
+//ip,port,{1,stype 2,ctype 3,utag 4,body(jsonStr or table)}
+static int lua_udp_send_msg(lua_State* toLua_S)
+{
+	char* ip = (char*)tolua_tostring(toLua_S, 1, NULL);
+	if (ip == NULL) {
+		goto lua_failed;
+	}
+
+	int port = (int)tolua_tonumber(toLua_S, 2, NULL);
+	if (port == 0) 
+	{
+		goto lua_failed;
+	}
+	//stack  table
+	if (!lua_istable(toLua_S, 3)) {
+		goto lua_failed;
+	}
+
+	struct cmd_msg msg;
+
+	int n = luaL_len(toLua_S, 3);
+	if (n != 4 && n != 3) {
+		goto lua_failed;
+	}
+
+	lua_pushnumber(toLua_S, 1);
+	lua_gettable(toLua_S, 3);
+	msg.stype = luaL_checkinteger(toLua_S, -1);
+
+	lua_pushnumber(toLua_S, 2);
+	lua_gettable(toLua_S, 3);
+	msg.ctype = luaL_checkinteger(toLua_S, -1);
+
+	lua_pushnumber(toLua_S, 3);
+	lua_gettable(toLua_S, 3);
+	msg.utag = luaL_checkinteger(toLua_S, -1);
+
+	if (n == 3)
+	{
+		msg.body = NULL;
+		//s->send_msg(&msg);
+		udp_send_msg(ip,port,&msg);
+		return 0;
+	}
+	lua_pushnumber(toLua_S, 4);
+	lua_gettable(toLua_S, 3);
+
+	if (proto_man::proto_type() == PROTO_JSON)
+	{
+		msg.body = (char*)lua_tostring(toLua_S, -1);
+		//s->send_msg(&msg);
+		udp_send_msg(ip, port, &msg);
+	}
+	else
+	{
+		if (!lua_istable(toLua_S, -1))
+		{
+			msg.body = NULL;
+			//s->send_msg(NULL);
+			udp_send_msg(ip, port, &msg);
+		}
+		else
+		{//protobuf message table
+			const char* msg_name = proto_man::protobuf_cmd_name(msg.ctype);
+			msg.body = lua_table_to_protobuf(toLua_S, lua_gettop(toLua_S), msg_name);
+			//s->send_msg(&msg);
+			udp_send_msg(ip, port, &msg);
+			proto_man::release_message((google::protobuf::Message*)msg.body);
+		}
+	}
+
+lua_failed:
+	return 0;
+}
+
 //{1,stype 2,ctype 3,utag 4,body(jsonStr or table)}
 static int lua_send_msg(lua_State* toLua_S)
 {
@@ -450,6 +539,7 @@ int register_session_export(lua_State* toLua_S)
 		tolua_function(toLua_S, "set_uid", lua_set_uid);
 		tolua_function(toLua_S, "get_uid", lua_get_uid);
 		tolua_function(toLua_S, "asclient", lua_as_client);
+		tolua_function(toLua_S, "udp_send_msg", lua_udp_send_msg);
 
 		tolua_endmodule(toLua_S);
 	}

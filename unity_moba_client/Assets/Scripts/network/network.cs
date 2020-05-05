@@ -33,6 +33,7 @@ public class network : UnitySingleton<network>
     private Socket _udpSocket;
     private byte[] _udpRecvBuf=new byte[60*1024];
     private Thread _udpRecvThread;
+    public int localUdpPort = 8888;
     
     #endregion
     
@@ -51,7 +52,7 @@ public class network : UnitySingleton<network>
         ConnectToServer();
         UdpSocketInit();
         //test udp data
-        this.InvokeRepeating(nameof(TestUdp),5,5);
+        //this.InvokeRepeating(nameof(TestUdp),5,5);
     }
 
     private void TestUdp()
@@ -390,7 +391,7 @@ public class network : UnitySingleton<network>
             SocketType.Dgram, ProtocolType.Udp);
         //接收数据,使用另外一个线程，如果不绑定，无法接收
         IPEndPoint localPoint = new IPEndPoint(IPAddress.Parse(
-            "127.0.0.1"), 8888);
+            "127.0.0.1"), this.localUdpPort);
         this._udpSocket.Bind(localPoint);
         
         //在特定的端口上，启动接收线程
