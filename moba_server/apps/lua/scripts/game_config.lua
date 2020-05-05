@@ -60,6 +60,12 @@ local game_config={
         host="127.0.0.1",
         port=6379,
         db_index=3,
+    },
+    --logic server udp
+    logic_udp={
+        host="127.0.0.1",
+        port=8800,
+        
     }
 }
 

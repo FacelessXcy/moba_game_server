@@ -312,6 +312,19 @@ function do_exit_match( s,req )
 
 end
 
+function do_udp_test( s,req )
+	local stype=req[1];
+	local ctype=req[2];
+	local body=req[4];
+
+	print(body.content);
+	local msg = {stype, ctype, 0, {
+		content = body.content,
+	}}
+
+	Session.send_msg(s, msg)
+end
+
 
 local game_mgr = {
 	login_logic_server = login_logic_server,
@@ -320,7 +333,8 @@ local game_mgr = {
 	on_gateway_connect = on_gateway_connect,
 
     enter_zone = enter_zone,
-    do_exit_match=do_exit_match,
+	do_exit_match=do_exit_match,
+	do_udp_test=do_udp_test,
 }
 
 return game_mgr

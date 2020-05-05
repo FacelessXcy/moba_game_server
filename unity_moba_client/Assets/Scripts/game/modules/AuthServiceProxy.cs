@@ -12,7 +12,7 @@ public class AuthServiceProxy:Singleton<AuthServiceProxy>
     private EditProfileReq _tempReq = null;
     public void Init()
     {
-        network.Instance.add_service_listeners((int)Stype.Auth,OnAuthServerReturn);
+        network.Instance.AddServiceListeners((int)Stype.Auth,OnAuthServerReturn);
     }
 
     private void OnGuestAccountUpgradeReturn(cmd_msg msg)
@@ -159,7 +159,7 @@ public class AuthServiceProxy:Singleton<AuthServiceProxy>
 //        this.g_key = "Hello";
         GuestLoginReq req=new GuestLoginReq();
         req.guest_key = this.g_key;
-        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.Auth,(int)Cmd
         .eGuestLoginReq,req);
     }
 
@@ -171,7 +171,7 @@ public class AuthServiceProxy:Singleton<AuthServiceProxy>
         UnameLoginReq req=new UnameLoginReq();
         req.uname = uname;
         req.upwd = upwd_md5;
-        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.Auth,(int)Cmd
         .eUnameLoginReq,req);
     }
 
@@ -180,7 +180,7 @@ public class AuthServiceProxy:Singleton<AuthServiceProxy>
         AccountUpgradeReq req=new AccountUpgradeReq();
         req.uname = uname;
         req.upwd_md5 = upwd_md5;
-        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.Auth,(int)Cmd
         .eAccountUpgradeReq,req);
     }
     
@@ -205,14 +205,14 @@ public class AuthServiceProxy:Singleton<AuthServiceProxy>
         req.uface = uface;
         req.usex = usex;
         this._tempReq = req;
-        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.Auth,(int)Cmd
         .eEditProfileReq,req);
         
     }
 
     public void UserLoginOut()
     {
-        network.Instance.send_protobuf_cmd((int)Stype.Auth,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.Auth,(int)Cmd
             .eLoginOutReq,null);
     }
 

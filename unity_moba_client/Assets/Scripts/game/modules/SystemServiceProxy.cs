@@ -10,7 +10,7 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
     private List<string> _sysMsgs=null;
     public void Init()
     {
-        network.Instance.add_service_listeners((int) Stype.System,
+        network.Instance.AddServiceListeners((int) Stype.System,
             OnSystemServerReturn);
     }
 
@@ -135,19 +135,19 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
 
     public void LoadUserUGameInfo()
     {
-        network.Instance.send_protobuf_cmd((int)Stype.System,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.System,(int)Cmd
             .eGetUgameInfoReq,null);
     }
 
     public void RecvLoginBonues()
     {
-        network.Instance.send_protobuf_cmd((int)Stype.System,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.System,(int)Cmd
         .eRecvLoginBonuesReq,null);
     }
 
     public void GetWorldUChipRankInfo()
     {
-        network.Instance.send_protobuf_cmd((int)Stype.System,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.System,(int)Cmd
         .eGetWorldRankUchipReq,null);
     }
 
@@ -156,7 +156,7 @@ public class SystemServiceProxy:Singleton<SystemServiceProxy>
         GetSysMsgReq req=new GetSysMsgReq();
         req.ver_num = this._verNum;
         
-        network.Instance.send_protobuf_cmd((int)Stype.System,
+        network.Instance.SendProtobufCmd((int)Stype.System,
             (int)Cmd.eGetSysMsgReq,req);
     }
 

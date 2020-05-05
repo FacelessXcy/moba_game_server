@@ -9,7 +9,7 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
 
     public void Init()
     {
-        network.Instance.add_service_listeners((int)Stype.Logic,OnLogicServerReturn);
+        network.Instance.AddServiceListeners((int)Stype.Logic,OnLogicServerReturn);
     }
 
     private void OnLoginLogicServerReturn(cmd_msg msg)
@@ -126,6 +126,17 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         EventManager.Instance.DispatchEvent("game_start",null);
     }
 
+    private void OnUdpTest(cmd_msg msg)
+    {
+        UdpTest res = proto_man
+            .protobuf_deserialize<UdpTest>(msg.body);
+        if (res==null)
+        {
+            return;
+        }
+        Debug.Log("Server Udp Return "+res.content);
+    }
+
     void OnLogicServerReturn(cmd_msg msg)
     {
         //Debug.Log(msg.ctype.ToString());
@@ -152,12 +163,15 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
             case (int)Cmd.eGameStart:
                 OnGameStart(msg);
                 break;
+            case (int)Cmd.eUdpTest:
+                OnUdpTest(msg);
+                break;
         }
     }
 
     public void LoginLogicServer()
     {
-        network.Instance.send_protobuf_cmd((int)Stype.Logic,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.Logic,(int)Cmd
             .eLoginLogicReq,null);
     }
 
@@ -169,13 +183,21 @@ public class LogicServiceProxy:Singleton<LogicServiceProxy>
         }
         EnterZoneReq req=new EnterZoneReq();
         req.zid = zid;
-        network.Instance.send_protobuf_cmd((int)Stype.Logic,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.Logic,(int)Cmd
         .eEnterZoneReq,req);
     }
 
     public void ExitMatch()
     {
-        network.Instance.send_protobuf_cmd((int)Stype.Logic,(int)Cmd
+        network.Instance.SendProtobufCmd((int)Stype.Logic,(int)Cmd
             .eExitMatchReq,null);
+    }
+
+    public void SendUdpTest(string content)
+    {
+        UdpTest req=new UdpTest();
+        req.content = content;
+        network.Instance.UdpSendProtobufCmd((int)Stype.Logic,(int)Cmd
+        .eUdpTest,req);
     }
 }

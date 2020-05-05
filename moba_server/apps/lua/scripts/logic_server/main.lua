@@ -27,7 +27,7 @@ local Stype=require("Stype");
 --开启网关端口监听
 Netbus.tcp_listen(servers[Stype.Logic].port);
 print("Logic Server Start at "..servers[Stype.Logic].port);
--- Netbus.udp_listen(8002);
+Netbus.udp_listen(game_config.logic_udp.port);
 --end
 
 local logic_service=require("logic_server/logic_service");
