@@ -357,9 +357,9 @@ public class network : UnitySingleton<network>
         {
             EndPoint remote=(EndPoint)new IPEndPoint(IPAddress.Parse
             (this._udpServerIP),this._udpPort);
-            Debug.Log("Begin Receive");
+            //Debug.Log("Begin Receive");
             int recved = this._udpSocket.ReceiveFrom(_udpRecvBuf,ref remote);
-            Debug.Log("End Receive");
+            //Debug.Log("End Receive");
             this.OnRecvCmd(this._udpRecvBuf,0,recved);
         }
     }
@@ -392,6 +392,7 @@ public class network : UnitySingleton<network>
         //接收数据,使用另外一个线程，如果不绑定，无法接收
         IPEndPoint localPoint = new IPEndPoint(IPAddress.Parse(
             "127.0.0.1"), this.localUdpPort);
+        //Debug.Log(_udpSocket==null);
         this._udpSocket.Bind(localPoint);
         
         //在特定的端口上，启动接收线程
@@ -421,7 +422,6 @@ public class network : UnitySingleton<network>
         {
             return;
         }
-        
         //打包完成
         _udpSocket.BeginSendTo(cmd_data,0,cmd_data.Length,
         SocketFlags.None,this._udpRemotePoint,OnUdpSendData,this._udpSocket);

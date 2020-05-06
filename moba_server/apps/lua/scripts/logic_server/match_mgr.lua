@@ -10,6 +10,7 @@ local player = require("logic_server/player")
 local match_mgr = {}
 local sg_matchid = 1
 local PLAYER_NUM = 2 -- 3v3
+local LOGIC_FRAME_TIME=66;
 
 function match_mgr:new(instant) 
 	if not instant then 
@@ -88,7 +89,7 @@ function match_mgr:game_start()
 
 	self.frame_timer = Scheduler.schedule(function() 
 		self:on_logic_frame()
-	end, 5000, -1, 50)
+	end, 5000, -1, LOGIC_FRAME_TIME)
 	-- end
 end
 

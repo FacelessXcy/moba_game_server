@@ -169,8 +169,8 @@
           </e>
           <e p="game" t="Include">
             <e p="game_scene" t="Include">
-              <e p="CharacterCtrl.cs" t="Include" />
               <e p="GameZygote.cs" t="Include" />
+              <e p="Hero.cs" t="Include" />
               <e p="Joystick.cs" t="Include" />
             </e>
             <e p="GameManager.cs" t="Include" />

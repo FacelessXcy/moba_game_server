@@ -42,7 +42,6 @@ int main(int argc,char**  argv)
 		lua_wrapper::do_file(lua_file);
 	}
 
-
 	netbus::instance()->run();
 	lua_wrapper::exit();
 
