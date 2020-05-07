@@ -49,8 +49,23 @@ public class Hero : MonoBehaviour
             r.transform.SetParent(this.transform,false);
             r.transform.localPosition = Vector3.zero;
             r.transform.localScale=new Vector3(2,1,2);
+            if (this.side==1)
+            {//sideB
+                Camera.main.transform.localPosition =
+                    new Vector3(262, 82, 112);
+                Camera.main.transform.localEulerAngles =
+                    new Vector3(50, 225, 0);
+            }
+            else
+            {
+                Camera.main.transform.localPosition =
+                    new Vector3(32, 82, 86);
+                Camera.main.transform.localEulerAngles =
+                    new Vector3(50, 45, 0);
+            }
             this._cameraOffset = Camera.main.transform.position - this
                                      .transform.position;
+            
         }
 
         this._animation.Play("idle");
@@ -117,14 +132,17 @@ public class Hero : MonoBehaviour
         
         float dirX = (float) this._stickX / (float) (1 << 16);
         float diry = (float) this._stickY / (float) (1 << 16);
-        
         float dir = Mathf.Atan2(diry,dirX);
+        
         float s = this.speed * deltaTime;
-        float sx = s * Mathf.Cos(dir- Mathf.PI * 0.25f);
-        float sy = s * Mathf.Sin(dir- Mathf.PI * 0.25f);
+        float offset = (this.side == 0)
+            ? (-Mathf.PI * 0.25f)
+            : (Mathf.PI * 0.75f);
+        float sx = s * Mathf.Cos(dir + offset);
+        float sy = s * Mathf.Sin(dir + offset);
         this._characterController.Move(new Vector3(sx, 0, sy));
-       
-        float degree =360-dir*Mathf.Rad2Deg+90.0f+45.0f;
+        offset = (this.side == 0) ? 45 : -135;
+        float degree =360-dir*Mathf.Rad2Deg+90.0f+offset;
         this.transform.localEulerAngles = new Vector3(0, degree, 0);
 
     }

@@ -108,8 +108,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/network/network.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" />
       </list>
     </option>
   </component>
@@ -186,7 +186,7 @@
       <workItem from="1588641748061" duration="18653000" />
       <workItem from="1588769993589" duration="3610000" />
       <workItem from="1588779926336" duration="4295000" />
-      <workItem from="1588845543486" duration="3817000" />
+      <workItem from="1588845543486" duration="6318000" />
     </task>
     <servers />
   </component>
