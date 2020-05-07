@@ -30,15 +30,75 @@ public class GameZygote : MonoBehaviour
     
     private List<Hero> _heroes = new List<Hero>();
     
+    
+    private List<Tower> _ATowers=new List<Tower>();
+    private List<Tower> _BTowers=new List<Tower>();
+    
+    public GameObject[] ATowerObjects;//[主塔,left,right,front]
+    public GameObject[] BTowerObjects;//[主塔,left,right,front]
+    
     public const int LOGIC_FRAME_TIME = 66;//逻辑帧间隔时间
-
-    private Hero _testHero;
     private void Start()
     {
         EventManager.Instance.AddEventListener("on_logic_update",
         OnLogicUpdate);
         //UGame.Instance.uSex = 1;
+        
+        //创建英雄
+        PlaceHeroes();
+        
+        //创建防御塔
+        PlaceTowers();
+    }
 
+    private void PlaceTowers()
+    {
+        //sideA
+        Tower t;
+        t = this.ATowerObjects[0].AddComponent<MainTower>();
+        t.Init(0,(int)TowerType.Main);
+        this._ATowers.Add(t);//主塔
+        t.gameObject.name = "A_main_tower";
+        
+        t = this.ATowerObjects[1].AddComponent<NormalTower>();
+        t.Init(0,(int)TowerType.Main);
+        this._ATowers.Add(t);//left
+        t.gameObject.name = "A_left_tower";
+        
+        t = this.ATowerObjects[2].AddComponent<NormalTower>();
+        t.Init(0,(int)TowerType.Main);
+        this._ATowers.Add(t);//right
+        t.gameObject.name = "A_right_tower";
+        
+        t = this.ATowerObjects[3].AddComponent<NormalTower>();
+        t.Init(0,(int)TowerType.Main);
+        this._ATowers.Add(t);//front
+        t.gameObject.name = "A_front_tower";
+        
+        //sideB
+        t = this.BTowerObjects[0].AddComponent<MainTower>();
+        t.Init(0,(int)TowerType.Main);
+        this._BTowers.Add(t);//主塔
+        t.gameObject.name = "B_main_tower";
+        
+        t = this.BTowerObjects[1].AddComponent<NormalTower>();
+        t.Init(0,(int)TowerType.Main);
+        this._BTowers.Add(t);//left
+        t.gameObject.name = "B_left_tower";
+        
+        t = this.BTowerObjects[2].AddComponent<NormalTower>();
+        t.Init(0,(int)TowerType.Main);
+        this._BTowers.Add(t);//right
+        t.gameObject.name = "B_right_tower";
+        
+        t = this.BTowerObjects[3].AddComponent<NormalTower>();
+        t.Init(0,(int)TowerType.Main);
+        this._BTowers.Add(t);//front
+        t.gameObject.name = "B_front_tower";
+    }
+
+    private void PlaceHeroes()
+    {
         //放置英雄
         Hero h;
         h = PlaceHeroAt(UGame.Instance.playersMatchInfo[0],0);//sideA的0号位
@@ -49,7 +109,6 @@ public class GameZygote : MonoBehaviour
         this._heroes.Add(h);
         h = PlaceHeroAt(UGame.Instance.playersMatchInfo[3],1);//sideB的1号位
         this._heroes.Add(h);
-
     }
 
     public Hero GetHeroBySeatID(int seatid)
@@ -102,6 +161,19 @@ public class GameZygote : MonoBehaviour
         return ctrl;
     }
 
+    private void OnFrameHandleTowerLogic()
+    {
+        for (int i = 0; i < _ATowers.Count; i++)
+        {
+            this._ATowers[i].OnLogicUpdate(LOGIC_FRAME_TIME);
+        }
+
+        for (int i = 0; i < _BTowers.Count; i++)
+        {
+            this._BTowers[i].OnLogicUpdate(LOGIC_FRAME_TIME);
+        }
+    }
+
     private void CapturePlayerOpts()
     {
         NextFrameOpts nextFrameOpts=new NextFrameOpts();
@@ -142,8 +214,8 @@ public class GameZygote : MonoBehaviour
             h.OnHandlerFrameEvent(frameOpts.opts[i]);
         }
         
-        //怪物AI根据操作产生相应
-        
+        //塔和怪物AI根据操作产生相应
+        OnFrameHandleTowerLogic();
     }
 
     private void OnSyncLastLogicFrame(FrameOpts frameOpts)
@@ -177,8 +249,8 @@ public class GameZygote : MonoBehaviour
             }
             h.OnJumpToNextFrame(frameOpts.opts[i]);
         }
-        //怪物AI根据操作产生相应
-        
+        //塔和怪物AI根据操作产生相应
+        OnFrameHandleTowerLogic();
     }
 
     private void OnLogicUpdate(string eventName,object udata)
