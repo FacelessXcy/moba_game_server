@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TowerType
+
+public enum BulletType
 {
-    Main=1,
-    Normal=2,
+    Normal=1,
+    Main=2,
 }
 
-public class Tower : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
     protected int type;
     protected int side;//0:sideA  1:sideB
 
-    protected TowerConfig config;
+    protected BulletConfig config;
     
     /// <summary>
-    /// 初始化塔属性
+    /// 初始化子弹属性
     /// </summary>
     /// <param name="side">0:sideA  1:sideB</param>
     /// <param name="type">TowerType</param>
@@ -27,16 +28,17 @@ public class Tower : MonoBehaviour
         switch (type)
         {
             case (int)TowerType.Normal:
-                this.config = GameConfig.NormalTowerConfig;
+                this.config = GameConfig.MainBulletConfig;
                 break;
             case (int)TowerType.Main:
-                this.config = GameConfig.MainTowerConfig;
+                this.config = GameConfig.NormalBulletConfig;
                 break;
         }
     }
 
     public virtual void OnLogicUpdate(int deltaTime)
     {
+        
         
     }
 }

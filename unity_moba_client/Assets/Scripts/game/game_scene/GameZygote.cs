@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using gprotocol;
+using TMPro;
 using UnityEngine;
 
 public enum OptType
@@ -14,7 +15,14 @@ public enum OptType
     Skill2=6,
     Skill3=7,
 }
-public class GameZygote : MonoBehaviour
+
+public enum SideType
+{
+    SideA=0,
+    SideB=1,
+}
+
+public class GameZygote : UnitySingleton<GameZygote>
 {
     //test
     public Joystick stick;
@@ -36,12 +44,22 @@ public class GameZygote : MonoBehaviour
     
     public GameObject[] ATowerObjects;//[主塔,left,right,front]
     public GameObject[] BTowerObjects;//[主塔,left,right,front]
-    
+
+    public GameObject normalBulletPrefab;//普通塔子弹
+    public GameObject mainBulletPrefab;//主塔子弹
     public const int LOGIC_FRAME_TIME = 66;//逻辑帧间隔时间
+
+
+    public override void Awake()
+    {
+        _destoryOnLoad = true;
+        base.Awake();
+    }
+
     private void Start()
     {
         EventManager.Instance.AddEventListener("on_logic_update",
-        OnLogicUpdate);
+            OnLogicUpdate);
         //UGame.Instance.uSex = 1;
         
         //创建英雄
@@ -51,48 +69,80 @@ public class GameZygote : MonoBehaviour
         PlaceTowers();
     }
 
+    public Bullet AllocBullet(int side,int type)
+    {
+        GameObject obj = null;
+        Bullet bullet=null;
+        switch (type)
+        {
+            case (int)BulletType.Normal:
+                obj = GameObject.Instantiate(this.normalBulletPrefab);
+                obj.transform.SetParent(this.transform,false);
+                bullet = obj.AddComponent<NormalBullet>();
+                bullet.Init(side,type);
+                break;
+            case (int)BulletType.Main:
+                obj = GameObject.Instantiate(this.mainBulletPrefab);
+                obj.transform.SetParent(this.transform,false);
+                bullet = obj.AddComponent<MainBullet>();
+                bullet.Init(side,type);
+                break;
+        }
+        return bullet;
+    }
+
+    public void RemoveBullet(Bullet bullet)
+    {
+        GameObject.Destroy(bullet.gameObject);
+    }
+
+    public List<Hero> GetHeroes()
+    {
+        return this._heroes;
+    }
+
     private void PlaceTowers()
     {
         //sideA
         Tower t;
         t = this.ATowerObjects[0].AddComponent<MainTower>();
-        t.Init(0,(int)TowerType.Main);
+        t.Init((int)SideType.SideA,(int)TowerType.Main);
         this._ATowers.Add(t);//主塔
         t.gameObject.name = "A_main_tower";
         
         t = this.ATowerObjects[1].AddComponent<NormalTower>();
-        t.Init(0,(int)TowerType.Main);
+        t.Init((int)SideType.SideA,(int)TowerType.Main);
         this._ATowers.Add(t);//left
         t.gameObject.name = "A_left_tower";
         
         t = this.ATowerObjects[2].AddComponent<NormalTower>();
-        t.Init(0,(int)TowerType.Main);
+        t.Init((int)SideType.SideA,(int)TowerType.Main);
         this._ATowers.Add(t);//right
         t.gameObject.name = "A_right_tower";
         
         t = this.ATowerObjects[3].AddComponent<NormalTower>();
-        t.Init(0,(int)TowerType.Main);
+        t.Init((int)SideType.SideA,(int)TowerType.Main);
         this._ATowers.Add(t);//front
         t.gameObject.name = "A_front_tower";
         
         //sideB
         t = this.BTowerObjects[0].AddComponent<MainTower>();
-        t.Init(0,(int)TowerType.Main);
+        t.Init((int)SideType.SideB,(int)TowerType.Main);
         this._BTowers.Add(t);//主塔
         t.gameObject.name = "B_main_tower";
         
         t = this.BTowerObjects[1].AddComponent<NormalTower>();
-        t.Init(0,(int)TowerType.Main);
+        t.Init((int)SideType.SideB,(int)TowerType.Main);
         this._BTowers.Add(t);//left
         t.gameObject.name = "B_left_tower";
         
         t = this.BTowerObjects[2].AddComponent<NormalTower>();
-        t.Init(0,(int)TowerType.Main);
+        t.Init((int)SideType.SideB,(int)TowerType.Main);
         this._BTowers.Add(t);//right
         t.gameObject.name = "B_right_tower";
         
         t = this.BTowerObjects[3].AddComponent<NormalTower>();
-        t.Init(0,(int)TowerType.Main);
+        t.Init((int)SideType.SideB,(int)TowerType.Main);
         this._BTowers.Add(t);//front
         t.gameObject.name = "B_front_tower";
     }

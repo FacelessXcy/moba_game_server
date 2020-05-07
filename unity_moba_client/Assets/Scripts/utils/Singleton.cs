@@ -33,7 +33,7 @@ public class UnitySingleton<T> : MonoBehaviour
     where T : Component
 {
     private static T _instance=null;
-
+    protected bool _destoryOnLoad=false;
     public static T Instance
     {
         get
@@ -54,7 +54,10 @@ public class UnitySingleton<T> : MonoBehaviour
 
     public virtual void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        if (!_destoryOnLoad)
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
         if (_instance==null)
         {
             _instance = this as T;

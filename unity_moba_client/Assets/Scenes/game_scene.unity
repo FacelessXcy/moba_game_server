@@ -793,6 +793,8 @@ MonoBehaviour:
   - {fileID: 1380313028}
   - {fileID: 971868444}
   - {fileID: 1868902948}
+  normalBulletPrefab: {fileID: 172026, guid: a034d123a0c460540a64de336cc7f210, type: 3}
+  mainBulletPrefab: {fileID: 172026, guid: a034d123a0c460540a64de336cc7f210, type: 3}
 --- !u!1 &1231349391 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1660033887549128, guid: d3e972da87a2c814c857fcb475c31195,

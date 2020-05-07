@@ -168,11 +168,17 @@
             </e>
           </e>
           <e p="game" t="Include">
+            <e p="config" t="Include">
+              <e p="GameConfig.cs" t="Include" />
+            </e>
             <e p="game_scene" t="Include">
+              <e p="Bullet.cs" t="Include" />
               <e p="GameZygote.cs" t="Include" />
               <e p="Hero.cs" t="Include" />
               <e p="Joystick.cs" t="Include" />
+              <e p="MainBullet.cs" t="Include" />
               <e p="MainTower.cs" t="Include" />
+              <e p="NormalBullet.cs" t="Include" />
               <e p="NormalTower.cs" t="Include" />
               <e p="Tower.cs" t="Include" />
             </e>
