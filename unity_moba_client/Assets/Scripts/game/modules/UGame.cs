@@ -4,6 +4,14 @@ using gprotocol;
 using TMPro;
 using UnityEngine;
 
+
+public class UserInfo
+{
+    public string unick;
+    public int usex;
+    public int uface;
+}
+
 //玩家信息保存类
 public class UGame : Singleton<UGame>
 {
@@ -23,7 +31,54 @@ public class UGame : Singleton<UGame>
 
     public List<UserArrived> otherUsers=new List<UserArrived>();
     public List<PlayerMatchInfo> playersMatchInfo = null;//当局比赛玩家的比赛信息
+
+    /// <summary>
+    /// 获取玩家用户信息
+    /// </summary>
+    /// <param name="seatid"></param>
+    /// <returns></returns>
+    public UserInfo getUserInfo(int seatid)
+    {
+        UserInfo uinfo=new UserInfo();
+        if (seatid==this.selfSeatid)
+        {
+            uinfo.unick = this.uNick;
+            uinfo.uface = this.uFace;
+            uinfo.usex = this.uSex;
+            return uinfo;
+        }
+
+        for (int i = 0; i < this.otherUsers.Count; i++)
+        {
+            if (this.otherUsers[i].seatid==seatid)
+            {
+                uinfo.unick = this.otherUsers[i].unick;
+                uinfo.uface = this.otherUsers[i].uface;
+                uinfo.usex = this.otherUsers[i].usex;
+                return uinfo;
+            }
+        }
     
+        return null;
+    }
+    /// <summary>
+    /// 获取玩家游戏信息
+    /// </summary>
+    /// <param name="seatid"></param>
+    /// <returns></returns>
+    public PlayerMatchInfo GetPlayerMatchInfo(int seatid)
+    {
+        for (int i = 0; i < this.playersMatchInfo.Count; i++)
+        {
+            if (this.playersMatchInfo[i].seatid==seatid)
+            {
+                return this.playersMatchInfo[i];
+            }
+        }
+
+        return null;
+    }
+
     public void SaveUGameInfo(UserGameInfo ugame_info)
     {
         this.uGameInfo = ugame_info;

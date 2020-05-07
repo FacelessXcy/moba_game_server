@@ -34,6 +34,8 @@ public class Hero : MonoBehaviour
     private CharacterState _logicState = CharacterState.idle;
     private Vector3 _logicPosition;//保存当前的逻辑帧位置
 
+    public int seatid = -1;
+    public int side = -1;
     
     private void Start()
     {
@@ -72,8 +74,8 @@ public class Hero : MonoBehaviour
     /// </summary>
     private void OnJoystickAnimUpdate()
     {
-        if (this._animState!=CharacterState.idle&&
-            this._animState!=CharacterState.walk)
+        if (this._logicState!=CharacterState.idle&&
+            this._logicState!=CharacterState.walk)
         {
             return;
         }
@@ -164,7 +166,7 @@ public class Hero : MonoBehaviour
     }
 
     /// <summary>
-    /// 根据上一帧逻辑位置，计算出这一帧到达时所在的位置
+    /// 根据上一帧逻辑位置，计算出这一帧到达时所在的位置(服务器同步位置)
     /// </summary>
     /// <param name="opt"></param>
     private void SyncLastJoystickEvent(OptionEvent opt)

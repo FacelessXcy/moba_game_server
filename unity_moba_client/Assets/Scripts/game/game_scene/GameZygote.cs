@@ -22,26 +22,84 @@ public class GameZygote : MonoBehaviour
     
     public GameObject[] heroCharacters;//男、女
     
-    public GameObject entryA;
+    public GameObject entryA;//SideA 出生点
+    public GameObject entryB;//SideB 出生点
 
     private int _syncFrameID = 0;
     private FrameOpts _lastFrameOpts;
-    private Hero _testHero;
+    
+    private List<Hero> _heroes = new List<Hero>();
     
     public const int LOGIC_FRAME_TIME = 66;//逻辑帧间隔时间
 
+    private Hero _testHero;
     private void Start()
     {
         EventManager.Instance.AddEventListener("on_logic_update",
         OnLogicUpdate);
         //UGame.Instance.uSex = 1;
-        GameObject hero = Instantiate(this.heroCharacters[UGame.Instance.uSex]);
-        hero.transform.SetParent(this.transform,false);
-        hero.transform.position = this.entryA.transform.position;
-        Hero ctrl = hero.AddComponent<Hero>();
-        ctrl.isGhost = false;//自己控制
-        ctrl.LoginInit(hero.transform.position);//逻辑数据初始化
-        this._testHero = ctrl;
+
+        //放置英雄
+        Hero h;
+        h = PlaceHeroAt(UGame.Instance.playersMatchInfo[0],0);//sideA的0号位
+        this._heroes.Add(h);
+        h = PlaceHeroAt(UGame.Instance.playersMatchInfo[1],1);//sideA的1号位
+        this._heroes.Add(h);
+        h = PlaceHeroAt(UGame.Instance.playersMatchInfo[2],0);//sideB的0号位
+        this._heroes.Add(h);
+        h = PlaceHeroAt(UGame.Instance.playersMatchInfo[3],1);//sideB的1号位
+        this._heroes.Add(h);
+
+    }
+
+    public Hero GetHeroBySeatID(int seatid)
+    {
+        for (int i = 0; i < this._heroes.Count; i++)
+        {
+            if (this._heroes[i].seatid==seatid)
+            {
+                return this._heroes[i];
+            }
+        }
+        return null;
+    }
+
+    private Hero PlaceHeroAt(PlayerMatchInfo matchInfo,int index)
+    {
+        int side = matchInfo.side;
+        UserInfo uinfo = UGame.Instance.getUserInfo(matchInfo.seatid);
+        GameObject heroObject = Instantiate(this.heroCharacters[uinfo
+        .usex]);
+        heroObject.name = uinfo.unick;
+        heroObject.transform.SetParent(this.transform,false);
+        Vector3 centerPos;
+        if (side==0)
+        {
+            centerPos = this.entryA.transform.position;
+        }
+        else
+        {
+            centerPos = this.entryB.transform.position;
+        }
+
+        if (index==0)
+        {
+            centerPos.z -= 3.0f;
+        }
+        else
+        {
+            centerPos.z += 3.0f;
+        }
+
+        heroObject.transform.position = centerPos;
+        Hero ctrl = heroObject.AddComponent<Hero>();
+        ctrl.isGhost = (matchInfo.seatid == UGame.Instance.selfSeatid)
+            ? false
+            : true;
+        ctrl.LoginInit(heroObject.transform.position);//逻辑数据初始化
+        ctrl.seatid = matchInfo.seatid;
+        ctrl.side = side;
+        return ctrl;
     }
 
     private void CapturePlayerOpts()
@@ -74,10 +132,14 @@ public class GameZygote : MonoBehaviour
         //把所有玩家的操作带入处理
         for (int i = 0; i < frameOpts.opts.Count; i++)
         {
-            if (frameOpts.opts[i].seatid==UGame.Instance.selfSeatid)
+            int seatid = frameOpts.opts[i].seatid;
+            Hero h = GetHeroBySeatID(seatid);
+            if (h==null)
             {
-                this._testHero.OnHandlerFrameEvent(frameOpts.opts[i]);
+                Debug.Log("cannot find hero by seatid: "+seatid);
+                continue;
             }
+            h.OnHandlerFrameEvent(frameOpts.opts[i]);
         }
         
         //怪物AI根据操作产生相应
@@ -89,10 +151,14 @@ public class GameZygote : MonoBehaviour
         //把所有玩家的操作进行数据同步，同步的时间间隔(逻辑帧的时间间隔)
         for (int i = 0; i < frameOpts.opts.Count; i++)
         {
-            if (frameOpts.opts[i].seatid==UGame.Instance.selfSeatid)
+            int seatid = frameOpts.opts[i].seatid;
+            Hero h = GetHeroBySeatID(seatid);
+            if (h==null)
             {
-                this._testHero.OnSyncLastLogicFrame(frameOpts.opts[i]);
+                Debug.Log("cannot find hero by seatid: "+seatid);
+                continue;
             }
+            h.OnSyncLastLogicFrame(frameOpts.opts[i]);
         }
         
     }
@@ -102,13 +168,16 @@ public class GameZygote : MonoBehaviour
         //把所有玩家的操作带入处理
         for (int i = 0; i < frameOpts.opts.Count; i++)
         {
-            if (frameOpts.opts[i].seatid==UGame.Instance.selfSeatid)
+            int seatid = frameOpts.opts[i].seatid;
+            Hero h = GetHeroBySeatID(seatid);
+            if (h==null)
             {
-                this._testHero.OnJumpToNextFrame(frameOpts.opts[i]);
+                Debug.Log("cannot find hero by seatid: "+seatid);
+                continue;
             }
+            h.OnJumpToNextFrame(frameOpts.opts[i]);
         }
         //怪物AI根据操作产生相应
-        
         
     }
 

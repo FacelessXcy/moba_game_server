@@ -45,6 +45,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/TeamMatch.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Helper/PathRenderer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://G:/博毅创为/Unity_Moba_全栈架构师/CTO游戏服务器进阶班/C+Lua_Moba服务器开发(unity)/06战斗逻辑服务器开发/第021课帧同步下的角色控制/moba_game_server/unity_moba_client/Assets/Scripts/game/game_scene/game_zygote.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/Zone.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
@@ -104,11 +105,11 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/home_scene/AsyncLoaderScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/CharacterCtrl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Joystick.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/network/network.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
       </list>
     </option>
   </component>
@@ -184,7 +185,8 @@
       <workItem from="1588594719075" duration="7918000" />
       <workItem from="1588641748061" duration="18653000" />
       <workItem from="1588769993589" duration="3610000" />
-      <workItem from="1588779926336" duration="3827000" />
+      <workItem from="1588779926336" duration="4295000" />
+      <workItem from="1588845543486" duration="3817000" />
     </task>
     <servers />
   </component>
