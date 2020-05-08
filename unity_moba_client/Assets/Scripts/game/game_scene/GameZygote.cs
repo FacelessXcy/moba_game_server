@@ -278,6 +278,14 @@ public class GameZygote : UnitySingleton<GameZygote>
         LogicServiceProxy.Instance.SendNextFrameOpts(nextFrameOpts);
     }
 
+    private void UpgradeExpByTime()
+    {
+        for (int i = 0; i < this._heroes.Count; i++)
+        {
+            this._heroes[i].AddExp(GameConfig.AddExpPerLogic);
+        }
+    }
+
     /// <summary>
     /// 处理上一帧操作
     /// </summary>
@@ -371,6 +379,7 @@ public class GameZygote : UnitySingleton<GameZygote>
             }
 
             OnJumpToNextFrame(frame.unsync_frames[i]);
+            UpgradeExpByTime();
         }
         
         
@@ -381,6 +390,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         {
             this._lastFrameOpts = frame.unsync_frames[frame.unsync_frames.Count - 1];
             OnHandlerFrameEvent(this._lastFrameOpts);
+            UpgradeExpByTime();
         }
         else
         {

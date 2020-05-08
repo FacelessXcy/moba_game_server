@@ -37,6 +37,11 @@ public class Hero : MonoBehaviour
     public int seatid = -1;
     public int side = -1;
     
+    //玩家游戏信息
+    private int _blood;//血量
+    private int _level;//等级
+    private int _exp;//经验
+    
     private void Start()
     {
         GameObject ring =
@@ -67,7 +72,7 @@ public class Hero : MonoBehaviour
                                      .transform.position;
             
         }
-
+        InitHeroParams();
         this._animation.Play("idle");
     }
 
@@ -76,10 +81,87 @@ public class Hero : MonoBehaviour
         OnJoystickAnimUpdate();
     }
 
+    private void InitHeroParams()
+    {
+        this._level = 0;
+        this._blood = GameConfig.NormalHeroLevelConfigs[this._level]
+            .MaxBlood;
+        this._exp = GameConfig.NormalHeroLevelConfigs[this._level].Exp;
+        
+        SyncBloodUI();
+        SyncExpUI();
+    }
+
+    public void AddExp(int expValue)
+    {
+        this._exp += expValue;
+        int level = GameConfig.Exp2Level(GameConfig
+            .NormalHeroLevelConfigs,this._exp);
+        if (level!=this._level)
+        {//升级，每次升级加一部分血
+            this._level = level;
+            this._blood += GameConfig.NormalHeroLevelConfigs[this
+                ._level].AddBlood;
+            int maxBlood = GameConfig.NormalHeroLevelConfigs[this
+                ._level].MaxBlood;
+            this._blood = (this._blood > maxBlood)
+                ? maxBlood
+                : this._blood;
+            //todo
+            //更新bloodUI
+            SyncBloodUI();
+        }
+        //todo
+        //更新ExpUI
+        SyncExpUI();
+
+
+    }
+
+    private void SyncExpUI()
+    {
+        if (!this.isGhost)
+        {
+            UIExpInfo info=new UIExpInfo();
+            int now=0, total=0;
+            GameConfig.ExpUpgradeLevelInfo(GameConfig
+            .NormalHeroLevelConfigs,this._exp,ref now,ref total);
+            info.Exp = now;
+            info.Total = total;
+            
+            EventManager.Instance.DispatchEvent("exp_ui_sync",info);
+            
+        }
+    }
+
+    private void SyncBloodUI()
+    {
+        if (!this.isGhost)
+        {
+            UIBloodInfo info=new UIBloodInfo();
+            info.Blood = this._blood;
+            info.MaxBlood=GameConfig.NormalHeroLevelConfigs[this
+                ._level].MaxBlood;
+            EventManager.Instance.DispatchEvent("blood_ui_sync",info);
+        }
+    }
+
     public void OnAttacked(int attackValue)
     {
         Debug.Log("hero :" + this.gameObject.name + " was attacked: " +
                   attackValue);
+        attackValue -= GameConfig.NormalHeroLevelConfigs[this._level]
+            .Defense;
+        if (attackValue<=0)
+        {
+            return;
+        }
+
+        this._blood -= attackValue;
+        this._blood = (this._blood >= 0) ? this._blood : 0;
+        //todo
+        //死亡
+        this.SyncBloodUI();
     }
 
     public void LoginInit(Vector3 logicPos)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using UnityEngine;
 
 public class TowerConfig
@@ -61,27 +62,68 @@ public class GameConfig
         {
             Defense = 1,
             Attack = 1,
-            MaxBlood = 1,
-            AddBlood = 1,
-            Exp = 1,
+            MaxBlood = 100,
+            AddBlood = 0,
+            Exp = 0,//需要获得的经验  0 +100-->100 +200-->300
         },
         new HeroLevelConfig()
         {
-            Defense = 1,
+            Defense = 2,
             Attack = 1,
-            MaxBlood = 1,
-            AddBlood = 1,
-            Exp = 1,
+            MaxBlood = 200,
+            AddBlood = 50,
+            Exp = 100,
         },
         new HeroLevelConfig()
         {
-            Defense = 1,
+            Defense = 3,
             Attack = 1,
-            MaxBlood = 1,
-            AddBlood = 1,
-            Exp = 1,
+            MaxBlood = 300,
+            AddBlood = 100,
+            Exp = 200,
         },
     };
 
-    public static int NormalHeroExpK=(1<<15);//定点数，表示小数
+    public static int AddExpPerLogic=1;//每个逻辑帧成长1点
+
+    public static int Exp2Level(HeroLevelConfig[] configs,int exp)
+    //当前所有的exp
+    {
+        int level = 0;//从第0级开始
+        while (level+1<configs.Length&&
+               exp>=configs[level+1].Exp)
+        {
+            exp -= configs[level+1].Exp;
+            level++;
+            //todo
+        }
+
+        return level;
+    }
+
+    public static void ExpUpgradeLevelInfo(HeroLevelConfig[] configs,
+    int exp,ref int now,ref int total)
+    {
+        int level = 0;//从第0级开始
+        
+        while (level+1<configs.Length&&
+               exp>=configs[level+1].Exp)
+        {
+            exp -= configs[level+1].Exp;
+            level++;
+            //todo
+        }
+
+        if (level+1>=configs.Length)
+        {
+            now = total = configs[level].Exp;
+        }
+        else
+        {
+            now = exp;
+            total = configs[level + 1].Exp;
+        }
+        
+        
+    }
 }
