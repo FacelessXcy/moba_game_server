@@ -23,7 +23,6 @@ public abstract class Singleton<T> where T:new()
                     }
                 }
             }
-
             return _instance;
         }
     }

@@ -47,7 +47,10 @@ public class GameZygote : UnitySingleton<GameZygote>
 
     public GameObject normalBulletPrefab;//普通塔子弹
     public GameObject mainBulletPrefab;//主塔子弹
+    
     public const int LOGIC_FRAME_TIME = 66;//逻辑帧间隔时间
+
+    private List<Bullet> _towerBullets=new List<Bullet>();//bullet集合
 
 
     public override void Awake()
@@ -88,11 +91,19 @@ public class GameZygote : UnitySingleton<GameZygote>
                 bullet.Init(side,type);
                 break;
         }
+        if (bullet!=null)
+        {
+            this._towerBullets.Add(bullet);
+        }
         return bullet;
     }
 
     public void RemoveBullet(Bullet bullet)
     {
+        if (bullet!=null)
+        {
+            this._towerBullets.Remove(bullet);
+        }
         GameObject.Destroy(bullet.gameObject);
     }
 
@@ -223,6 +234,15 @@ public class GameZygote : UnitySingleton<GameZygote>
             this._BTowers[i].OnLogicUpdate(LOGIC_FRAME_TIME);
         }
     }
+    
+    private void OnFrameHandleTowerBulletLogic()
+    {
+        for (int i = 0; i < this._towerBullets.Count; i++)
+        {
+            this._towerBullets[i].OnLogicUpdate(LOGIC_FRAME_TIME);
+        }
+        
+    }
 
     private void CapturePlayerOpts()
     {
@@ -263,6 +283,8 @@ public class GameZygote : UnitySingleton<GameZygote>
             }
             h.OnHandlerFrameEvent(frameOpts.opts[i]);
         }
+
+        OnFrameHandleTowerBulletLogic();
         
         //塔和怪物AI根据操作产生相应
         OnFrameHandleTowerLogic();
@@ -299,6 +321,7 @@ public class GameZygote : UnitySingleton<GameZygote>
             }
             h.OnJumpToNextFrame(frameOpts.opts[i]);
         }
+        OnFrameHandleTowerBulletLogic();
         //塔和怪物AI根据操作产生相应
         OnFrameHandleTowerLogic();
     }
