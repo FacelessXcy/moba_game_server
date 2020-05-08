@@ -42,6 +42,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/utils/Singleton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/TeamMatch.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/MonsterMove.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Helper/PathRenderer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/Zone.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/config/GameConfig.cs" root0="FORCE_HIGHLIGHTING" />
@@ -124,9 +125,10 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/NormalTower.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Bullet.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameUI.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/config/GameConfig.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/MonsterMove.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
       </list>
     </option>
   </component>
@@ -205,7 +207,7 @@
       <workItem from="1588769993589" duration="3610000" />
       <workItem from="1588779926336" duration="4295000" />
       <workItem from="1588845543486" duration="13795000" />
-      <workItem from="1588918225222" duration="11328000" />
+      <workItem from="1588918225222" duration="15083000" />
     </task>
     <servers />
   </component>

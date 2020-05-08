@@ -179,6 +179,7 @@
               <e p="Joystick.cs" t="Include" />
               <e p="MainBullet.cs" t="Include" />
               <e p="MainTower.cs" t="Include" />
+              <e p="MonsterMove.cs" t="Include" />
               <e p="NormalBullet.cs" t="Include" />
               <e p="NormalTower.cs" t="Include" />
               <e p="Tower.cs" t="Include" />

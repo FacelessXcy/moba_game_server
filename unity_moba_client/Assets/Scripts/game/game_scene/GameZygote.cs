@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using gprotocol;
+using SWS;
 using TMPro;
 using UnityEngine;
 
@@ -27,6 +28,20 @@ public enum ObjectType
     Bullet=12,
     Hero=13,
     Tower=14,
+}
+
+struct RoadData
+{
+    public Vector3[] pathSideA;
+    public Vector3[] pathSideB;
+}
+
+//小兵类型
+public enum MonsterType
+{
+    Monster1=0,
+    Monster2=1,
+    Monster3=2,
 }
 
 public class GameZygote : UnitySingleton<GameZygote>
@@ -55,6 +70,12 @@ public class GameZygote : UnitySingleton<GameZygote>
     public GameObject normalBulletPrefab;//普通塔子弹
     public GameObject mainBulletPrefab;//主塔子弹
     
+    //小兵路径
+    public PathManager[] monsterRoads;
+    public GameObject[] monsterPrefabs;
+    private RoadData[] _roadDataSet;//所有小兵路径数据集合
+    
+    
     public const int LOGIC_FRAME_TIME = 66;//逻辑帧间隔时间
 
     private List<Bullet> _towerBullets=new List<Bullet>();//bullet集合
@@ -68,21 +89,44 @@ public class GameZygote : UnitySingleton<GameZygote>
 
     private void Start()
     {
+        LoadRoadData();//加载路径数据
         EventManager.Instance.AddEventListener("on_logic_update",
             OnLogicUpdate);
-        //UGame.Instance.uSex = 1;
         
+            
         //创建英雄
         PlaceHeroes();
         
         //创建防御塔
         PlaceTowers();
+        
+        //Test，放一个小兵
+        PlaceMonster((int) MonsterType.Monster1, (int) SideType.SideB,
+            0);
     }
 
     private void OnDestroy()
     {
         EventManager.Instance.RemoveEventListener("on_logic_update",
             OnLogicUpdate);
+    }
+
+    private void LoadRoadData()
+    {
+        this._roadDataSet=new RoadData[this.monsterRoads.Length];
+        for (int i = 0; i < this._roadDataSet.Length; i++)
+        {
+            this._roadDataSet[i].pathSideA = WaypointManager.GetCurved(this
+                .monsterRoads[i].GetPathPoints());
+            //复制SideB的路径
+            int len = this._roadDataSet[i].pathSideA.Length;
+            this._roadDataSet[i].pathSideB=new Vector3[len];
+            for (int j = 0; j <len; j++)
+            {
+                this._roadDataSet[i].pathSideB[len - 1 - j]=this
+                    ._roadDataSet[i].pathSideA[j];
+            }
+        }
     }
 
     public Bullet AllocBullet(int side,int type)
@@ -123,6 +167,41 @@ public class GameZygote : UnitySingleton<GameZygote>
     public List<Hero> GetHeroes()
     {
         return this._heroes;
+    }
+
+    private void PlaceMonster(int type,int side,int roadIndex)
+    {
+        if (type<(int)MonsterType.Monster1||
+            type>(int)MonsterType.Monster3)
+        {
+            return;
+        }
+        if (side!=(int)SideType.SideA&&
+            side!=(int)SideType.SideB)
+        {
+            return;
+        }
+        if (roadIndex<0||
+            roadIndex>=this.monsterRoads.Length)
+        {
+            return;
+        }
+        if (type>=this.monsterPrefabs.Length)
+        {//没有对应小怪的资源
+            return;
+        }
+        Debug.Log("放置小兵");
+        GameObject m = Instantiate(this.monsterPrefabs[type]);
+        m.transform.SetParent(this.transform,false);
+        MonsterMove agent = m.AddComponent<MonsterMove>();
+        if (side==(int)SideType.SideA)
+        {   
+            agent.RoadDatas = this._roadDataSet[roadIndex].pathSideA;
+        }
+        else
+        {
+            agent.RoadDatas = this._roadDataSet[roadIndex].pathSideB;
+        }
     }
 
     private void PlaceTowers()
