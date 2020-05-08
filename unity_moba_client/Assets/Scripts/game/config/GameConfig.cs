@@ -15,6 +15,15 @@ public class BulletConfig
     public int Speed;//子弹移动速度
     public int MaxDistance;//最大有效范围
 }
+//多个英雄，每个英雄[15]个等级
+public class HeroLevelConfig
+{
+    public int Defense;//防御力
+    public int Attack;//攻击力
+    public int MaxBlood;//当前等级最大血量
+    public int AddBlood;//升级时，加多少血量
+    public int Exp;
+}
 
 public class GameConfig
 {
@@ -45,6 +54,34 @@ public class GameConfig
         Speed = 20,
         MaxDistance = 20,
     };
-    
-    
+
+    public static HeroLevelConfig[] NormalHeroLevelConfigs = new[]
+    {
+        new HeroLevelConfig()
+        {
+            Defense = 1,
+            Attack = 1,
+            MaxBlood = 1,
+            AddBlood = 1,
+            Exp = 1,
+        },
+        new HeroLevelConfig()
+        {
+            Defense = 1,
+            Attack = 1,
+            MaxBlood = 1,
+            AddBlood = 1,
+            Exp = 1,
+        },
+        new HeroLevelConfig()
+        {
+            Defense = 1,
+            Attack = 1,
+            MaxBlood = 1,
+            AddBlood = 1,
+            Exp = 1,
+        },
+    };
+
+    public static int NormalHeroExpK=(1<<15);//定点数，表示小数
 }

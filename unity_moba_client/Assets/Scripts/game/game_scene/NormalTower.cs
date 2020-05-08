@@ -60,7 +60,11 @@ public class NormalTower : Tower
 
         if (target!=null)
         {//发射一发子弹
-            ShootAt(target.transform.position);
+            CharacterController ctrl = target
+                .GetComponent<CharacterController>();
+            Vector3 pos = target.transform.position;
+            pos.y += ctrl.height * 0.6f;
+            ShootAt(pos);
         }
     }
 

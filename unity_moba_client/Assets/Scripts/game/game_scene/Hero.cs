@@ -76,6 +76,12 @@ public class Hero : MonoBehaviour
         OnJoystickAnimUpdate();
     }
 
+    public void OnAttacked(int attackValue)
+    {
+        Debug.Log("hero :" + this.gameObject.name + " was attacked: " +
+                  attackValue);
+    }
+
     public void LoginInit(Vector3 logicPos)
     {
         this._stickX = 0;

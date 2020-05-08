@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-        float total = (float)(this._activeTime) / 1000;
+        float total = (float)(this._activeTime) / 1000.0f;
         float deltaTime = Time.deltaTime;
         this._passedTime += deltaTime;
         if (this._passedTime>total)
@@ -89,6 +89,31 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private bool HitTest(Vector3 startPos,float distance)
+    {
+        //发射射线，startPos 前方-->distance的射线 ，撞到哪些物体
+        RaycastHit[] hits = Physics.RaycastAll(startPos, this.transform
+            .forward, distance);
+        if (hits!=null&&hits.Length>0)
+        {
+            for (int i = 0; i < hits.Length; i++)
+            {
+                RaycastHit hit = hits[i];
+                if (hit.collider.gameObject.layer==(int)ObjectType.Hero)
+                {
+                    Hero h = hit.collider.GetComponent<Hero>();
+                    if (h.side==this.side)
+                    {
+                        continue;
+                    }
+
+                    h.OnAttacked(this.config.Attack);
+                }
+            }
+        }
+        return false;
+    }
+
     public virtual void OnLogicUpdate(int deltaTime)
     {
         this._logicPassedTime += deltaTime;
@@ -99,10 +124,14 @@ public class Bullet : MonoBehaviour
         //更新子弹逻辑位置
         float dt = (float)(deltaTime / 1000.0f);
         Vector3 offset = this.transform.forward * this.config.Speed * dt;
-        this._logicPos += offset;
+        
         
         //子弹击中人物逻辑
-        
+        if (HitTest(this._logicPos,offset.magnitude))//子弹攻击到了物体
+        {
+            return;
+        }
+        this._logicPos += offset;
         
         if (_logicPassedTime>=this._activeTime)
         {

@@ -22,6 +22,13 @@ public enum SideType
     SideB=1,
 }
 
+public enum ObjectType
+{
+    Bullet=12,
+    Hero=13,
+    Tower=14,
+}
+
 public class GameZygote : UnitySingleton<GameZygote>
 {
     //test
@@ -70,6 +77,12 @@ public class GameZygote : UnitySingleton<GameZygote>
         
         //创建防御塔
         PlaceTowers();
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.RemoveEventListener("on_logic_update",
+            OnLogicUpdate);
     }
 
     public Bullet AllocBullet(int side,int type)

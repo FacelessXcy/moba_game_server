@@ -112,16 +112,16 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/network/network.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/modules/UGame.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/MainTower.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/config/GameConfig.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/MainBullet.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Tower.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/NormalTower.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/utils/Singleton.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/NormalBullet.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/NormalTower.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Bullet.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/config/GameConfig.cs" />
       </list>
     </option>
   </component>
@@ -199,7 +199,7 @@
       <workItem from="1588769993589" duration="3610000" />
       <workItem from="1588779926336" duration="4295000" />
       <workItem from="1588845543486" duration="13795000" />
-      <workItem from="1588918225222" duration="2198000" />
+      <workItem from="1588918225222" duration="4943000" />
     </task>
     <servers />
   </component>
