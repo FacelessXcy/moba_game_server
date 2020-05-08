@@ -86,6 +86,7 @@ public class GameConfig
 
     public static int AddExpPerLogic=1;//每个逻辑帧成长1点
 
+    public static int GenMonsterFrames = 15*33;//15*33
     public static int Exp2Level(HeroLevelConfig[] configs,int exp)
     //当前所有的exp
     {

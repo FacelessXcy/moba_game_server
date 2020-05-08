@@ -79,7 +79,8 @@ public class GameZygote : UnitySingleton<GameZygote>
     public const int LOGIC_FRAME_TIME = 66;//逻辑帧间隔时间
 
     private List<Bullet> _towerBullets=new List<Bullet>();//bullet集合
-
+    private List<Monster> _monsters=new List<Monster>();//所有小兵集合
+    private int _nowGenMonsterFrame = GameConfig.GenMonsterFrames;
 
     public override void Awake()
     {
@@ -99,16 +100,29 @@ public class GameZygote : UnitySingleton<GameZygote>
         
         //创建防御塔
         PlaceTowers();
-        
-        //Test，放一个小兵
-        PlaceMonster((int) MonsterType.Monster1, (int) SideType.SideB,
-            0);
     }
-
     private void OnDestroy()
     {
         EventManager.Instance.RemoveEventListener("on_logic_update",
             OnLogicUpdate);
+    }
+
+    private void GenThreeMonster()
+    {
+        //Test，放一个小兵
+        PlaceMonster((int) MonsterType.Monster1, (int) SideType.SideA,
+            0);
+        PlaceMonster((int) MonsterType.Monster1, (int) SideType.SideA,
+            1);
+        PlaceMonster((int) MonsterType.Monster1, (int) SideType.SideA,
+            2);
+        //Test，放一个小兵
+        PlaceMonster((int) MonsterType.Monster1, (int) SideType.SideB,
+            0);
+        PlaceMonster((int) MonsterType.Monster1, (int) SideType.SideB,
+            1);
+        PlaceMonster((int) MonsterType.Monster1, (int) SideType.SideB,
+            2);
     }
 
     private void LoadRoadData()
@@ -190,18 +204,29 @@ public class GameZygote : UnitySingleton<GameZygote>
         {//没有对应小怪的资源
             return;
         }
-        Debug.Log("放置小兵");
+        //Debug.Log("放置小兵");
         GameObject m = Instantiate(this.monsterPrefabs[type]);
         m.transform.SetParent(this.transform,false);
         MonsterMove agent = m.AddComponent<MonsterMove>();
+        Vector3[] roadData = null;
         if (side==(int)SideType.SideA)
         {   
-            agent.RoadDatas = this._roadDataSet[roadIndex].pathSideA;
+            roadData = this._roadDataSet[roadIndex].pathSideA;
         }
         else
         {
-            agent.RoadDatas = this._roadDataSet[roadIndex].pathSideB;
+            roadData = this._roadDataSet[roadIndex].pathSideB;
         }
+
+        Monster monster = m.AddComponent<Monster>();
+        monster.Init(type,side,roadData);
+        this._monsters.Add(monster);
+    }
+
+    public void RemoveMonster(Monster monster)
+    {
+        this._monsters.Remove(monster);
+        GameObject.Destroy(monster.gameObject);
     }
 
     private void PlaceTowers()
@@ -365,6 +390,16 @@ public class GameZygote : UnitySingleton<GameZygote>
         }
     }
 
+    private void GenMonster()
+    {
+        this._nowGenMonsterFrame++;
+        if (this._nowGenMonsterFrame>=GameConfig.GenMonsterFrames)
+        {
+            this._nowGenMonsterFrame = 0;
+            GenThreeMonster();
+        }
+    }
+
     /// <summary>
     /// 处理上一帧操作
     /// </summary>
@@ -383,11 +418,20 @@ public class GameZygote : UnitySingleton<GameZygote>
             }
             h.OnHandlerFrameEvent(frameOpts.opts[i]);
         }
-
+        
+        //同步小兵位置
+        OnFrameHandleMonsterLogic();
+        //同步塔的子弹
         OnFrameHandleTowerBulletLogic();
         
         //塔和怪物AI根据操作产生相应
         OnFrameHandleTowerLogic();
+        
+        //同步小兵AI
+        OnFrameHandleMonsterAI();
+        
+        //产生一波小兵
+        GenMonster();
     }
 
     private void OnSyncLastLogicFrame(FrameOpts frameOpts)
@@ -407,6 +451,23 @@ public class GameZygote : UnitySingleton<GameZygote>
         
     }
 
+    private void OnFrameHandleMonsterLogic()
+    {
+        for (int i = 0; i < this._monsters.Count; i++)
+        {
+            this._monsters[i].OnLogicUpdate(LOGIC_FRAME_TIME);
+        }
+    }
+
+
+    private void OnFrameHandleMonsterAI()
+    {
+        for (int i = 0; i < this._monsters.Count; i++)
+        {
+            this._monsters[i].DoAI(LOGIC_FRAME_TIME);
+        }
+    }
+
     private void OnJumpToNextFrame(FrameOpts frameOpts)
     {
         //把所有玩家的操作带入处理
@@ -421,11 +482,27 @@ public class GameZygote : UnitySingleton<GameZygote>
             }
             h.OnJumpToNextFrame(frameOpts.opts[i]);
         }
+        //同步小兵位置
+        OnFrameHandleMonsterLogic();
+        
+        //同步塔的子弹
         OnFrameHandleTowerBulletLogic();
         //塔和怪物AI根据操作产生相应
         OnFrameHandleTowerLogic();
+        
+        //同步小兵AI
+        OnFrameHandleMonsterAI();
+        
+        //产生一波小兵
+        GenMonster();
     }
 
+    
+    /// <summary>
+    /// 帧同步调度主函数
+    /// </summary>
+    /// <param name="eventName"></param>
+    /// <param name="udata"></param>
     private void OnLogicUpdate(string eventName,object udata)
     {
         LogicFrame frame = (LogicFrame) udata;
