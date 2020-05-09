@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,14 @@ public class Tower : MonoBehaviour
 
     protected TowerConfig config;
     
+    public UIShowBlood uiBlood;
+
+
+    public virtual void Update()
+    {
+        UIBloodUpdate();
+    }
+
     /// <summary>
     /// 初始化塔属性
     /// </summary>
@@ -38,5 +47,23 @@ public class Tower : MonoBehaviour
     public virtual void OnLogicUpdate(int deltaTime)
     {
         
+    }
+    
+    private void UIBloodUpdate()//感觉有问题
+    {
+        Vector2 pos2D =
+            Camera.main.WorldToScreenPoint(this.transform.position);
+        this.uiBlood.transform.position = pos2D + 
+                                          new Vector2(this.uiBlood.xOffset,
+                                              this.uiBlood.yOffset);
+        if (pos2D.x>Screen.width||pos2D.x<0||
+            pos2D.y>Screen.height||pos2D.y<0)
+        {
+            this.uiBlood.gameObject.SetActive(false);
+        }
+        else
+        {
+            this.uiBlood.gameObject.SetActive(true);
+        }
     }
 }

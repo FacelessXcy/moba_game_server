@@ -26,6 +26,8 @@ public class Monster : MonoBehaviour
     //怪物的参数，每种类型-->小兵配置文件
     private float _speed=5.0f;
     private MonsterMove _localMove;
+
+    public UIShowBlood uiBlood;
     
     private void Awake()
     {
@@ -44,6 +46,11 @@ public class Monster : MonoBehaviour
             this._anim.Play("walk");
         }
         
+    }
+
+    private void Update()
+    {
+        UIBloodUpdate();
     }
 
     public void Init(int type,int side,Vector3[] roadData)
@@ -65,6 +72,23 @@ public class Monster : MonoBehaviour
         this._nextStep = 1;
     }
 
+    private void UIBloodUpdate()//感觉有问题
+    {
+        Vector2 pos2D =
+            Camera.main.WorldToScreenPoint(this.transform.position);
+        this.uiBlood.transform.position = pos2D + 
+                                          new Vector2(this.uiBlood.xOffset,
+                                              this.uiBlood.yOffset);
+        if (pos2D.x>Screen.width||pos2D.x<0||
+            pos2D.y>Screen.height||pos2D.y<0)
+        {
+            this.uiBlood.gameObject.SetActive(false);
+        }
+        else
+        {
+            this.uiBlood.gameObject.SetActive(true);
+        }
+    }
     //15FPS
     private void OnLogicWalkUpdate(float dtMs)
     {

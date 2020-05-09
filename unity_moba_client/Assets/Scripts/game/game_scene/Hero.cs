@@ -41,6 +41,8 @@ public class Hero : MonoBehaviour
     private int _blood;//血量
     private int _level;//等级
     private int _exp;//经验
+
+    public UIShowBlood uiBlood = null;
     
     private void Start()
     {
@@ -73,14 +75,19 @@ public class Hero : MonoBehaviour
             
         }
         InitHeroParams();
-        this._animation.Play("idle");
+        this._animation.Play("free");
     }
 
     private void Update()
     {
         OnJoystickAnimUpdate();
+        UIBloodUpdate();
     }
-
+    public void OnDestroy()
+    {
+        GameObject.Destroy(this.uiBlood.gameObject);
+        this.uiBlood = null;
+    }
     private void InitHeroParams()
     {
         this._level = 0;
@@ -120,6 +127,7 @@ public class Hero : MonoBehaviour
 
     private void SyncExpUI()
     {
+        this.uiBlood.SetLevel(this._level+1);
         if (!this.isGhost)
         {
             UIExpInfo info=new UIExpInfo();
@@ -136,6 +144,8 @@ public class Hero : MonoBehaviour
 
     private void SyncBloodUI()
     {
+        this.uiBlood.SetBlood((float)this._blood/(float)GameConfig
+        .NormalHeroLevelConfigs[this._level].MaxBlood);
         if (!this.isGhost)
         {
             UIBloodInfo info=new UIBloodInfo();
@@ -187,7 +197,7 @@ public class Hero : MonoBehaviour
         {
             if (this._animState==CharacterState.walk)
             {
-                this._animation.CrossFade("idle");
+                this._animation.CrossFade("free");
                 this._animState = CharacterState.idle;
             }
             return;
@@ -233,6 +243,24 @@ public class Hero : MonoBehaviour
         float degree =360-dir*Mathf.Rad2Deg+90.0f+offset;
         this.transform.localEulerAngles = new Vector3(0, degree, 0);
 
+    }
+
+    private void UIBloodUpdate()//感觉有问题
+    {
+        Vector2 pos2D =
+            Camera.main.WorldToScreenPoint(this.transform.position);
+        this.uiBlood.transform.position = pos2D + 
+                                          new Vector2(this.uiBlood.xOffset,
+                                              this.uiBlood.yOffset);
+        if (pos2D.x>Screen.width||pos2D.x<0||
+            pos2D.y>Screen.height||pos2D.y<0)
+        {
+            this.uiBlood.gameObject.SetActive(false);
+        }
+        else
+        {
+            this.uiBlood.gameObject.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -308,5 +336,13 @@ public class Hero : MonoBehaviour
                 SyncLastJoystickEvent(opt);
                 break;
         }
+    }
+
+    /// <summary>
+    /// 逻辑帧更新时调用
+    /// </summary>
+    public void OnLogicUpdate()
+    {
+        
     }
 }

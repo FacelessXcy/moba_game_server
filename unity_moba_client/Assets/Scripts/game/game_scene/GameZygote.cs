@@ -75,6 +75,8 @@ public class GameZygote : UnitySingleton<GameZygote>
     public GameObject[] monsterPrefabs;
     private RoadData[] _roadDataSet;//所有小兵路径数据集合
     
+    //血条管理对象
+    public UIBloodManager UiBloodManager;
     
     public const int LOGIC_FRAME_TIME = 66;//逻辑帧间隔时间
 
@@ -221,6 +223,11 @@ public class GameZygote : UnitySingleton<GameZygote>
         Monster monster = m.AddComponent<Monster>();
         monster.Init(type,side,roadData);
         this._monsters.Add(monster);
+        
+        //创建一个UI血条
+        UIShowBlood uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnMonster(side);
+        monster.uiBlood = uiBlood;
     }
 
     public void RemoveMonster(Monster monster)
@@ -237,42 +244,74 @@ public class GameZygote : UnitySingleton<GameZygote>
         t.Init((int)SideType.SideA,(int)TowerType.Main);
         this._ATowers.Add(t);//主塔
         t.gameObject.name = "A_main_tower";
+        //创建一个UI血条
+        UIShowBlood uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnTower((int)SideType.SideA);
+        t.uiBlood = uiBlood;
         
         t = this.ATowerObjects[1].AddComponent<NormalTower>();
         t.Init((int)SideType.SideA,(int)TowerType.Main);
         this._ATowers.Add(t);//left
         t.gameObject.name = "A_left_tower";
+        //创建一个UI血条
+        uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnTower((int)SideType.SideA);
+        t.uiBlood = uiBlood;
         
         t = this.ATowerObjects[2].AddComponent<NormalTower>();
         t.Init((int)SideType.SideA,(int)TowerType.Main);
         this._ATowers.Add(t);//right
         t.gameObject.name = "A_right_tower";
+        //创建一个UI血条
+        uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnTower((int)SideType.SideA);
+        t.uiBlood = uiBlood;
         
         t = this.ATowerObjects[3].AddComponent<NormalTower>();
         t.Init((int)SideType.SideA,(int)TowerType.Main);
         this._ATowers.Add(t);//front
         t.gameObject.name = "A_front_tower";
+        //创建一个UI血条
+        uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnTower((int)SideType.SideA);
+        t.uiBlood = uiBlood;
         
         //sideB
         t = this.BTowerObjects[0].AddComponent<MainTower>();
         t.Init((int)SideType.SideB,(int)TowerType.Main);
         this._BTowers.Add(t);//主塔
         t.gameObject.name = "B_main_tower";
+        //创建一个UI血条
+        uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnTower((int)SideType.SideB);
+        t.uiBlood = uiBlood;
         
         t = this.BTowerObjects[1].AddComponent<NormalTower>();
         t.Init((int)SideType.SideB,(int)TowerType.Main);
         this._BTowers.Add(t);//left
         t.gameObject.name = "B_left_tower";
+        //创建一个UI血条
+        uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnTower((int)SideType.SideB);
+        t.uiBlood = uiBlood;
         
         t = this.BTowerObjects[2].AddComponent<NormalTower>();
         t.Init((int)SideType.SideB,(int)TowerType.Main);
         this._BTowers.Add(t);//right
         t.gameObject.name = "B_right_tower";
+        //创建一个UI血条
+        uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnTower((int)SideType.SideB);
+        t.uiBlood = uiBlood;
         
         t = this.BTowerObjects[3].AddComponent<NormalTower>();
         t.Init((int)SideType.SideB,(int)TowerType.Main);
         this._BTowers.Add(t);//front
         t.gameObject.name = "B_front_tower";
+        //创建一个UI血条
+        uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnTower((int)SideType.SideB);
+        t.uiBlood = uiBlood;
     }
 
     private void PlaceHeroes()
@@ -336,6 +375,11 @@ public class GameZygote : UnitySingleton<GameZygote>
         ctrl.LoginInit(heroObject.transform.position);//逻辑数据初始化
         ctrl.seatid = matchInfo.seatid;
         ctrl.side = side;
+        
+        //创建一个UI血条
+        UIShowBlood uiBlood =
+            this.UiBloodManager.PlaceUIBloodOnHero(side);
+        ctrl.uiBlood = uiBlood;
         return ctrl;
     }
 
@@ -400,12 +444,23 @@ public class GameZygote : UnitySingleton<GameZygote>
         }
     }
 
+    private void OnFrameHandleHeroLogic()
+    {
+        for (int i = 0; i < this._heroes.Count; i++)
+        {
+            this._heroes[i].OnLogicUpdate();
+        }
+    }
+
     /// <summary>
     /// 处理上一帧操作
     /// </summary>
     /// <param name="frameOpts"></param>
     private void OnHandlerFrameEvent(FrameOpts frameOpts)
     {
+        //调用logicUpdate
+        OnFrameHandleHeroLogic();
+        
         //把所有玩家的操作带入处理
         for (int i = 0; i < frameOpts.opts.Count; i++)
         {
@@ -470,6 +525,9 @@ public class GameZygote : UnitySingleton<GameZygote>
 
     private void OnJumpToNextFrame(FrameOpts frameOpts)
     {
+        //调用logicUpdate
+        OnFrameHandleHeroLogic();
+        
         //把所有玩家的操作带入处理
         for (int i = 0; i < frameOpts.opts.Count; i++)
         {

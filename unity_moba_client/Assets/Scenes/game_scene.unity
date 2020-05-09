@@ -624,6 +624,7 @@ MonoBehaviour:
   - {fileID: 1710229253}
   monsterPrefabs:
   - {fileID: 100120, guid: 40fad9e40166e5a4ba5e883102e839ae, type: 3}
+  UiBloodManager: {fileID: 1819377083628986270}
 --- !u!4 &345577634
 Transform:
   m_ObjectHideFlags: 0
@@ -4589,6 +4590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1819377083628986268}
+  - component: {fileID: 1819377083628986270}
   m_Layer: 5
   m_Name: UI_blood_manager
   m_TagString: Untagged
@@ -4596,6 +4598,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1819377083628986270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819377083628986269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38539124a916a784c8254f618a83d460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiHeroBloodPrefab: {fileID: 1850531713403724, guid: fe1847534e9cff34f9c9a3f3aaf4ee67,
+    type: 3}
+  uiTowerBloodPrefab: {fileID: 1000127122865474, guid: 3ccb81860d55cdc4eab9c6fbe106ab30,
+    type: 3}
+  uiMonsterBloodPrefab: {fileID: 1111682226869458, guid: b197a939427e6cf479c66ec29b951d0a,
+    type: 3}
 --- !u!222 &1819377083630308664
 CanvasRenderer:
   m_ObjectHideFlags: 0

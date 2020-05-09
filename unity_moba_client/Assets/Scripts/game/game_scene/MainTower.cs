@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class MainTower : Tower
 {
+    public override void Update()
+    {
+        base.Update();
+    }
+
     public override void Init(int side, int type)
     {
         base.Init(side, type);

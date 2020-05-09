@@ -7,9 +7,9 @@ public class NormalTower : Tower
 {
     private int _nowFps;
 
-    private void Start()
+    public override void Update()
     {
-        _nowFps = this.config.ShootLogicFps;
+        base.Update();
     }
 
     public override void Init(int side, int type)
