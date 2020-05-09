@@ -10,8 +10,6 @@ enum CharacterState
     free=2,
     idle=3,
     attack=4,
-    attack2=5,
-    attack3=6,
     skill=7,
     skill2=8,
     death=9
@@ -43,6 +41,7 @@ public class Hero : MonoBehaviour
     private int _exp;//经验
 
     public UIShowBlood uiBlood = null;
+    private LogicAttack _logicAttack;
     
     private void Start()
     {
@@ -85,7 +84,10 @@ public class Hero : MonoBehaviour
     }
     public void OnDestroy()
     {
-        GameObject.Destroy(this.uiBlood.gameObject);
+        if (uiBlood.isLive)
+        {
+            GameObject.Destroy(this.uiBlood.gameObject);
+        }
         this.uiBlood = null;
     }
     private void InitHeroParams()
@@ -97,6 +99,22 @@ public class Hero : MonoBehaviour
         
         SyncBloodUI();
         SyncExpUI();
+        
+        this._logicAttack = this.gameObject.AddComponent<LogicAttack>();
+        this._logicAttack.AddListener(OnAttackTo,OnAttackEnd);
+    }
+
+    public void OnAttackTo(object target, int attackValue)
+    {
+        //计算对Target造成的伤害
+        
+    }
+
+    public void OnAttackEnd()
+    {
+        this._animState = CharacterState.idle;
+        this._logicState = CharacterState.idle;
+        this._animation.CrossFade("free");
     }
 
     public void AddExp(int expValue)
@@ -245,7 +263,7 @@ public class Hero : MonoBehaviour
 
     }
 
-    private void UIBloodUpdate()//感觉有问题
+    private void UIBloodUpdate()
     {
         Vector2 pos2D =
             Camera.main.WorldToScreenPoint(this.transform.position);
@@ -286,6 +304,29 @@ public class Hero : MonoBehaviour
         SyncLastJoystickEvent(opt);
     }
 
+
+    private void DoAttack(OptionEvent opt)
+    {
+        if (this._logicAttack.AttackTo(
+            null,100,8,11))
+        {
+            this._animState = CharacterState.attack;
+            this._logicState = CharacterState.attack;
+            this._animation.CrossFade("attack");
+        }
+    }
+    
+    private void DoSkill1(OptionEvent opt)
+    {
+        if (this._logicAttack.AttackTo(
+            null,100,8,11))
+        {
+            this._animState = CharacterState.skill;
+            this._logicState = CharacterState.skill;
+            this._animation.CrossFade("skill");
+        }
+    }
+
     /// <summary>
     /// 角色处理帧事件
     /// </summary>
@@ -295,6 +336,12 @@ public class Hero : MonoBehaviour
         {
             case (int)OptType.JoyStick:
                 HandleJoyStickEvent(opt);
+                break;
+            case (int)OptType.Attack:
+                DoAttack(opt);
+                break;
+            case (int)OptType.Skill1:
+                DoSkill1(opt);
                 break;
         }
     }
@@ -313,20 +360,6 @@ public class Hero : MonoBehaviour
         this._logicPosition = this.transform.position;
     }
     
-    
-    /// <summary>
-    /// 跳帧处理
-    /// </summary>
-    /// <param name="opt"></param>
-    public void OnJumpToNextFrame(OptionEvent opt)
-    {
-        switch (opt.opt_type)
-        {
-            case (int)OptType.JoyStick:
-                JumpJoystickEvent(opt);
-                break;
-        }
-    }
 
     public void OnSyncLastLogicFrame(OptionEvent opt)
     {
@@ -343,6 +376,6 @@ public class Hero : MonoBehaviour
     /// </summary>
     public void OnLogicUpdate()
     {
-        
+        this._logicAttack.OnLogicUpdate();
     }
 }

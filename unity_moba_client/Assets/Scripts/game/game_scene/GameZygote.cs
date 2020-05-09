@@ -8,13 +8,12 @@ using UnityEngine;
 
 public enum OptType
 {
+    Invalid=-1,
     JoyStick=1,
-    Attack1=2,
-    Attack2=3,
-    Attack3=4,
-    Skill1=5,
-    Skill2=6,
-    Skill3=7,
+    Attack=2,
+    Skill1=3,
+    Skill2=4,
+    Skill3=5,
 }
 
 public enum SideType
@@ -46,9 +45,10 @@ public enum MonsterType
 
 public class GameZygote : UnitySingleton<GameZygote>
 {
-    //test
+    
     public Joystick stick;
-    //end
+    public UIAttack uiAttack;
+    
     
     public GameObject[] heroCharacters;//男、女
     
@@ -412,15 +412,28 @@ public class GameZygote : UnitySingleton<GameZygote>
         nextFrameOpts.zid = UGame.Instance.zid;
         nextFrameOpts.matchid = UGame.Instance.matchid;
         nextFrameOpts.seatid = UGame.Instance.selfSeatid;
-        //摇杆操作收集
-        OptionEvent optStick=new OptionEvent();
-        optStick.seatid = UGame.Instance.selfSeatid;
-        optStick.opt_type = (int)OptType.JoyStick;
-        optStick.x = (int)(this.stick.TouchDir.x * (1 << 16));//定点数
-        optStick.y = (int)(this.stick.TouchDir.y * (1 << 16));//定点数
-        nextFrameOpts.opts.Add(optStick);
-
-        //攻击
+        
+        if (this.uiAttack.attackType!=(int)OptType.Invalid)
+        {//有攻击按钮按下了
+            //攻击操作收集
+            OptionEvent optAttack=new OptionEvent();
+            optAttack.seatid = UGame.Instance.selfSeatid;
+            optAttack.opt_type = this.uiAttack.attackType;
+            nextFrameOpts.opts.Add(optAttack);
+        }
+        else
+        {
+            //摇杆操作收集
+            OptionEvent optStick=new OptionEvent();
+            optStick.seatid = UGame.Instance.selfSeatid;
+            optStick.opt_type = (int)OptType.JoyStick;
+            optStick.x = (int)(this.stick.TouchDir.x * (1 << 16));//定点数
+            optStick.y = (int)(this.stick.TouchDir.y * (1 << 16));//定点数
+            nextFrameOpts.opts.Add(optStick);
+        }
+        
+        
+        
         
         //发送给服务器
         LogicServiceProxy.Instance.SendNextFrameOpts(nextFrameOpts);
@@ -468,7 +481,7 @@ public class GameZygote : UnitySingleton<GameZygote>
             Hero h = GetHeroBySeatID(seatid);
             if (h==null)
             {
-                Debug.Log("cannot find hero by seatid: "+seatid);
+                Debug.LogError("cannot find hero by seatid: "+seatid);
                 continue;
             }
             h.OnHandlerFrameEvent(frameOpts.opts[i]);
@@ -498,7 +511,7 @@ public class GameZygote : UnitySingleton<GameZygote>
             Hero h = GetHeroBySeatID(seatid);
             if (h==null)
             {
-                Debug.Log("cannot find hero by seatid: "+seatid);
+                Debug.LogError("cannot find hero by seatid: "+seatid);
                 continue;
             }
             h.OnSyncLastLogicFrame(frameOpts.opts[i]);
@@ -523,39 +536,6 @@ public class GameZygote : UnitySingleton<GameZygote>
         }
     }
 
-    private void OnJumpToNextFrame(FrameOpts frameOpts)
-    {
-        //调用logicUpdate
-        OnFrameHandleHeroLogic();
-        
-        //把所有玩家的操作带入处理
-        for (int i = 0; i < frameOpts.opts.Count; i++)
-        {
-            int seatid = frameOpts.opts[i].seatid;
-            Hero h = GetHeroBySeatID(seatid);
-            if (h==null)
-            {
-                Debug.Log("cannot find hero by seatid: "+seatid);
-                continue;
-            }
-            h.OnJumpToNextFrame(frameOpts.opts[i]);
-        }
-        //同步小兵位置
-        OnFrameHandleMonsterLogic();
-        
-        //同步塔的子弹
-        OnFrameHandleTowerBulletLogic();
-        //塔和怪物AI根据操作产生相应
-        OnFrameHandleTowerLogic();
-        
-        //同步小兵AI
-        OnFrameHandleMonsterAI();
-        
-        //产生一波小兵
-        GenMonster();
-    }
-
-    
     /// <summary>
     /// 帧同步调度主函数
     /// </summary>
@@ -592,7 +572,7 @@ public class GameZygote : UnitySingleton<GameZygote>
                 break;
             }
 
-            OnJumpToNextFrame(frame.unsync_frames[i]);
+            OnHandlerFrameEvent(frame.unsync_frames[i]);//更新动画状态
             UpgradeExpByTime();
         }
         
@@ -603,7 +583,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         if (frame.unsync_frames.Count>0)
         {
             this._lastFrameOpts = frame.unsync_frames[frame.unsync_frames.Count - 1];
-            OnHandlerFrameEvent(this._lastFrameOpts);
+            OnHandlerFrameEvent(this._lastFrameOpts);//更新动画状态
             UpgradeExpByTime();
         }
         else

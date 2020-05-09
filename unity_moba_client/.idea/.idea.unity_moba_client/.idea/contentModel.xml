@@ -176,6 +176,7 @@
               <e p="GameUI.cs" t="Include" />
               <e p="GameZygote.cs" t="Include" />
               <e p="Hero.cs" t="Include" />
+              <e p="LogicAttack.cs" t="Include" />
               <e p="MainBullet.cs" t="Include" />
               <e p="MainTower.cs" t="Include" />
               <e p="Monster.cs" t="Include" />
@@ -185,6 +186,7 @@
               <e p="Tower.cs" t="Include" />
               <e p="UI" t="Include">
                 <e p="Joystick.cs" t="Include" />
+                <e p="UIAttack.cs" t="Include" />
                 <e p="UIBloodManager.cs" t="Include" />
                 <e p="UIShowBlood.cs" t="Include" />
               </e>

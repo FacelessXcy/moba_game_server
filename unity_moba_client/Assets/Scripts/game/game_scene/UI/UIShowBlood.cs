@@ -18,6 +18,8 @@ public class UIShowBlood : MonoBehaviour
     
     private int _side = 0;
 
+    public bool isLive = true;
+
     private void Start()
     {
         blood = transform.Find("blood").GetComponent<Image>();
@@ -31,6 +33,11 @@ public class UIShowBlood : MonoBehaviour
         {
             this.blood.sprite = this.sideBBlood;
         }
+    }
+
+    private void OnDestroy()
+    {
+        this.isLive = false;
     }
 
     public void Init(int side)

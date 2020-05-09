@@ -49,6 +49,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/HomeScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/UI/UIShowBlood.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/data_viewer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/LogicAttack.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/home_scene/AsyncLoaderScene.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/talkroom/talkroom.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://G:/博毅创为/Unity_Moba_全栈架构师/CTO游戏服务器进阶班/C+Lua_Moba服务器开发(unity)/06战斗逻辑服务器开发/第020课帧同步之帧编号与玩家事件采集/moba_game_server/unity_moba_client/Assets/Scripts/game/game_scene/game_zygote.cs" root0="SKIP_HIGHLIGHTING" />
@@ -62,6 +63,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/Monster.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/NormalTower.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/UI/UIAttack.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/managers/AudioManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/3rd/SWS/Scripts/Editor/WaypointEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/network/protos/game.cs" root0="FORCE_HIGHLIGHTING" />
@@ -70,7 +72,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/MainTower.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/AuthServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/Tower.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/Joystick.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F38C71C8-6AA6-4E29-9D4C-EA9FB7C715E1/35/098659e3/HideFlags.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/modules/LogicServiceProxy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" root0="FORCE_HIGHLIGHTING" />
@@ -85,8 +86,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/network/data_viewer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/network/tcp_packer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/talkroom.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/network/proto_man.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game_scene.cs" />
@@ -129,10 +128,13 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/config/GameConfig.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/UI/UIBloodManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Monster.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/UI/UIShowBlood.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Tower.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/MainTower.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/NormalTower.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/UI/UIShowBlood.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/UI/UIAttack.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/AttackLogic.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/LogicAttack.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
       </list>
@@ -215,7 +217,7 @@
       <workItem from="1588845543486" duration="13795000" />
       <workItem from="1588918225222" duration="18225000" />
       <workItem from="1588948588633" duration="1038000" />
-      <workItem from="1589017386841" duration="5801000" />
+      <workItem from="1589017386841" duration="10267000" />
     </task>
     <servers />
   </component>
