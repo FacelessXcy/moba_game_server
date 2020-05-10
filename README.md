@@ -31,7 +31,8 @@
 ![image2](https://github.com/FacelessXcy/moba_game_server/blob/master/Image/网关数据转发.png)
 
 
-##帧同步步骤
+## 帧同步步骤
+
 1.开始，由服务器向客户端发送帧数据包，驱动客户端开始调用帧同步循环LogicUpdate()
 
 2.每次循环中:
