@@ -1,6 +1,7 @@
-# 服务器架构学习
+# 服务器以及帧同步下的客户端逻辑学习
 
-学习高并发、高Cpu利用率的分布式服务器（MOBA）
+学习分布式服务器架构
+以及在帧同步下，客户端的同步逻辑（MOBA）
 
 
 ## 主要功能
@@ -21,6 +22,7 @@
 
 8.同步方式为基于UDP的帧同步
 
+9.使用UDP实现一定程度上的可靠传输
 ## 总体架构
 ![image1](https://github.com/FacelessXcy/moba_game_server/blob/master/Image/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84.png)
 
