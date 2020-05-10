@@ -37,7 +37,7 @@ public class Hero : MonoBehaviour
     
     //玩家游戏信息
     private int _blood;//血量
-    private int _level;//等级
+    public int level;//等级
     private int _exp;//经验
 
     public UIShowBlood uiBlood = null;
@@ -92,22 +92,16 @@ public class Hero : MonoBehaviour
     }
     private void InitHeroParams()
     {
-        this._level = 0;
-        this._blood = GameConfig.NormalHeroLevelConfigs[this._level]
+        this.level = 0;
+        this._blood = GameConfig.NormalHeroLevelConfigs[this.level]
             .MaxBlood;
-        this._exp = GameConfig.NormalHeroLevelConfigs[this._level].Exp;
+        this._exp = GameConfig.NormalHeroLevelConfigs[this.level].Exp;
         
         SyncBloodUI();
         SyncExpUI();
         
         this._logicAttack = this.gameObject.AddComponent<LogicAttack>();
-        this._logicAttack.AddListener(OnAttackTo,OnAttackEnd);
-    }
-
-    public void OnAttackTo(object target, int attackValue)
-    {
-        //计算对Target造成的伤害
-        
+        this._logicAttack.AddListener(OnAttackEnd);
     }
 
     public void OnAttackEnd()
@@ -122,13 +116,13 @@ public class Hero : MonoBehaviour
         this._exp += expValue;
         int level = GameConfig.Exp2Level(GameConfig
             .NormalHeroLevelConfigs,this._exp);
-        if (level!=this._level)
+        if (level!=this.level)
         {//升级，每次升级加一部分血
-            this._level = level;
+            this.level = level;
             this._blood += GameConfig.NormalHeroLevelConfigs[this
-                ._level].AddBlood;
+                .level].AddBlood;
             int maxBlood = GameConfig.NormalHeroLevelConfigs[this
-                ._level].MaxBlood;
+                .level].MaxBlood;
             this._blood = (this._blood > maxBlood)
                 ? maxBlood
                 : this._blood;
@@ -145,7 +139,7 @@ public class Hero : MonoBehaviour
 
     private void SyncExpUI()
     {
-        this.uiBlood.SetLevel(this._level+1);
+        this.uiBlood.SetLevel(this.level+1);
         if (!this.isGhost)
         {
             UIExpInfo info=new UIExpInfo();
@@ -163,13 +157,13 @@ public class Hero : MonoBehaviour
     private void SyncBloodUI()
     {
         this.uiBlood.SetBlood((float)this._blood/(float)GameConfig
-        .NormalHeroLevelConfigs[this._level].MaxBlood);
+        .NormalHeroLevelConfigs[this.level].MaxBlood);
         if (!this.isGhost)
         {
             UIBloodInfo info=new UIBloodInfo();
             info.Blood = this._blood;
             info.MaxBlood=GameConfig.NormalHeroLevelConfigs[this
-                ._level].MaxBlood;
+                .level].MaxBlood;
             EventManager.Instance.DispatchEvent("blood_ui_sync",info);
         }
     }
@@ -178,7 +172,7 @@ public class Hero : MonoBehaviour
     {
         Debug.Log("hero :" + this.gameObject.name + " was attacked: " +
                   attackValue);
-        attackValue -= GameConfig.NormalHeroLevelConfigs[this._level]
+        attackValue -= GameConfig.NormalHeroLevelConfigs[this.level]
             .Defense;
         if (attackValue<=0)
         {
@@ -307,8 +301,18 @@ public class Hero : MonoBehaviour
 
     private void DoAttack(OptionEvent opt)
     {
+        float validR = GameConfig.NormalHeroLevelConfigs[this.level]
+            .Attack.ValidR;
+        int value = GameConfig.NormalHeroLevelConfigs[this.level]
+            .Attack.Value;
+        GameObject target = GameZygote.Instance.FindHeroAttackTarget
+            (this.side, this.transform.position, validR);
+        if (target)
+        {
+            this.transform.LookAt(target.transform);
+        }
         if (this._logicAttack.AttackTo(
-            null,100,8,11))
+            target,value,8,11))
         {
             this._animState = CharacterState.attack;
             this._logicState = CharacterState.attack;
@@ -318,8 +322,15 @@ public class Hero : MonoBehaviour
     
     private void DoSkill1(OptionEvent opt)
     {
-        if (this._logicAttack.AttackTo(
-            null,100,8,11))
+        float validR = GameConfig.NormalHeroLevelConfigs[this.level]
+            .Skill.ValidR;
+        int value = GameConfig.NormalHeroLevelConfigs[this.level]
+            .Skill.Value;
+
+        List<GameObject> targets = GameZygote.Instance.FindTargets(this
+            .side, this.transform.position, validR);
+        if (this._logicAttack.AttackAll(
+            targets,value,8,11))
         {
             this._animState = CharacterState.skill;
             this._logicState = CharacterState.skill;

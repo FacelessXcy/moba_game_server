@@ -16,11 +16,19 @@ public class BulletConfig
     public int Speed;//子弹移动速度
     public int MaxDistance;//最大有效范围
 }
+
+public class KillWound
+{
+    public int Value;
+    public float ValidR;
+}
+
 //多个英雄，每个英雄[15]个等级
 public class HeroLevelConfig
 {
     public int Defense;//防御力
-    public int Attack;//攻击力
+    public KillWound Attack;//普通攻击
+    public KillWound Skill;//技能攻击
     public int MaxBlood;//当前等级最大血量
     public int AddBlood;//升级时，加多少血量
     public int Exp;
@@ -61,7 +69,16 @@ public class GameConfig
         new HeroLevelConfig()
         {
             Defense = 1,
-            Attack = 1,
+            Attack = new KillWound()
+            {
+                Value = 20,
+                ValidR = 3.0f,
+            },
+            Skill = new KillWound()
+            {
+                Value = 20,
+                ValidR = 3.5f,
+            },
             MaxBlood = 100,
             AddBlood = 0,
             Exp = 0,//需要获得的经验  0 +100-->100 +200-->300
@@ -69,7 +86,16 @@ public class GameConfig
         new HeroLevelConfig()
         {
             Defense = 2,
-            Attack = 1,
+            Attack = new KillWound()
+            {
+                Value = 20,
+                ValidR = 3.0f,
+            },
+            Skill = new KillWound()
+            {
+                Value = 20,
+                ValidR = 3.5f,
+            },
             MaxBlood = 200,
             AddBlood = 50,
             Exp = 100,
@@ -77,7 +103,16 @@ public class GameConfig
         new HeroLevelConfig()
         {
             Defense = 3,
-            Attack = 1,
+            Attack = new KillWound()
+            {
+                Value = 20,
+                ValidR = 3.0f,
+            },
+            Skill = new KillWound()
+            {
+                Value = 20,
+                ValidR = 3.5f,
+            },
             MaxBlood = 300,
             AddBlood = 100,
             Exp = 200,

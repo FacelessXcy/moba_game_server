@@ -12,7 +12,7 @@ public enum TowerType
 public class Tower : MonoBehaviour
 {
     protected int type;
-    protected int side;//0:sideA  1:sideB
+    public int side;//0:sideA  1:sideB
 
     protected TowerConfig config;
     

@@ -60,10 +60,8 @@ public class LoginScene : MonoBehaviour
         {
             return;
         }
-        
         AuthServiceProxy.Instance.UnameLogin(this.unameInput.text,this.upwdInput
         .text);
-        
     }
 
 }

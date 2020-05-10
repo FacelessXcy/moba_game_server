@@ -27,6 +27,7 @@ public enum ObjectType
     Bullet=12,
     Hero=13,
     Tower=14,
+    Monster=15,
 }
 
 struct RoadData
@@ -59,11 +60,8 @@ public class GameZygote : UnitySingleton<GameZygote>
     private FrameOpts _lastFrameOpts;
     
     private List<Hero> _heroes = new List<Hero>();
-    
-    
-    private List<Tower> _ATowers=new List<Tower>();
-    private List<Tower> _BTowers=new List<Tower>();
-    
+    private List<Tower> _towers=new List<Tower>();
+
     public GameObject[] ATowerObjects;//[主塔,left,right,front]
     public GameObject[] BTowerObjects;//[主塔,left,right,front]
 
@@ -107,6 +105,135 @@ public class GameZygote : UnitySingleton<GameZygote>
     {
         EventManager.Instance.RemoveEventListener("on_logic_update",
             OnLogicUpdate);
+    }
+
+    //英雄查找指向性目标攻击
+    public GameObject FindHeroAttackTarget(int side,Vector3 center,
+    float validR)
+    {
+        float maxR = validR;
+        GameObject target = null;
+        //寻找攻击的敌方目标英雄
+        for (int i = 0; i < this._heroes.Count; i++)
+        {
+            if (side==this._heroes[i].side)
+            {
+                continue;
+            }
+
+            Vector3 dir = center - this._heroes[i]
+                              .transform.position;
+            float len = dir.magnitude;
+            if (len<=maxR)
+            {
+                maxR = len;
+                target = this._heroes[i].gameObject;
+            }
+        }
+        if (target)
+        {
+            return target;
+        }
+        //寻找攻击的敌方目标小兵
+        for (int i = 0; i < this._monsters.Count; i++)
+        {
+            if (side==this._monsters[i].side)
+            {
+                continue;
+            }
+            Vector3 dir = center - this._monsters[i]
+                              .transform.position;
+            float len = dir.magnitude;
+            if (len<=maxR)
+            {
+                maxR = len;
+                target = this._monsters[i].gameObject;
+            }
+        }
+        if (target)
+        {
+            return target;
+        }
+        //寻找攻击的敌方目标防御塔
+        for (int i = 0; i < this._towers.Count; i++)
+        {
+            if (side==this._towers[i].side)
+            {
+                continue;
+            }
+            Vector3 dir = center - this._towers[i]
+                              .transform.position;
+            float len = dir.magnitude;
+            if (len<=maxR)
+            {
+                maxR = len;
+                target = this._towers[i].gameObject;
+            }
+        }
+        if (target)
+        {
+            return target;
+        }
+        return null;
+    }
+
+    public List<GameObject> FindTargets(int side, Vector3 center,
+        float validR)
+    {
+        List<GameObject> targets=new List<GameObject>();
+        float maxR = validR;
+        //寻找攻击的敌方目标英雄
+        for (int i = 0; i < this._heroes.Count; i++)
+        {
+            if (side==this._heroes[i].side)
+            {
+                continue;
+            }
+
+            Vector3 dir = center - this._heroes[i]
+                              .transform.position;
+            float len = dir.magnitude;
+            if (len<=maxR)
+            {
+                maxR = len;
+                targets.Add(this._heroes[i].gameObject); 
+            }
+        }
+        //寻找攻击的敌方目标小兵
+        for (int i = 0; i < this._monsters.Count; i++)
+        {
+            if (side==this._monsters[i].side)
+            {
+                continue;
+            }
+            Vector3 dir = center - this._monsters[i]
+                              .transform.position;
+            float len = dir.magnitude;
+            if (len<=maxR)
+            {
+                maxR = len;
+                targets.Add(this._monsters[i].gameObject); 
+            }
+        }
+
+        //寻找攻击的敌方目标防御塔
+        for (int i = 0; i < this._towers.Count; i++)
+        {
+            if (side==this._towers[i].side)
+            {
+                continue;
+            }
+            Vector3 dir = center - this._towers[i]
+                              .transform.position;
+            float len = dir.magnitude;
+            if (len<=maxR)
+            {
+                maxR = len;
+                targets.Add(this._towers[i].gameObject); 
+            }
+        }
+
+        return targets;
     }
 
     private void GenThreeMonster()
@@ -242,7 +369,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         Tower t;
         t = this.ATowerObjects[0].AddComponent<MainTower>();
         t.Init((int)SideType.SideA,(int)TowerType.Main);
-        this._ATowers.Add(t);//主塔
+        this._towers.Add(t);//主塔
         t.gameObject.name = "A_main_tower";
         //创建一个UI血条
         UIShowBlood uiBlood =
@@ -251,7 +378,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         
         t = this.ATowerObjects[1].AddComponent<NormalTower>();
         t.Init((int)SideType.SideA,(int)TowerType.Main);
-        this._ATowers.Add(t);//left
+        this._towers.Add(t);//left
         t.gameObject.name = "A_left_tower";
         //创建一个UI血条
         uiBlood =
@@ -260,7 +387,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         
         t = this.ATowerObjects[2].AddComponent<NormalTower>();
         t.Init((int)SideType.SideA,(int)TowerType.Main);
-        this._ATowers.Add(t);//right
+        this._towers.Add(t);//right
         t.gameObject.name = "A_right_tower";
         //创建一个UI血条
         uiBlood =
@@ -269,7 +396,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         
         t = this.ATowerObjects[3].AddComponent<NormalTower>();
         t.Init((int)SideType.SideA,(int)TowerType.Main);
-        this._ATowers.Add(t);//front
+        this._towers.Add(t);//front
         t.gameObject.name = "A_front_tower";
         //创建一个UI血条
         uiBlood =
@@ -279,7 +406,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         //sideB
         t = this.BTowerObjects[0].AddComponent<MainTower>();
         t.Init((int)SideType.SideB,(int)TowerType.Main);
-        this._BTowers.Add(t);//主塔
+        this._towers.Add(t);//主塔
         t.gameObject.name = "B_main_tower";
         //创建一个UI血条
         uiBlood =
@@ -288,7 +415,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         
         t = this.BTowerObjects[1].AddComponent<NormalTower>();
         t.Init((int)SideType.SideB,(int)TowerType.Main);
-        this._BTowers.Add(t);//left
+        this._towers.Add(t);//left
         t.gameObject.name = "B_left_tower";
         //创建一个UI血条
         uiBlood =
@@ -297,7 +424,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         
         t = this.BTowerObjects[2].AddComponent<NormalTower>();
         t.Init((int)SideType.SideB,(int)TowerType.Main);
-        this._BTowers.Add(t);//right
+        this._towers.Add(t);//right
         t.gameObject.name = "B_right_tower";
         //创建一个UI血条
         uiBlood =
@@ -306,7 +433,7 @@ public class GameZygote : UnitySingleton<GameZygote>
         
         t = this.BTowerObjects[3].AddComponent<NormalTower>();
         t.Init((int)SideType.SideB,(int)TowerType.Main);
-        this._BTowers.Add(t);//front
+        this._towers.Add(t);//front
         t.gameObject.name = "B_front_tower";
         //创建一个UI血条
         uiBlood =
@@ -385,14 +512,19 @@ public class GameZygote : UnitySingleton<GameZygote>
 
     private void OnFrameHandleTowerLogic()
     {
-        for (int i = 0; i < _ATowers.Count; i++)
-        {
-            this._ATowers[i].OnLogicUpdate(LOGIC_FRAME_TIME);
-        }
+//        for (int i = 0; i < _ATowers.Count; i++)
+//        {
+//            this._ATowers[i].OnLogicUpdate(LOGIC_FRAME_TIME);
+//        }
+//
+//        for (int i = 0; i < _BTowers.Count; i++)
+//        {
+//            this._BTowers[i].OnLogicUpdate(LOGIC_FRAME_TIME);
+//        }
 
-        for (int i = 0; i < _BTowers.Count; i++)
+        for (int i = 0; i < _towers.Count; i++)
         {
-            this._BTowers[i].OnLogicUpdate(LOGIC_FRAME_TIME);
+            this._towers[i].OnLogicUpdate(LOGIC_FRAME_TIME);
         }
     }
     

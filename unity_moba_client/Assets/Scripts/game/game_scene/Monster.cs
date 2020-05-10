@@ -14,7 +14,7 @@ public enum State
 public class Monster : MonoBehaviour
 {
     private int _type;
-    private int _side;
+    public int side;
     private Vector3[] _roadData;
     private int _state=(int)State.Idle;
     private Animation _anim;
@@ -56,7 +56,7 @@ public class Monster : MonoBehaviour
     public void Init(int type,int side,Vector3[] roadData)
     {
         this._type = type;
-        this._side = side;
+        this.side = side;
         this._roadData = roadData;
         if (this._roadData.Length<2)
         {
