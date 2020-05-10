@@ -35,7 +35,8 @@
 1.开始，由服务器向客户端发送帧数据包，驱动客户端开始调用帧同步循环LogicUpdate()
 
 2.每次循环中:
-        (1)同步_lastFrameOpts的逻辑操作，调整位置到真实的逻辑位置:
+
+       (1)同步_lastFrameOpts的逻辑操作，调整位置到真实的逻辑位置:
             调整完以后，客户端同步到syncFrameID
         
        (2)从syncFrameID+1开始-->frame.frameid-1
