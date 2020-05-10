@@ -29,3 +29,23 @@
 ![image2](https://github.com/FacelessXcy/moba_game_server/blob/master/Image/网关数据转发.png)
 
 
+##帧同步步骤
+1.开始，由服务器向客户端发送帧数据包，驱动客户端开始调用帧同步循环LogicUpdate()
+
+2.每次循环中:
+        (1)同步_lastFrameOpts的逻辑操作，调整位置到真实的逻辑位置:
+            调整完以后，客户端同步到syncFrameID
+        
+       (2)从syncFrameID+1开始-->frame.frameid-1
+           同步丢失的帧，快速同步到当前帧
+           所有客户端的数据都被同步到frame.frameid-1
+           同步这些帧造成的由帧驱动的公共物体的位置(如小兵位置)
+ 
+      (3)获取最后一个操作 frame.frameid的操作，同时syncFrameID=frame,frameid
+          更新_lastFrameOpts为该帧
+          根据这个帧来处理，更新动画状态以及位移，产生的位移为“假位移”
+
+      (4)采集下一帧要发送给服务器的操作
+
+
+

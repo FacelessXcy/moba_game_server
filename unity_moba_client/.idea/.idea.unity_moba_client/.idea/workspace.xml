@@ -135,8 +135,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/game/login_scene/LoginScene.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/GameZygote.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/LogicAttack.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/game/config/GameConfig.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/game/game_scene/Hero.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/game/config/GameConfig.cs" />
       </list>
     </option>
   </component>
@@ -218,7 +218,8 @@
       <workItem from="1588918225222" duration="18225000" />
       <workItem from="1588948588633" duration="1038000" />
       <workItem from="1589017386841" duration="12005000" />
-      <workItem from="1589087893512" duration="4582000" />
+      <workItem from="1589087893512" duration="5105000" />
+      <workItem from="1589093032288" duration="2965000" />
     </task>
     <servers />
   </component>
